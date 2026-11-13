@@ -8,7 +8,7 @@ import { GithubIcon } from "@/components/icons";
 import { AuriIcon, Mascot } from "@/components/mascot";
 import { Rise } from "@/components/motion";
 import { Submark } from "@/components/submark";
-import { SERVICES, type Project, type Service, type Step } from "@/lib/services";
+import { SERVICES, type Project, type Service } from "@/lib/services";
 import { whatsappLink } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
@@ -82,10 +82,10 @@ export function ServiceHero({ service, demo, bit }: { service: Service; demo: Re
             {s.cta}
           </a>
           <a
-            href="#exemplos"
+            href="#como"
             className="rounded-md bg-white/8 px-6 py-3.5 text-[16px] font-semibold text-foreground transition-colors hover:bg-white/14"
           >
-            Ver exemplos
+            Ver como funciona
           </a>
         </motion.div>
       </div>
@@ -123,68 +123,6 @@ function BitIntro({ outfit, bit }: { outfit: Service["outfit"]; bit: string }) {
 }
 
 /** Os quatro passos, cada um com o Auri numa roupa e expressão diferente. */
-export function StepsWithMascot({ steps }: { steps: Step[] }) {
-  const [active, setActive] = useState<number | null>(null);
-  return (
-    <section className="pt-32 lg:pt-44" aria-labelledby="como">
-      <div className="grid items-end gap-4 lg:grid-cols-2">
-        <Rise>
-          <h2 id="como" className={H2}>
-            Como funciona
-          </h2>
-        </Rise>
-        <Rise as="p" delay={0.06} className="max-w-[46ch] text-[18px] text-foreground lg:justify-self-end">
-          Quatro passos, e o Auri troca de roupa em cada um. Passe o mouse (ou toque) para ele contar o que acontece.
-        </Rise>
-      </div>
-      <ol className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {steps.map((st, i) => (
-          <Rise as="li" key={st.title} delay={i * 0.08}>
-            <div
-              tabIndex={0}
-              onMouseEnter={() => setActive(i)}
-              onMouseLeave={() => setActive(null)}
-              onFocus={() => setActive(i)}
-              onBlur={() => setActive(null)}
-              className={cn(
-                "group relative flex h-full flex-col rounded-3xl p-6 pt-8 transition-colors duration-300",
-                active === i ? "bg-surface-2 ring-1 ring-tc/50" : "bg-surface",
-              )}
-            >
-              <div className="flex items-start justify-between">
-                <span className={cn("wordmark text-[56px] transition-colors", active === i ? "text-tc" : "text-foreground/25")} aria-hidden="true">
-                  {i + 1}
-                </span>
-                <motion.div
-                  className="-mt-2 w-[92px]"
-                  animate={active === i ? { y: -8, scale: 1.08 } : { y: 0, scale: 1 }}
-                  transition={{ type: "spring", stiffness: 300, damping: 18 }}
-                >
-                  <Mascot
-                    size="100%"
-                    outfit={st.outfit}
-                    mood={active === i ? st.mood : "idle"}
-                    say={active === i ? st.bit : null}
-                    bubbleSide="top"
-                    lines={[st.bit]}
-                    label={`Auri no passo ${st.title}. Clique para ele falar.`}
-                  />
-                </motion.div>
-              </div>
-              <h3 className="mt-6 text-[22px] font-bold leading-tight">{st.title}</h3>
-              <p className="mt-2 text-[16px] text-foreground">{st.text}</p>
-              <span
-                aria-hidden="true"
-                className="absolute bottom-0 left-6 right-6 h-[3px] origin-left scale-x-0 rounded-full bg-tc transition-transform duration-500 group-hover:scale-x-100"
-              />
-            </div>
-          </Rise>
-        ))}
-      </ol>
-    </section>
-  );
-}
-
 export function Tags({ tags }: { tags: string[] }) {
   return (
     <ul className="mt-4 flex flex-wrap gap-2" aria-label="Tecnologias">

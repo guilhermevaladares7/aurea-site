@@ -1,5 +1,5 @@
 // Conteúdo dos três serviços da Aurea: usado nos cards da home e nas páginas de detalhe.
-import type { BitMood, Outfit } from "@/components/mascot";
+import type { Outfit } from "@/components/mascot";
 
 export type ServiceSlug = "sites" | "sistemas" | "automacoes";
 
@@ -18,15 +18,6 @@ export type Project = {
   note?: string;
 };
 
-export type Step = {
-  title: string;
-  text: string;
-  /** como o Auri aparece nesse passo */
-  outfit: Outfit;
-  mood: BitMood;
-  bit: string;
-};
-
 export type Service = {
   slug: ServiceSlug;
   sub: string;
@@ -37,7 +28,6 @@ export type Service = {
   cta: string;
   theme: string; // classe .theme-*
   outfit: Outfit; // roupa do Auri neste serviço
-  steps: Step[];
   includes: string[];
   projects: Project[];
   projectsIntro: string;
@@ -59,36 +49,6 @@ export const SERVICES: Service[] = [
     cta: "Quero um site",
     theme: "theme-sites",
     outfit: "hardhat",
-    steps: [
-      {
-        title: "Conversa",
-        text: "Você me conta o que a empresa faz, para quem vende e o que o cliente precisa saber. Fotos, logo e textos que você já tem entram aqui.",
-        outfit: "headset",
-        mood: "happy",
-        bit: "Pode mandar áudio, eu anoto tudo.",
-      },
-      {
-        title: "Primeira versão",
-        text: "Monto o site pensando primeiro no celular e te mando um link para abrir no seu próprio telefone.",
-        outfit: "hardhat",
-        mood: "work",
-        bit: "Obra em andamento!",
-      },
-      {
-        title: "Ajustes",
-        text: "Você pede as mudanças de texto, foto e ordem das seções. Ajusto até ficar com a cara da empresa.",
-        outfit: "beret",
-        mood: "focus",
-        bit: "Mais um retoque aqui…",
-      },
-      {
-        title: "No ar",
-        text: "Publico no seu domínio, cadastro no Google e deixo o botão de WhatsApp e o formulário funcionando.",
-        outfit: "crown",
-        mood: "wave",
-        bit: "No ar! Pode compartilhar.",
-      },
-    ],
     includes: [
       "Até 5 páginas (início, sobre, serviços ou produtos, contato…)",
       "Layout feito para celular, tablet e computador",
@@ -148,36 +108,6 @@ export const SERVICES: Service[] = [
     cta: "Quero um sistema",
     theme: "theme-sistemas",
     outfit: "tie",
-    steps: [
-      {
-        title: "Entender o processo",
-        text: "Olho como vocês trabalham hoje: planilhas, papel, grupos de WhatsApp. Daí sai a lista do que o sistema precisa fazer.",
-        outfit: "detective",
-        mood: "think",
-        bit: "Hmm… essa planilha esconde segredos.",
-      },
-      {
-        title: "Telas primeiro",
-        text: "Desenho as telas principais e você aprova antes de eu escrever o sistema de verdade.",
-        outfit: "beret",
-        mood: "focus",
-        bit: "Primeiro o desenho, depois o código.",
-      },
-      {
-        title: "Entregas por partes",
-        text: "O sistema vai ficando pronto por partes, e você já testa cada uma com dados reais.",
-        outfit: "laptop",
-        mood: "work",
-        bit: "Compilando a parte 2 de 4…",
-      },
-      {
-        title: "Implantação",
-        text: "Coloco no ar, migro os dados das planilhas, treino a equipe e deixo backup diário ligado.",
-        outfit: "grad",
-        mood: "happy",
-        bit: "Aula dada! Agora é com vocês.",
-      },
-    ],
     includes: [
       "Painel com os números do dia, da semana e do mês",
       "Login com níveis de acesso (dono, gerente, atendente…)",
@@ -219,36 +149,6 @@ export const SERVICES: Service[] = [
     cta: "Quero automatizar",
     theme: "theme-automacoes",
     outfit: "headset",
-    steps: [
-      {
-        title: "Escolher o que automatizar",
-        text: "Listamos as perguntas e tarefas que mais tomam tempo: preço, horário, pedido, agendamento, segunda via.",
-        outfit: "detective",
-        mood: "think",
-        bit: "Qual pergunta você mais responde?",
-      },
-      {
-        title: "Ensinar a IA",
-        text: "A IA aprende com as informações da sua empresa: cardápio, tabela de preços, regras, endereço e jeito de falar.",
-        outfit: "grad",
-        mood: "focus",
-        bit: "Estudando o seu cardápio…",
-      },
-      {
-        title: "Conectar",
-        text: "Ligo a IA ao seu WhatsApp e ao que você já usa: planilha, agenda, sistema ou CRM.",
-        outfit: "hardhat",
-        mood: "work",
-        bit: "Plugando os cabos!",
-      },
-      {
-        title: "Acompanhar",
-        text: "Todo mês você recebe um resumo das conversas, e eu ajusto o que a IA respondeu mal.",
-        outfit: "headset",
-        mood: "happy",
-        bit: "Relatório do mês chegando!",
-      },
-    ],
     includes: [
       "Atendente de IA no WhatsApp, 24 horas",
       "Entende mensagens de texto e de áudio",

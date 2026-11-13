@@ -28,7 +28,7 @@ type Particle = {
 };
 
 const ICE = "232,242,244";
-const CYAN = "79,216,230";
+const CYAN = "54,226,180";
 
 export function ParticleLogo({
   slotRef,

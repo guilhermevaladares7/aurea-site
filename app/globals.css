@@ -7,7 +7,7 @@
 /*
   Aurea — tokens
   Espaço escuro azulado, tinta gelo e ciano como cor da marca.
-  Cada serviço tem o seu tema: sites azul, sistemas laranja, automações verde.
+  Cada serviço tem o seu tema: sites violeta, sistemas laranja, automações verde.
   --tc é a "cor do tema" da página/seção atual (classes .theme-*).
 */
 
@@ -64,8 +64,8 @@
   --card-foreground: #e8f2f4;
   --popover: #16212b;
   --popover-foreground: #e8f2f4;
-  --primary: #4fd8e6;
-  --primary-foreground: #03161a;
+  --primary: #36e2b4;
+  --primary-foreground: #021a14;
   --secondary: #16212b;
   --secondary-foreground: #e8f2f4;
   --muted: #16212b;
@@ -76,20 +76,20 @@
   --destructive-foreground: oklch(1 0 0);
   --border: rgb(255 255 255 / 0.09);
   --input: rgb(255 255 255 / 0.14);
-  --ring: #4fd8e6;
+  --ring: #36e2b4;
   --radius: 0.75rem;
 
-  --sites: #5b8cff;
+  --sites: #9b72ff;
   --sistemas: #ff8a3d;
   --ia: #3ddc84;
 
   --tc: var(--primary);
-  --tc-ink: #03161a;
+  --tc-ink: #021a14;
 }
 
 .theme-sites {
   --tc: var(--sites);
-  --tc-ink: #050d22;
+  --tc-ink: #13072e;
 }
 .theme-sistemas {
   --tc: var(--sistemas);

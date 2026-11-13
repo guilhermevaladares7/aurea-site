@@ -11,7 +11,7 @@ import { useEffect, useRef } from "react";
 */
 
 export type FxVariant = "stars" | "code" | "pixels" | "bubbles";
-export type BackdropVariant = "code" | "pixels" | "flow";
+export type BackdropVariant = "design" | "pixels" | "flow";
 
 function themeColor(el: Element, fallback: string) {
   const v = getComputedStyle(el).getPropertyValue("--tc").trim();
@@ -63,7 +63,7 @@ export function CursorFx({ variant = "stars" }: { variant?: FxVariant }) {
     if (window.matchMedia("(pointer: coarse)").matches) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const { ctx, size, resize } = setupCanvas(canvas);
-    const rgb = hexToRgb(themeColor(canvas, "#4fd8e6"));
+    const rgb = hexToRgb(themeColor(canvas, "#36e2b4"));
     const bits: Bit[] = [];
     const ring = { x: -100, y: -100, tx: -100, ty: -100, r: 14, tr: 14 };
     let last = { x: 0, y: 0 };
@@ -235,7 +235,7 @@ export function Backdrop({ variant }: { variant: BackdropVariant }) {
     if (!canvas) return;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const { ctx, size, resize } = setupCanvas(canvas);
-    const rgb = hexToRgb(themeColor(canvas, "#4fd8e6"));
+    const rgb = hexToRgb(themeColor(canvas, "#36e2b4"));
     const mouse = { x: -9999, y: -9999 };
     let raf = 0;
     const t0 = performance.now();
@@ -267,7 +267,7 @@ export function Backdrop({ variant }: { variant: BackdropVariant }) {
     /* ---- código sendo digitado (sites) ---- */
     const drawCode = (t: number) => {
       const lh = 22;
-      const colW = 440;
+      const colW = 520;
       const cols = Math.max(1, Math.ceil(size.w / colW) + 1);
       const rows = Math.ceil(size.h / lh) + 2;
       const shift = (window.scrollY * 0.25) % lh;
@@ -288,7 +288,7 @@ export function Backdrop({ variant }: { variant: BackdropVariant }) {
           const dyM = Math.abs(y - mouse.y);
           const near = dyM < 120 && mouse.x > x0 - 140 && mouse.x < x0 + colW;
           if (!near) {
-            ctx.fillStyle = `rgba(${rgb},0.16)`;
+            ctx.fillStyle = `rgba(${rgb},0.13)`;
             ctx.fillText(line.slice(0, show), x0, y);
           } else {
             // perto do mouse: letras se espalham e embaralham
@@ -315,6 +315,205 @@ export function Backdrop({ variant }: { variant: BackdropVariant }) {
           }
         }
       }
+    };
+
+    /* ---- mesa de design (sites): grade de layout, curvas com âncoras e monitores em pixel ---- */
+    // monitor 16x13: moldura, tela e pé
+    const MONITOR = [
+      "################",
+      "#..............#",
+      "#..............#",
+      "#..............#",
+      "#..............#",
+      "#..............#",
+      "#..............#",
+      "#..............#",
+      "#..............#",
+      "################",
+      "......####......",
+      "......####......",
+      "....########....",
+    ];
+    // o que aparece na tela, em ordem: menu, destaque, botão, cards (coluna, linha, largura, altura)
+    const SCREEN: [number, number, number, number][][] = [
+      [[2, 2, 12, 1]],
+      [[2, 4, 7, 2]],
+      [[2, 7, 4, 1]],
+      [[10, 4, 4, 2], [10, 7, 4, 1]],
+    ];
+    const monitors = [
+      { fx: 0.8, fy: 0.16, cell: 8, ph: 0 },
+      { fx: 0.06, fy: 0.44, cell: 6, ph: 1.6 },
+      { fx: 0.66, fy: 0.7, cell: 5, ph: 3.1 },
+    ];
+    function drawMonitors(t: number) {
+      for (const m of monitors) {
+        const ox = m.fx * size.w;
+        const oy = m.fy * size.h;
+        const w = 16 * m.cell;
+        const dist = Math.hypot(ox + w / 2 - mouse.x, oy + (13 * m.cell) / 2 - mouse.y);
+        const near = dist < 260 ? 1 - dist / 260 : 0;
+        const blink = Math.floor(t * 2 + m.ph) % 3 === 0 ? 0.42 : 0.2;
+        ctx.fillStyle = `rgba(${rgb},${Math.min(0.9, (reduce ? 0.2 : blink) + near * 0.5)})`;
+        for (let r = 0; r < MONITOR.length; r++)
+          for (let col = 0; col < 16; col++) if (MONITOR[r][col] === "#") ctx.fillRect(ox + col * m.cell, oy + r * m.cell, m.cell - 1, m.cell - 1);
+        // a página vai se montando na tela, bloco por bloco
+        const shown = reduce ? SCREEN.length : Math.floor(t * 1.1 + m.ph * 2) % (SCREEN.length + 2);
+        ctx.fillStyle = `rgba(${rgb},${0.3 + near * 0.5})`;
+        for (let k = 0; k < Math.min(shown, SCREEN.length); k++)
+          for (const [cx, cy, cw, ch] of SCREEN[k])
+            for (let yy = 0; yy < ch; yy++)
+              for (let xx = 0; xx < cw; xx++) ctx.fillRect(ox + (cx + xx - 1) * m.cell + 1, oy + (cy + yy - 1) * m.cell + 1, m.cell - 2, m.cell - 2);
+      }
+    }
+
+    // curvas de design (como a ferramenta caneta), com pontos de âncora que fogem do mouse
+    const curves = [
+      { y: 0.3, amp: 0.08, ph: 0 },
+      { y: 0.62, amp: 0.1, ph: 2.4 },
+    ];
+    function drawCurves(t: number) {
+      for (const cv of curves) {
+        const pts = [0, 1, 2, 3].map((i) => {
+          let x = (i / 3) * size.w;
+          let y = (cv.y + Math.sin((reduce ? 0 : t * 0.35) + cv.ph + i * 1.7) * cv.amp) * size.h;
+          const dx = x - mouse.x;
+          const dy = y - mouse.y;
+          const d = Math.hypot(dx, dy);
+          if (d < 200) {
+            x += (dx / (d || 1)) * (1 - d / 200) * 50;
+            y += (dy / (d || 1)) * (1 - d / 200) * 50;
+          }
+          return { x, y };
+        });
+        ctx.lineWidth = 1.5;
+        ctx.strokeStyle = `rgba(${rgb},0.2)`;
+        ctx.beginPath();
+        ctx.moveTo(pts[0].x, pts[0].y);
+        for (let i = 1; i < pts.length; i++) {
+          const p = pts[i - 1];
+          const q = pts[i];
+          const mx = (p.x + q.x) / 2;
+          ctx.bezierCurveTo(mx, p.y, mx, q.y, q.x, q.y);
+        }
+        ctx.stroke();
+        // âncoras e alças
+        for (let i = 1; i < pts.length - 1; i++) {
+          const p = pts[i];
+          const hw = size.w / 7;
+          ctx.strokeStyle = `rgba(${rgb},0.16)`;
+          ctx.beginPath();
+          ctx.moveTo(p.x - hw, p.y);
+          ctx.lineTo(p.x + hw, p.y);
+          ctx.stroke();
+          ctx.fillStyle = `rgba(${rgb},0.3)`;
+          ctx.fillRect(p.x - hw - 3, p.y - 3, 6, 6);
+          ctx.fillRect(p.x + hw - 3, p.y - 3, 6, 6);
+          ctx.fillStyle = "#070b10";
+          ctx.fillRect(p.x - 5, p.y - 5, 10, 10);
+          ctx.strokeStyle = `rgba(${rgb},0.6)`;
+          ctx.strokeRect(p.x - 5, p.y - 5, 10, 10);
+        }
+      }
+    }
+
+    // grade de layout de 12 colunas, como num programa de design; acende perto do mouse
+    function drawGrid() {
+      const cols = 12;
+      const margin = Math.max(16, size.w * 0.06);
+      const gutter = 20;
+      const cw = (size.w - margin * 2 - gutter * (cols - 1)) / cols;
+      for (let i = 0; i < cols; i++) {
+        const x = margin + i * (cw + gutter);
+        const near = mouse.x > x - 60 && mouse.x < x + cw + 60 ? 1 : 0;
+        ctx.fillStyle = `rgba(${rgb},${near ? 0.05 : 0.022})`;
+        ctx.fillRect(x, 0, cw, size.h);
+      }
+    }
+
+    // cursores em pixel que vão de um monitor ao outro e "clicam" (sites)
+    const ARROW = ["#.......", "##......", "###.....", "####....", "#####...", "######..", "#######.", "####....", "##.##...", "#...##..", "....##.."];
+    const cursorTargets = () => [
+      ...monitors.map((m) => ({ x: m.fx * size.w + 8 * m.cell, y: m.fy * size.h + 5 * m.cell })),
+      { x: size.w * 0.35, y: size.h * 0.25 },
+      { x: size.w * 0.45, y: size.h * 0.8 },
+    ];
+    const cursors = [
+      { off: 0, hop: 2.8 },
+      { off: 2.5, hop: 3.4 },
+    ];
+    function drawCursors(t: number) {
+      const pts = cursorTargets();
+      for (const c of cursors) {
+        const ph = reduce ? 0 : t / c.hop + c.off;
+        const seg = Math.floor(ph);
+        const u = ph - seg;
+        const a = pts[(seg * 3 + Math.round(c.off)) % pts.length];
+        const b = pts[((seg + 1) * 3 + Math.round(c.off)) % pts.length];
+        const m = Math.min(1, u / 0.65);
+        const e = m < 0.5 ? 2 * m * m : 1 - Math.pow(-2 * m + 2, 2) / 2;
+        const x = a.x + (b.x - a.x) * e;
+        const y = a.y + (b.y - a.y) * e - Math.sin(e * Math.PI) * 40;
+        // clique: um quadrado que se abre onde o cursor parou
+        if (u > 0.65) {
+          const k = (u - 0.65) / 0.35;
+          const r = 6 + k * 26;
+          ctx.strokeStyle = `rgba(${rgb},${(1 - k) * 0.6})`;
+          ctx.lineWidth = 2;
+          ctx.strokeRect(b.x - r, b.y - r, r * 2, r * 2);
+        }
+        const cell = 3;
+        ctx.fillStyle = `rgba(${rgb},0.75)`;
+        for (let r = 0; r < ARROW.length; r++)
+          for (let q = 0; q < ARROW[r].length; q++) if (ARROW[r][q] === "#") ctx.fillRect(Math.round(x) + q * cell, Math.round(y) + r * cell, cell, cell);
+      }
+    }
+
+    // pedacinhos de site (cards, botões, títulos) subindo devagar ao fundo
+    const bits = Array.from({ length: 10 }, (_, i) => ({
+      fx: ((i * 0.37) % 1) * 0.9 + 0.03,
+      sp: 10 + (i % 4) * 6,
+      kind: i % 3,
+      w: 70 + (i % 3) * 30,
+      ph: i * 173,
+    }));
+    function drawBits(t: number) {
+      for (const b of bits) {
+        const span = size.h + 160;
+        const y = size.h + 80 - (((reduce ? 0 : t * b.sp) + b.ph) % span);
+        let x = b.fx * size.w;
+        const d = Math.hypot(x - mouse.x, y - mouse.y);
+        if (d < 160) x += ((x - mouse.x) / (d || 1)) * (1 - d / 160) * 40;
+        ctx.strokeStyle = `rgba(${rgb},0.16)`;
+        ctx.fillStyle = `rgba(${rgb},0.14)`;
+        ctx.lineWidth = 1;
+        if (b.kind === 0) {
+          // card com imagem e duas linhas
+          ctx.strokeRect(x, y, b.w, b.w * 0.8);
+          ctx.fillRect(x + 6, y + 6, b.w - 12, b.w * 0.4);
+          ctx.fillRect(x + 6, y + b.w * 0.52, b.w * 0.6, 4);
+          ctx.fillRect(x + 6, y + b.w * 0.62, b.w * 0.4, 4);
+        } else if (b.kind === 1) {
+          // botão
+          ctx.fillRect(x, y, b.w * 0.8, 18);
+          ctx.fillStyle = `rgba(${rgb},0.3)`;
+          ctx.fillRect(x + 10, y + 7, b.w * 0.4, 4);
+        } else {
+          // título e parágrafo
+          ctx.fillRect(x, y, b.w, 8);
+          ctx.fillRect(x, y + 16, b.w * 0.8, 4);
+          ctx.fillRect(x, y + 26, b.w * 0.9, 4);
+        }
+      }
+    }
+
+    const drawDesign = (t: number) => {
+      drawGrid();
+      drawCode(t);
+      drawBits(t);
+      drawCurves(t);
+      drawMonitors(t);
+      drawCursors(t);
     };
 
     /* ---- pixels de gráfico (sistemas) ---- */
@@ -496,7 +695,7 @@ export function Backdrop({ variant }: { variant: BackdropVariant }) {
       }
       const t = (now - t0) / 1000;
       ctx.clearRect(0, 0, size.w, size.h);
-      if (variant === "code") drawCode(t);
+      if (variant === "design") drawDesign(t);
       else if (variant === "pixels") drawPixels(t);
       else drawFlow(t);
       raf = requestAnimationFrame(draw);

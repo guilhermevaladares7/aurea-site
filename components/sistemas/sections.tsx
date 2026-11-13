@@ -2,29 +2,17 @@
 
 import { AnimatePresence, motion, useInView } from "framer-motion";
 import {
-  Bell,
   Calculator,
-  CalendarDays,
-  ClipboardList,
   FileSpreadsheet,
-  History,
-  LayoutGrid,
-  MessageCircle,
-  Package,
   PlayCircle,
   Receipt,
-  ShieldCheck,
   Truck,
-  Users,
-  Wallet,
   Wrench,
 } from "lucide-react";
-import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { Mascot, type BitMood, type Outfit } from "@/components/mascot";
 import { Rise } from "@/components/motion";
-import { H2, ProjectLinks, ScrollTilt, Tags } from "@/components/service-sections";
-import type { Project } from "@/lib/services";
+import { H2, ScrollTilt } from "@/components/service-sections";
 import { asset } from "@/lib/asset";
 import { cn } from "@/lib/utils";
 import { AdminShell, SCREENS, Screen, type ScreenId } from "./admin-screens";
@@ -53,12 +41,6 @@ const CALENDA_FEATURES = [
   { icon: Truck, t: "Agenda e entregas", d: "Quem leva, quando e para onde, incluindo entrega na roça." },
   { icon: Wrench, t: "Assistência", d: "Chamados abertos e resolvidos, com aviso dos atrasados." },
   { icon: FileSpreadsheet, t: "Fechamento do caixa", d: "Vendas por forma de pagamento e planilhas do mês direto no Excel." },
-];
-
-const STILLS = [
-  { src: "/projetos/calenda-12.jpg", alt: "Calculadora de venda do Calenda", cap: "Calculadora de venda" },
-  { src: "/projetos/calenda-40.jpg", alt: "Histórico de consultas, vendas e entregas do Calenda", cap: "Histórico" },
-  { src: "/projetos/calenda-44.jpg", alt: "Fechamento do caixa do Calenda por forma de pagamento", cap: "Fechamento do caixa" },
 ];
 
 export function CalendaShowcase() {
@@ -133,25 +115,6 @@ export function CalendaShowcase() {
         </div>
       </div>
 
-      <ul className="mt-12 grid gap-4 sm:grid-cols-3">
-        {STILLS.map((s, i) => (
-          <Rise as="li" key={s.src} delay={i * 0.08}>
-            <figure className="group overflow-hidden rounded-2xl bg-surface">
-              <div className="overflow-hidden">
-                <Image
-                  src={asset(s.src)}
-                  alt={s.alt}
-                  width={1440}
-                  height={652}
-                  sizes="(min-width: 640px) 33vw, 100vw"
-                  className="block h-auto w-full transition-transform duration-700 group-hover:scale-[1.06]"
-                />
-              </div>
-              <figcaption className="px-4 py-3 text-[15px] font-semibold">{s.cap}</figcaption>
-            </figure>
-          </Rise>
-        ))}
-      </ul>
     </section>
   );
 }
@@ -273,146 +236,6 @@ export function PanelTour() {
           <p className="mt-3 text-[14px] text-muted-foreground lg:hidden">{g.text}</p>
         </div>
       </div>
-    </section>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/* Faixa de módulos                                                     */
-/* ------------------------------------------------------------------ */
-
-const MODULES = [
-  { i: LayoutGrid, t: "Painel" },
-  { i: Calculator, t: "Calculadora de venda" },
-  { i: Receipt, t: "Orçamentos" },
-  { i: Users, t: "Clientes" },
-  { i: CalendarDays, t: "Agenda" },
-  { i: Truck, t: "Entregas" },
-  { i: Package, t: "Estoque" },
-  { i: Wallet, t: "Financeiro" },
-  { i: Wrench, t: "Assistência" },
-  { i: History, t: "Histórico" },
-  { i: FileSpreadsheet, t: "Excel" },
-  { i: ShieldCheck, t: "Permissões" },
-  { i: Bell, t: "Avisos" },
-  { i: MessageCircle, t: "WhatsApp" },
-  { i: ClipboardList, t: "Checklists" },
-];
-
-export function ModulesMarquee() {
-  const row = (reverse: boolean) => (
-    <div className="group flex overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_8%,#000_92%,transparent)]">
-      <div
-        className="flex shrink-0 gap-3 pr-3 group-hover:[animation-play-state:paused]"
-        style={{ animation: `marquee 38s linear infinite${reverse ? " reverse" : ""}` }}
-      >
-        {[...MODULES, ...MODULES].map((m, i) => (
-          <span key={i} className="flex shrink-0 items-center gap-2.5 rounded-full bg-surface px-5 py-3 text-[16px] font-semibold">
-            <m.i className="h-5 w-5 text-tc" aria-hidden="true" />
-            {m.t}
-          </span>
-        ))}
-      </div>
-    </div>
-  );
-  return (
-    <section className="pt-32 lg:pt-40" aria-labelledby="modulos-h">
-      <Rise>
-        <h2 id="modulos-h" className={cn(H2, "max-w-[18ch]")}>
-          Monte o seu com as peças que precisar
-        </h2>
-      </Rise>
-      <div className="mt-10 space-y-3" aria-label={MODULES.map((m) => m.t).join(", ")}>
-        <div aria-hidden="true">{row(false)}</div>
-        <div aria-hidden="true">{row(true)}</div>
-      </div>
-    </section>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/* Projetos de sistemas                                                 */
-/* ------------------------------------------------------------------ */
-
-export function SystemProjects({ projects, intro }: { projects: Project[]; intro: string }) {
-  const [first, ...rest] = projects;
-  return (
-    <section id="exemplos" className="scroll-mt-24 pt-32 lg:pt-44" aria-labelledby="exemplos-h">
-      <div className="grid items-end gap-4 lg:grid-cols-2">
-        <Rise>
-          <h2 id="exemplos-h" className={H2}>
-            Projetos feitos
-          </h2>
-        </Rise>
-        <Rise as="p" delay={0.06} className="max-w-[48ch] text-[18px] text-foreground lg:justify-self-end">
-          {intro}
-        </Rise>
-      </div>
-
-      {/* destaque: Calenda */}
-      <Rise className="mt-12">
-        <article className="grid gap-6 rounded-3xl bg-surface p-3 lg:grid-cols-[1.3fr_1fr]">
-          <div className="overflow-hidden rounded-2xl">
-            {first.image && (
-              <Image src={asset(first.image)} alt={first.imageAlt ?? first.name} width={1440} height={652} sizes="(min-width: 1024px) 55vw, 100vw" className="block h-auto w-full" />
-            )}
-          </div>
-          <div className="flex flex-col px-3 pb-3 lg:py-4">
-            <h3 className="text-[28px] font-bold leading-tight">{first.name}</h3>
-            <p className="mt-1 text-[16px] text-muted-foreground">{first.what}</p>
-            <p className="mt-3 text-[17px] text-foreground">{first.did}</p>
-            {first.note && <p className="mt-2 text-[15px] text-muted-foreground">{first.note}</p>}
-            <Tags tags={first.tags} />
-            <a
-              href="#calenda"
-              className="mt-6 inline-flex w-fit items-center gap-2 rounded-md bg-tc px-4 py-2.5 text-[15px] font-semibold text-tc-ink transition-transform hover:-translate-y-0.5"
-            >
-              <PlayCircle className="h-4 w-4" aria-hidden="true" />
-              Ver o vídeo
-            </a>
-          </div>
-        </article>
-      </Rise>
-
-      {rest.length > 0 && (
-      <ul className="mt-6 grid gap-6 lg:grid-cols-3">
-        {rest.map((p, i) => (
-          <Rise as="li" key={p.name} delay={i * 0.08} className="flex flex-col rounded-3xl bg-surface p-3">
-            <div data-ui className="rounded-2xl bg-[#0b1016] p-4">
-              <div className="flex items-center justify-between text-[12px] text-muted-foreground">
-                <span>{p.name}</span>
-                <span className="text-tc">módulos</span>
-              </div>
-              <ul className="mt-3 grid grid-cols-2 gap-2">
-                {p.modules?.map((m, k) => (
-                  <motion.li
-                    key={m}
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: k * 0.05 }}
-                    className="rounded-lg bg-surface px-3 py-2.5 text-[14px] text-foreground"
-                  >
-                    <span className="mb-1.5 block h-1 w-6 rounded bg-tc/70" aria-hidden="true" />
-                    {m}
-                  </motion.li>
-                ))}
-              </ul>
-            </div>
-            <div className="flex flex-1 flex-col px-3 pb-3 pt-5">
-              <h3 className="text-[24px] font-bold leading-tight">{p.name}</h3>
-              <p className="mt-1 text-[16px] text-muted-foreground">{p.what}</p>
-              <p className="mt-3 text-[17px] text-foreground">{p.did}</p>
-              {p.note && <p className="mt-2 text-[15px] text-muted-foreground">{p.note}</p>}
-              <Tags tags={p.tags} />
-              <div className="mt-auto">
-                <ProjectLinks p={p} />
-              </div>
-            </div>
-          </Rise>
-        ))}
-      </ul>
-      )}
     </section>
   );
 }

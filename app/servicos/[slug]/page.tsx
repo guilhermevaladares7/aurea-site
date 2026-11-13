@@ -7,13 +7,16 @@ import { SiteDemo } from "@/components/demos/site-demo";
 import { EndToast } from "@/components/end-toast";
 import { Backdrop, CursorFx } from "@/components/fx";
 import { Rise } from "@/components/motion";
-import { H2, IncludesFaq, OtherServices, ServiceHero, StepsWithMascot } from "@/components/service-sections";
+import { HowItWorks } from "@/components/how/how-it-works";
+import { H2, IncludesFaq, OtherServices, ServiceHero } from "@/components/service-sections";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
-import { CodeToSite, SiteProjects } from "@/components/sites/sections";
+import { SiteProjects } from "@/components/sites/sections";
+import { WhyAurea, WhySite } from "@/components/sites/why";
 import { AdminShell, DashboardScreen } from "@/components/sistemas/admin-screens";
-import { CalendaShowcase, ModulesMarquee, PanelTour, SystemProjects } from "@/components/sistemas/sections";
+import { CalendaShowcase, PanelTour } from "@/components/sistemas/sections";
 import { Starfield } from "@/components/starfield";
+import { HOW } from "@/lib/how";
 import { SERVICES, getService } from "@/lib/services";
 
 // Só existem as três páginas geradas no build; qualquer outro endereço dá 404.
@@ -34,8 +37,9 @@ export default async function ServicePage({ params }: PageProps<"/servicos/[slug
   const s = getService(slug);
   if (!s) notFound();
 
+  const how = HOW[s.slug];
   const fx = s.slug === "sites" ? "code" : s.slug === "sistemas" ? "pixels" : "bubbles";
-  const backdrop = s.slug === "sites" ? "code" : s.slug === "sistemas" ? "pixels" : "flow";
+  const backdrop = s.slug === "sites" ? "design" : s.slug === "sistemas" ? "pixels" : "flow";
 
   return (
     <div className={`${s.theme} flex min-h-full flex-1 flex-col`}>
@@ -56,8 +60,9 @@ export default async function ServicePage({ params }: PageProps<"/servicos/[slug
                   </div>
                 }
               />
-              <CodeToSite />
-              <StepsWithMascot steps={s.steps} />
+              <WhySite />
+              <WhyAurea />
+              <HowItWorks intro={how.intro} steps={how.steps} />
               <SiteProjects projects={s.projects} intro={s.projectsIntro} />
             </>
           )}
@@ -75,11 +80,9 @@ export default async function ServicePage({ params }: PageProps<"/servicos/[slug
                   </div>
                 }
               />
-              <CalendaShowcase />
+              <HowItWorks intro={how.intro} steps={how.steps} />
               <PanelTour />
-              <StepsWithMascot steps={s.steps} />
-              <ModulesMarquee />
-              <SystemProjects projects={s.projects} intro={s.projectsIntro} />
+              <CalendaShowcase />
             </>
           )}
 
@@ -94,6 +97,7 @@ export default async function ServicePage({ params }: PageProps<"/servicos/[slug
                   </div>
                 }
               />
+              <HowItWorks intro={how.intro} steps={how.steps} />
               <ScrollChat />
               <Agents />
               <TryChat />
@@ -116,7 +120,6 @@ export default async function ServicePage({ params }: PageProps<"/servicos/[slug
                   <AgentTerminal />
                 </Rise>
               </section>
-              <StepsWithMascot steps={s.steps} />
             </>
           )}
 

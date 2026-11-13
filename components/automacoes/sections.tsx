@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { Mascot, type BitMood, type Outfit } from "@/components/mascot";
 import { Rise } from "@/components/motion";
 import { H2 } from "@/components/service-sections";
+import { useTicker } from "@/components/demos/use-ticker";
 import { cn } from "@/lib/utils";
 import { Bubble, Phone, Typing, type WaMsg } from "./whatsapp";
 
@@ -64,42 +65,6 @@ const CHAPTERS: Chapter[] = [
       { from: "ia", text: "Na quinta eu te mando um lembrete.", time: "14:23" },
     ],
   },
-  {
-    name: "Móveis Bom Lar",
-    kind: "Loja de móveis",
-    title: "Pedido por áudio, com as regras da loja",
-    text: "O cliente manda áudio. A IA entende, confere o estoque, aplica a regra de frete da loja e parcela.",
-    outfit: "hardhat",
-    mood: "work",
-    did: ["Transcreveu o áudio", "Conferiu o estoque", "Aplicou a regra de frete", "Agendou a entrega", "Gerou o link de pagamento"],
-    msgs: [
-      { from: "cliente", audio: "0:12", time: "16:40" },
-      { from: "ia", text: "Ouvi: rack de 1,80 m em freijó, com entrega. Certo?", time: "16:40" },
-      { from: "cliente", text: "Isso, entrega na roça", time: "16:41" },
-      { from: "ia", text: "Tem pronta entrega! R$ 1.290 + frete de roça R$ 45 (até 30 km).", time: "16:41" },
-      { from: "cliente", text: "Fecha. Dá pra parcelar?", time: "16:42" },
-      { from: "ia", text: "Dá sim: 3x de R$ 445,00 sem juros no cartão. Entrega na terça.", time: "16:42" },
-      { from: "cliente", text: "Pode mandar o link", time: "16:43" },
-      { from: "ia", text: "Mandei ✓ Assim que pagar, o pedido entra na agenda de entregas.", time: "16:43" },
-    ],
-  },
-  {
-    name: "PetShop Amigão",
-    kind: "Pet shop",
-    title: "Quando é sério, chama uma pessoa",
-    text: "A IA percebe que é urgente, chama a veterinária com o resumo da conversa e sai de cena.",
-    outfit: "headset",
-    mood: "wow",
-    did: ["Percebeu que era urgente", "Chamou a veterinária", "Enviou o resumo", "Saiu da conversa"],
-    msgs: [
-      { from: "cliente", text: "Meu cachorro tá vomitando desde ontem", time: "13:05" },
-      { from: "ia", text: "Sinto muito! Isso precisa de uma veterinária. Já estou chamando a Dra. Carla com o resumo.", time: "13:05" },
-      { from: "sistema", text: "Dra. Carla entrou na conversa" },
-      { from: "humano", text: "Oi! Ele está bebendo água? Consegue trazer ele às 15h?", time: "13:07" },
-      { from: "cliente", text: "Está sim. Consigo!", time: "13:08" },
-      { from: "humano", text: "Te espero às 15h. Traz a carteirinha de vacina.", time: "13:08" },
-    ],
-  },
 ];
 
 export function ScrollChat() {
@@ -117,7 +82,7 @@ export function ScrollChat() {
     setPos((prev) => (prev.ch === ch && prev.count === count ? prev : { ch, count }));
   });
 
-  const c = CHAPTERS[pos.ch];
+  const c = CHAPTERS[Math.min(pos.ch, CHAPTERS.length - 1)];
   const shown = c.msgs.slice(0, pos.count);
   const next = c.msgs[pos.count];
   const typing = next && next.from !== "cliente" && next.from !== "sistema" && pos.count > 0;
@@ -465,12 +430,16 @@ const AGENTS: { name: string; role: string; text: string; outfit: Outfit; mood: 
   },
 ];
 
-function AgentUi({ kind }: { kind: (typeof AGENTS)[number]["ui"] }) {
+/** Tela de cada agente. Quando o agente está trabalhando, a cena roda; senão fica parada no fim. */
+function AgentUi({ kind, play }: { kind: (typeof AGENTS)[number]["ui"]; play: boolean }) {
+  const hidden = play ? { opacity: 0, x: -10 } : false;
   if (kind === "chat")
     return (
       <div className="flex flex-col gap-1 text-[12px]">
-        <span className="self-end rounded-md bg-[#005c4b] px-2 py-1">Vocês abrem domingo?</span>
-        <motion.span initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ delay: 0.6 }} className="self-start rounded-md bg-[#202c33] px-2 py-1">
+        <motion.span initial={hidden} animate={{ opacity: 1, x: 0 }} className="self-end rounded-md bg-[#005c4b] px-2 py-1">
+          Vocês abrem domingo?
+        </motion.span>
+        <motion.span initial={play ? { opacity: 0 } : false} animate={{ opacity: 1 }} transition={{ delay: 0.9 }} className="self-start rounded-md bg-[#202c33] px-2 py-1">
           Domingo das 8h às 12h!
         </motion.span>
       </div>
@@ -479,7 +448,7 @@ function AgentUi({ kind }: { kind: (typeof AGENTS)[number]["ui"] }) {
     return (
       <ul className="space-y-1 text-[12px]">
         {["#2041 · Bolo brigadeiro", "#2042 · 30 brigadeiros", "#2043 · Torta de limão"].map((o, i) => (
-          <motion.li key={o} initial={{ opacity: 0, x: -10 }} whileInView={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 + i * 0.25 }} className="flex justify-between rounded bg-white/5 px-2 py-1">
+          <motion.li key={o} initial={hidden} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 + i * 0.35 }} className="flex justify-between rounded bg-white/5 px-2 py-1">
             {o}
             <span className="text-tc">novo</span>
           </motion.li>
@@ -495,9 +464,9 @@ function AgentUi({ kind }: { kind: (typeof AGENTS)[number]["ui"] }) {
             {[0, 1, 2].map((r) => (
               <motion.span
                 key={r}
-                initial={{ opacity: 0.15 }}
-                whileInView={{ opacity: (i + r) % 3 === 0 ? 1 : 0.15 }}
-                transition={{ delay: 0.1 * (i + r) }}
+                initial={play ? { opacity: 0.15 } : false}
+                animate={{ opacity: (i + r) % 3 === 0 ? 1 : 0.15 }}
+                transition={{ delay: 0.12 * (i + r) }}
                 className="h-3 rounded-sm bg-tc"
               />
             ))}
@@ -508,13 +477,17 @@ function AgentUi({ kind }: { kind: (typeof AGENTS)[number]["ui"] }) {
   return (
     <div className="flex h-[52px] items-end gap-1.5">
       {[40, 65, 50, 80, 72, 95].map((h, i) => (
-        <motion.span key={i} initial={{ height: 0 }} whileInView={{ height: `${h}%` }} transition={{ delay: 0.1 * i, duration: 0.6 }} className="flex-1 rounded-t bg-tc/80" />
+        <motion.span key={i} initial={play ? { height: 0 } : false} animate={{ height: `${h}%` }} transition={{ delay: 0.12 * i, duration: 0.6 }} className="flex-1 rounded-t bg-tc/80" />
       ))}
     </div>
   );
 }
 
+const AGENT_MS = [2800, 2800, 2800, 2800];
+
 export function Agents() {
+  // um agente trabalha de cada vez e passa a vez para o próximo, como numa esteira
+  const { ref, step: active, round } = useTicker(AGENT_MS);
   return (
     <section className="pt-32 lg:pt-44" aria-labelledby="agentes-h">
       <div className="grid items-end gap-4 lg:grid-cols-2">
@@ -524,36 +497,69 @@ export function Agents() {
           </h2>
         </Rise>
         <Rise as="p" delay={0.06} className="max-w-[48ch] text-[18px] text-foreground lg:justify-self-end">
-          Por trás de cada conversa trabalham quatro agentes, cada um com o seu trabalho. O Auri se fantasia de cada um
-          deles para te mostrar.
+          Cada conversa passa pelos quatro, um depois do outro: o atendente responde, o de pedidos anota, o da agenda
+          marca e o supervisor confere.
         </Rise>
       </div>
 
-      <div className="relative mt-16">
-        {/* esteira que liga os agentes */}
-        <svg className="absolute left-0 right-0 top-[86px] hidden h-2 w-full lg:block" preserveAspectRatio="none" viewBox="0 0 100 2" aria-hidden="true">
-          <line x1="10" x2="90" y1="1" y2="1" stroke="var(--tc)" strokeOpacity=".35" strokeWidth=".3" strokeDasharray="1 1">
-            <animate attributeName="stroke-dashoffset" from="0" to="-2" dur="1s" repeatCount="indefinite" />
-          </line>
-        </svg>
+      <div ref={ref} className="relative mt-16">
+        {/* esteira que liga os agentes, com a tarefa passando de um para o outro */}
+        <div aria-hidden="true" className="absolute left-[12.5%] right-[12.5%] top-[86px] hidden h-[3px] rounded-full bg-white/8 lg:block">
+          <motion.span
+            className="absolute inset-y-0 left-0 rounded-full bg-tc/50"
+            initial={false}
+            animate={{ width: `${(active / 3) * 100}%` }}
+            transition={{ duration: 0.6, ease: "easeInOut" }}
+          />
+          <motion.span
+            className="absolute top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-[3px] bg-tc shadow-[0_0_18px_var(--tc)]"
+            initial={false}
+            animate={{ left: `${(active / 3) * 100}%` }}
+            transition={{ duration: 0.6, ease: "easeInOut" }}
+          />
+        </div>
         <ol className="relative grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {AGENTS.map((a, i) => (
-            <Rise as="li" key={a.name} delay={i * 0.1} className="group flex flex-col rounded-3xl bg-surface p-6 transition-colors hover:bg-surface-2">
-              <div className="mx-auto w-[124px] transition-transform duration-300 group-hover:-translate-y-2">
-                <Mascot size="100%" outfit={a.outfit} mood={a.mood} lines={[a.line]} label={`Auri como agente de ${a.name}. Clique para ele falar.`} />
-              </div>
-              <p className="pixel mt-4 text-center text-[15px] text-tc">Agente {i + 1}</p>
-              <h3 className="mt-1 text-center text-[24px] font-bold leading-tight">{a.name}</h3>
-              <p className="text-center text-[15px] text-muted-foreground">{a.role}</p>
-              <p className="mt-3 text-[16px] text-foreground">{a.text}</p>
-              <div data-ui className="mt-5 rounded-xl bg-[#0b141a] p-3">
-                <AgentUi kind={a.ui} />
-              </div>
-            </Rise>
-          ))}
+          {AGENTS.map((a, i) => {
+            const on = active === i;
+            return (
+              <Rise
+                as="li"
+                key={a.name}
+                delay={i * 0.1}
+                className={cn(
+                  "flex flex-col rounded-3xl p-6 ring-1 transition-[background-color,box-shadow] duration-500",
+                  on ? "bg-surface-2 ring-tc/60 shadow-[0_0_40px_-12px_var(--tc)]" : "bg-surface ring-transparent",
+                )}
+              >
+                <motion.div
+                  className="mx-auto w-[124px]"
+                  animate={on ? { y: -8, scale: 1.06 } : { y: 0, scale: 1 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 18 }}
+                >
+                  <Mascot
+                    size="100%"
+                    outfit={a.outfit}
+                    mood={on ? a.mood : "idle"}
+                    say={on ? a.line : null}
+                    lines={[a.line]}
+                    label={`Auri como agente de ${a.name}. Clique para ele falar.`}
+                  />
+                </motion.div>
+                <p className="pixel mt-4 flex items-center justify-center gap-2 text-[15px] text-tc">
+                  Agente {i + 1}
+                  {on && <motion.span className="h-2 w-2 rounded-full bg-tc" animate={{ opacity: [1, 0.2, 1] }} transition={{ duration: 0.9, repeat: Infinity }} />}
+                </p>
+                <h3 className="mt-1 text-center text-[24px] font-bold leading-tight">{a.name}</h3>
+                <p className="text-center text-[15px] text-muted-foreground">{a.role}</p>
+                <p className="mt-3 text-[16px] text-foreground">{a.text}</p>
+                <div data-ui className={cn("mt-5 rounded-xl bg-[#0b141a] p-3 transition-opacity duration-500", on ? "opacity-100" : "opacity-60")}>
+                  <AgentUi key={on ? `play-${round}` : "idle"} kind={a.ui} play={on} />
+                </div>
+              </Rise>
+            );
+          })}
         </ol>
       </div>
     </section>
   );
 }
-

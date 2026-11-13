@@ -68,7 +68,7 @@ const OUTFITS: Record<Exclude<Outfit, "none">, { pixels: P[]; hidesStar?: boolea
       [13, 3, 2, 3, "#3b4f5e"],
       [13, 6, 1, 1, "#2b3a46"],
       [11, 7, 2, 1, "#2b3a46"],
-      [10, 7, 1, 1, "#4fd8e6"],
+      [10, 7, 1, 1, "#36e2b4"],
     ],
   },
   grad: {
@@ -129,10 +129,10 @@ const OUTFITS: Record<Exclude<Outfit, "none">, { pixels: P[]; hidesStar?: boolea
   crown: {
     hidesStar: true,
     pixels: [
-      [3, 0, 10, 2, "#4fd8e6"],
-      [3, -1, 1, 1, "#4fd8e6"],
-      [7, -2, 2, 2, "#4fd8e6"],
-      [12, -1, 1, 1, "#4fd8e6"],
+      [3, 0, 10, 2, "#36e2b4"],
+      [3, -1, 1, 1, "#36e2b4"],
+      [7, -2, 2, 2, "#36e2b4"],
+      [12, -1, 1, 1, "#36e2b4"],
       [5, 0, 1, 1, "#e2483d"],
       [10, 0, 1, 1, "#e2483d"],
     ],
@@ -157,7 +157,7 @@ const OUTFITS: Record<Exclude<Outfit, "none">, { pixels: P[]; hidesStar?: boolea
     pixels: [
       [3, 5, 10, 3, "#cfd8dc"],
       [3, 8, 10, 1, "#90a4ae"],
-      [7, 6, 2, 1, "#4fd8e6"],
+      [7, 6, 2, 1, "#36e2b4"],
     ],
   },
 };

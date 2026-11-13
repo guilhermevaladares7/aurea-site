@@ -206,12 +206,12 @@ export function DashboardScreen() {
 const EVENTS = [
   { d: 0, h: 9, len: 2, t: "Entrega", w: "Sofá 3 lugares · Rua das Flores, 120", c: "bg-sistemas/85 text-[#1f0c00]" },
   { d: 0, h: 14, len: 1, t: "Visita", w: "Medir cozinha · Dona Célia", c: "bg-ia/80 text-[#021a0c]" },
-  { d: 1, h: 10, len: 3, t: "Montagem", w: "Guarda-roupa 6 portas", c: "bg-primary/85 text-[#03161a]" },
+  { d: 1, h: 10, len: 3, t: "Montagem", w: "Guarda-roupa 6 portas", c: "bg-primary/85 text-[#021a14]" },
   { d: 2, h: 8, len: 1, t: "Entrega", w: "Mesa + 6 cadeiras", c: "bg-sistemas/85 text-[#1f0c00]" },
   { d: 2, h: 15, len: 2, t: "Assistência", w: "Ajuste de porta", c: "bg-white/80 text-[#0b1016]" },
-  { d: 3, h: 11, len: 2, t: "Montagem", w: "Painel de TV", c: "bg-primary/85 text-[#03161a]" },
+  { d: 3, h: 11, len: 2, t: "Montagem", w: "Painel de TV", c: "bg-primary/85 text-[#021a14]" },
   { d: 4, h: 9, len: 1, t: "Entrega", w: "Colchão casal", c: "bg-sistemas/85 text-[#1f0c00]" },
-  { d: 4, h: 13, len: 3, t: "Montagem", w: "Cozinha planejada", c: "bg-primary/85 text-[#03161a]" },
+  { d: 4, h: 13, len: 3, t: "Montagem", w: "Cozinha planejada", c: "bg-primary/85 text-[#021a14]" },
   { d: 5, h: 8, len: 2, t: "Entrega", w: "Rack + estante (roça)", c: "bg-sistemas/85 text-[#1f0c00]" },
 ];
 
