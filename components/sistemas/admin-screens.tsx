@@ -238,7 +238,7 @@ export function AgendaScreen() {
       <div className="grid min-h-0 flex-1 grid-cols-[34px_repeat(6,1fr)] gap-x-1.5">
         <div />
         {days.map((d) => (
-          <span key={d} className="pb-1 text-center font-semibold text-foreground/85">
+          <span key={d} className="pb-1 text-center font-semibold text-foreground">
             {d}
           </span>
         ))}

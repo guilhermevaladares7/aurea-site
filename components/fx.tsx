@@ -50,6 +50,10 @@ const GLYPHS = ["</>", "<div>", "{ }", ";", "#fff", "css", "=>", "<a>", "h1", "p
 
 type Bit = { x: number; y: number; vx: number; vy: number; life: number; max: number; g: string; s: number };
 
+/** Onde o efeito do mouse não aparece: textos, botões, cards e telas de exemplo. */
+const CONTENT =
+  "p,h1,h2,h3,h4,h5,li,dt,dd,blockquote,figcaption,label,input,textarea,a,button,summary,[role=button],img,video,figure,article,[data-ui],[role=dialog]";
+
 export function CursorFx({ variant = "stars" }: { variant?: FxVariant }) {
   const ref = useRef<HTMLCanvasElement>(null);
 
@@ -64,10 +68,13 @@ export function CursorFx({ variant = "stars" }: { variant?: FxVariant }) {
     const ring = { x: -100, y: -100, tx: -100, ty: -100, r: 14, tr: 14 };
     let last = { x: 0, y: 0 };
     let raf = 0;
+    // sobre texto ou informação o efeito some, para não atrapalhar a leitura
+    let overContent = false;
+    let vis = 1;
     let prev = performance.now();
 
     const spawn = (x: number, y: number) => {
-      const n = variant === "pixels" ? 3 : 1;
+      const n = variant === "pixels" ? 2 : 1;
       for (let i = 0; i < n; i++) {
         bits.push({
           x: x + (Math.random() - 0.5) * 10,
@@ -75,25 +82,29 @@ export function CursorFx({ variant = "stars" }: { variant?: FxVariant }) {
           vx: (Math.random() - 0.5) * (variant === "pixels" ? 2.4 : 0.8),
           vy: variant === "pixels" ? -Math.random() * 2 : -0.4 - Math.random() * 0.6,
           life: 0,
-          max: variant === "bubbles" ? 1100 : variant === "code" ? 950 : 750,
+          max: variant === "bubbles" ? 800 : variant === "code" ? 700 : 550,
           g: GLYPHS[(Math.random() * GLYPHS.length) | 0],
           s: variant === "pixels" ? 3 + ((Math.random() * 3) | 0) : 1,
         });
       }
-      if (bits.length > 160) bits.splice(0, bits.length - 160);
+      if (bits.length > 50) bits.splice(0, bits.length - 50);
     };
 
     const onMove = (e: PointerEvent) => {
       ring.tx = e.clientX;
       ring.ty = e.clientY;
+      const t = e.target as Element | null;
+      overContent = !!t?.closest?.(CONTENT);
+      if (overContent) {
+        last = { x: e.clientX, y: e.clientY };
+        return;
+      }
       const dx = e.clientX - last.x;
       const dy = e.clientY - last.y;
-      if (dx * dx + dy * dy > (variant === "code" ? 900 : 260)) {
+      if (dx * dx + dy * dy > (variant === "code" ? 1800 : 900)) {
         spawn(e.clientX, e.clientY);
         last = { x: e.clientX, y: e.clientY };
       }
-      const t = e.target as Element | null;
-      ring.tr = t?.closest?.("a,button,summary,[role=button]") ? 24 : 14;
     };
     const onLeave = () => {
       ring.tx = -100;
@@ -109,6 +120,7 @@ export function CursorFx({ variant = "stars" }: { variant?: FxVariant }) {
       const dt = Math.min(48, now - prev);
       prev = now;
       ctx.clearRect(0, 0, size.w, size.h);
+      vis += ((overContent ? 0 : 1) - vis) * 0.18;
 
       for (let i = bits.length - 1; i >= 0; i--) {
         const b = bits[i];
@@ -121,7 +133,7 @@ export function CursorFx({ variant = "stars" }: { variant?: FxVariant }) {
         b.x += b.vx;
         b.y += b.vy;
         if (variant === "pixels") b.vy += 0.12;
-        const a = (1 - k) * 0.9;
+        const a = (1 - k) * 0.6 * vis;
         ctx.fillStyle = `rgba(${rgb},${a})`;
         ctx.strokeStyle = `rgba(${rgb},${a})`;
         if (variant === "code") {
@@ -150,16 +162,12 @@ export function CursorFx({ variant = "stars" }: { variant?: FxVariant }) {
       ring.x += (ring.tx - ring.x) * 0.22;
       ring.y += (ring.ty - ring.y) * 0.22;
       ring.r += (ring.tr - ring.r) * 0.2;
-      if (ring.tx > -50) {
+      if (ring.tx > -50 && vis > 0.02) {
         ctx.lineWidth = 1.5;
-        ctx.strokeStyle = `rgba(${rgb},0.75)`;
+        ctx.strokeStyle = `rgba(${rgb},${0.5 * vis})`;
         ctx.beginPath();
         ctx.arc(ring.x, ring.y, ring.r, 0, Math.PI * 2);
         ctx.stroke();
-        if (ring.tr > 14) {
-          ctx.fillStyle = `rgba(${rgb},0.12)`;
-          ctx.fill();
-        }
       }
       raf = requestAnimationFrame(draw);
     };

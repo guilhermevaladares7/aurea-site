@@ -6,6 +6,12 @@ import { Mascot } from "@/components/mascot";
 import { Rise } from "@/components/motion";
 import { EMAIL, GITHUB_URL, INSTAGRAM_HANDLE, INSTAGRAM_URL, PHONE_LABEL, whatsappLink } from "@/lib/site";
 
+const STEPS = [
+  { t: "Conversa", d: "Você me conta pelo WhatsApp o que a sua empresa precisa." },
+  { t: "Proposta", d: "Eu te mando o que vou fazer, o prazo e o valor." },
+  { t: "Entrega", d: "Coloco no ar e te mostro como usar." },
+];
+
 export function SiteFooter() {
   return (
     <footer id="contato" className="mt-28 px-4 pb-24 sm:px-8 sm:pb-8 lg:mt-44">
@@ -17,7 +23,7 @@ export function SiteFooter() {
                 Bora tirar sua ideia do papel?
               </h2>
             </Rise>
-            <Rise as="p" delay={0.08} className="mt-5 max-w-[46ch] text-[19px] text-foreground/90">
+            <Rise as="p" delay={0.08} className="mt-5 max-w-[46ch] text-[19px] text-foreground">
               Me conta o que você precisa. Respondo no mesmo dia útil com uma proposta clara, sem
               compromisso.
             </Rise>
@@ -43,6 +49,20 @@ export function SiteFooter() {
           <div className="flex justify-center lg:pr-10">
             <Mascot size={190} mood="wave" bubbleSide="left" />
           </div>
+
+          <ol className="grid gap-6 border-t border-white/10 pt-10 sm:grid-cols-3 lg:col-span-2" aria-label="Como funciona">
+            {STEPS.map((st, i) => (
+              <Rise as="li" key={st.t} delay={i * 0.08} className="flex gap-4">
+                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-primary/15 text-[17px] font-bold text-primary">
+                  {i + 1}
+                </span>
+                <span>
+                  <span className="block text-[19px] font-bold text-foreground">{st.t}</span>
+                  <span className="mt-1 block text-[17px] leading-snug text-foreground">{st.d}</span>
+                </span>
+              </Rise>
+            ))}
+          </ol>
         </div>
 
         <div className="mt-16 text-foreground" aria-hidden="true">
@@ -60,7 +80,7 @@ export function SiteFooter() {
               href={GITHUB_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-md px-3 py-2 text-foreground/85 transition-colors hover:bg-white/5 hover:text-foreground"
+              className="inline-flex items-center gap-2 rounded-md px-3 py-2 text-foreground transition-colors hover:bg-white/5 hover:text-foreground"
             >
               <GithubIcon className="h-5 w-5" />
               GitHub
@@ -69,7 +89,7 @@ export function SiteFooter() {
               href={INSTAGRAM_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-md px-3 py-2 text-foreground/85 transition-colors hover:bg-white/5 hover:text-foreground"
+              className="inline-flex items-center gap-2 rounded-md px-3 py-2 text-foreground transition-colors hover:bg-white/5 hover:text-foreground"
             >
               <InstagramIcon className="h-5 w-5" />
               {INSTAGRAM_HANDLE}

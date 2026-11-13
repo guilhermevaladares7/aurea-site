@@ -63,7 +63,7 @@ export function ServiceHero({ service, demo, bit }: { service: Service; demo: Re
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-5 max-w-[52ch] text-[19px] text-foreground/90"
+          className="mt-5 max-w-[52ch] text-[19px] text-foreground"
         >
           {s.lead}
         </motion.p>
@@ -133,7 +133,7 @@ export function StepsWithMascot({ steps }: { steps: Step[] }) {
             Como funciona
           </h2>
         </Rise>
-        <Rise as="p" delay={0.06} className="max-w-[46ch] text-[18px] text-foreground/85 lg:justify-self-end">
+        <Rise as="p" delay={0.06} className="max-w-[46ch] text-[18px] text-foreground lg:justify-self-end">
           Quatro passos, e o Auri troca de roupa em cada um. Passe o mouse (ou toque) para ele contar o que acontece.
         </Rise>
       </div>
@@ -172,7 +172,7 @@ export function StepsWithMascot({ steps }: { steps: Step[] }) {
                 </motion.div>
               </div>
               <h3 className="mt-6 text-[22px] font-bold leading-tight">{st.title}</h3>
-              <p className="mt-2 text-[16px] text-foreground/85">{st.text}</p>
+              <p className="mt-2 text-[16px] text-foreground">{st.text}</p>
               <span
                 aria-hidden="true"
                 className="absolute bottom-0 left-6 right-6 h-[3px] origin-left scale-x-0 rounded-full bg-tc transition-transform duration-500 group-hover:scale-x-100"
@@ -189,7 +189,7 @@ export function Tags({ tags }: { tags: string[] }) {
   return (
     <ul className="mt-4 flex flex-wrap gap-2" aria-label="Tecnologias">
       {tags.map((t) => (
-        <li key={t} className="rounded-full bg-surface-2 px-3 py-1 text-[14px] text-foreground/85">
+        <li key={t} className="rounded-full bg-surface-2 px-3 py-1 text-[14px] text-foreground">
           {t}
         </li>
       ))}
@@ -277,7 +277,7 @@ export function IncludesFaq({ service }: { service: Service }) {
                   +
                 </span>
               </summary>
-              <p className="mt-3 text-[16px] text-foreground/85">{f.a}</p>
+              <p className="mt-3 text-[16px] text-foreground">{f.a}</p>
             </details>
           ))}
         </div>

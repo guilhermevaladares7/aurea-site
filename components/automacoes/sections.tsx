@@ -353,7 +353,7 @@ export function TryChat() {
               Teste você mesmo
             </h2>
           </Rise>
-          <Rise as="p" delay={0.06} className="mt-6 max-w-[42ch] text-[18px] text-foreground/85">
+          <Rise as="p" delay={0.06} className="mt-6 max-w-[42ch] text-[18px] text-foreground">
             Faça de conta que você é cliente da Doceria da Lu. Toque nas opções embaixo da conversa e veja a atendente
             responder e o que ela faz por trás.
           </Rise>
@@ -523,7 +523,7 @@ export function Agents() {
             Quatro agentes, um time só
           </h2>
         </Rise>
-        <Rise as="p" delay={0.06} className="max-w-[48ch] text-[18px] text-foreground/85 lg:justify-self-end">
+        <Rise as="p" delay={0.06} className="max-w-[48ch] text-[18px] text-foreground lg:justify-self-end">
           Por trás de cada conversa trabalham quatro agentes, cada um com o seu trabalho. O Auri se fantasia de cada um
           deles para te mostrar.
         </Rise>
@@ -545,7 +545,7 @@ export function Agents() {
               <p className="pixel mt-4 text-center text-[15px] text-tc">Agente {i + 1}</p>
               <h3 className="mt-1 text-center text-[24px] font-bold leading-tight">{a.name}</h3>
               <p className="text-center text-[15px] text-muted-foreground">{a.role}</p>
-              <p className="mt-3 text-[16px] text-foreground/85">{a.text}</p>
+              <p className="mt-3 text-[16px] text-foreground">{a.text}</p>
               <div data-ui className="mt-5 rounded-xl bg-[#0b141a] p-3">
                 <AgentUi kind={a.ui} />
               </div>

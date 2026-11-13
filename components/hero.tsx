@@ -50,7 +50,7 @@ export function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: reduce ? 0 : 0.5 }}
           style={{ opacity: hiOpacity }}
-          className="submark relative text-[clamp(24px,2.8vw,38px)] text-foreground/85"
+          className="submark relative text-[clamp(24px,2.8vw,38px)] text-foreground"
         >
           Bem-vindo à
         </motion.p>
@@ -88,7 +88,7 @@ export function Hero() {
             key={`n-${run}`}
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: reduce ? 0 : 1.2 }}
+            transition={{ duration: 0.7, delay: reduce ? 0 : 0.9 }}
             className="mt-6 text-[13px] font-medium uppercase tracking-[0.22em] text-foreground/55 sm:text-[14px]"
           >
             Guilherme Valadares
@@ -97,8 +97,8 @@ export function Hero() {
             key={`t-${run}`}
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: reduce ? 0 : 1.4 }}
-            className="mt-4 max-w-[40ch] text-[clamp(19px,1.7vw,24px)] leading-snug text-foreground"
+            transition={{ duration: 0.7, delay: reduce ? 0 : 1 }}
+            className="mt-5 max-w-[34ch] text-[clamp(21px,2.1vw,30px)] font-medium leading-snug text-foreground"
           >
             Sites, sistemas e automações com IA, feitos sob medida para pequenas e médias empresas.
           </motion.p>

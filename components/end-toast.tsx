@@ -86,7 +86,7 @@ export function EndToast({ service = "home" }: { service?: "home" | "sites" | "s
             </motion.div>
             <div className="flex min-w-0 flex-1 items-center gap-3 sm:block">
               <p className="min-w-0 flex-1 text-[15px] font-bold leading-tight text-foreground sm:text-[20px]">{c.title}</p>
-              <p className="mt-1 hidden text-[15px] leading-snug text-foreground/90 sm:block">{c.text}</p>
+              <p className="mt-1 hidden text-[15px] leading-snug text-foreground sm:block">{c.text}</p>
               <a
                 href={whatsappLink(c.msg)}
                 target="_blank"

@@ -104,7 +104,7 @@ export default async function ServicePage({ params }: PageProps<"/servicos/[slug
                       Por trás da conversa
                     </h2>
                   </Rise>
-                  <Rise as="p" delay={0.08} className="mt-6 max-w-[48ch] text-[19px] text-foreground/90">
+                  <Rise as="p" delay={0.08} className="mt-6 max-w-[48ch] text-[19px] text-foreground">
                     Enquanto o cliente vê só a resposta no WhatsApp, o agente da Aurea está trabalhando: lê o cardápio,
                     confere a planilha, consulta a agenda, cria o pedido no painel e só então responde.
                   </Rise>

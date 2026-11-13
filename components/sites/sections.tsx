@@ -48,7 +48,7 @@ function Highlight({ text }: { text: string }) {
     <>
       {parts.map((p, i) => {
         if (!p) return null;
-        let c = "text-foreground/85";
+        let c = "text-foreground";
         if (i % 2 === 1) {
           if (/^<\/?[a-z]/i.test(p) || p === ">") c = "text-[#7aa2ff]";
           else if (/^["']/.test(p)) c = "text-[#9fe0a8]";
@@ -250,7 +250,7 @@ export function SiteProjects({ projects, intro }: { projects: Project[]; intro: 
             Sites no ar
           </h2>
         </Rise>
-        <Rise as="p" delay={0.06} className="max-w-[48ch] text-[18px] text-foreground/85 lg:justify-self-end">
+        <Rise as="p" delay={0.06} className="max-w-[48ch] text-[18px] text-foreground lg:justify-self-end">
           {intro}
         </Rise>
       </div>
@@ -261,7 +261,7 @@ export function SiteProjects({ projects, intro }: { projects: Project[]; intro: 
           <div className="flex flex-col px-3 pb-3 lg:py-6">
             <h3 className="text-[30px] font-bold leading-tight">{first.name}</h3>
             <p className="mt-1 text-[16px] text-muted-foreground">{first.what}</p>
-            <p className="mt-3 text-[17px] text-foreground/90">{first.did}</p>
+            <p className="mt-3 text-[17px] text-foreground">{first.did}</p>
             <Tags tags={first.tags} />
             <div className="mt-auto">
               <ProjectLinks p={first} />
@@ -277,7 +277,7 @@ export function SiteProjects({ projects, intro }: { projects: Project[]; intro: 
             <div className="flex flex-1 flex-col px-3 pb-3 pt-5">
               <h3 className="text-[24px] font-bold leading-tight">{p.name}</h3>
               <p className="mt-1 text-[16px] text-muted-foreground">{p.what}</p>
-              <p className="mt-3 text-[17px] text-foreground/90">{p.did}</p>
+              <p className="mt-3 text-[17px] text-foreground">{p.did}</p>
               <Tags tags={p.tags} />
               <div className="mt-auto">
                 <ProjectLinks p={p} />

@@ -82,7 +82,7 @@ export function CalendaShowcase() {
               O Calenda, rodando de verdade
             </h2>
           </Rise>
-          <Rise as="p" delay={0.06} className="mt-6 max-w-[48ch] text-[19px] text-foreground/90">
+          <Rise as="p" delay={0.06} className="mt-6 max-w-[48ch] text-[19px] text-foreground">
             O sistema que eu fiz para a Calenda Móveis. A vendedora preenche a venda e o sistema já mostra o que
             pode oferecer, sem ninguém precisar decorar regra. No fim do mês, o fechamento sai pronto.
           </Rise>
@@ -193,7 +193,7 @@ export function PanelTour() {
             Um passeio pelas telas
           </h2>
         </Rise>
-        <Rise as="p" delay={0.06} className="max-w-[48ch] text-[18px] text-foreground/85 lg:justify-self-end">
+        <Rise as="p" delay={0.06} className="max-w-[48ch] text-[18px] text-foreground lg:justify-self-end">
           Um painel de exemplo com as telas que mais aparecem nos sistemas que eu faço. O Auri troca de roupa em cada uma.
           Clique nas abas para ver.
         </Rise>
@@ -344,7 +344,7 @@ export function SystemProjects({ projects, intro }: { projects: Project[]; intro
             Projetos feitos
           </h2>
         </Rise>
-        <Rise as="p" delay={0.06} className="max-w-[48ch] text-[18px] text-foreground/85 lg:justify-self-end">
+        <Rise as="p" delay={0.06} className="max-w-[48ch] text-[18px] text-foreground lg:justify-self-end">
           {intro}
         </Rise>
       </div>
@@ -360,7 +360,7 @@ export function SystemProjects({ projects, intro }: { projects: Project[]; intro
           <div className="flex flex-col px-3 pb-3 lg:py-4">
             <h3 className="text-[28px] font-bold leading-tight">{first.name}</h3>
             <p className="mt-1 text-[16px] text-muted-foreground">{first.what}</p>
-            <p className="mt-3 text-[17px] text-foreground/90">{first.did}</p>
+            <p className="mt-3 text-[17px] text-foreground">{first.did}</p>
             {first.note && <p className="mt-2 text-[15px] text-muted-foreground">{first.note}</p>}
             <Tags tags={first.tags} />
             <a
@@ -402,7 +402,7 @@ export function SystemProjects({ projects, intro }: { projects: Project[]; intro
             <div className="flex flex-1 flex-col px-3 pb-3 pt-5">
               <h3 className="text-[24px] font-bold leading-tight">{p.name}</h3>
               <p className="mt-1 text-[16px] text-muted-foreground">{p.what}</p>
-              <p className="mt-3 text-[17px] text-foreground/90">{p.did}</p>
+              <p className="mt-3 text-[17px] text-foreground">{p.did}</p>
               {p.note && <p className="mt-2 text-[15px] text-muted-foreground">{p.note}</p>}
               <Tags tags={p.tags} />
               <div className="mt-auto">

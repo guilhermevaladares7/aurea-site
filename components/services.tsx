@@ -50,21 +50,21 @@ export function Services() {
                       </div>
 
                       <div className="flex flex-1 flex-col px-3 pb-3 pt-6">
-                        <p className="text-[32px]" aria-hidden="true">
+                        <p className="text-[26px]" aria-hidden="true">
                           <Submark word={s.sub} wordClass="text-tc" />
                         </p>
-                        <h3 className="mt-4 text-[21px] font-bold leading-tight text-foreground">{s.title}</h3>
-                        <p className="mt-2 text-[17px] text-foreground/85">{s.short}</p>
+                        <h3 className="mt-4 text-[26px] font-bold leading-tight text-foreground">{s.title}</h3>
+                        <p className="mt-3 text-[18px] leading-snug text-foreground">{s.short}</p>
                         <ul className="mt-5 flex flex-wrap gap-2" aria-label="Inclui">
                           {s.tags.map((t) => (
-                            <li key={t} className="rounded-full bg-surface-2 px-3 py-1 text-[14px] text-foreground/85">
+                            <li key={t} className="rounded-full bg-surface-2 px-3 py-1 text-[14px] text-foreground">
                               {t}
                             </li>
                           ))}
                         </ul>
                         {examples.length > 0 && (
                           <p className="mt-5 text-[15px] text-muted-foreground">
-                            Projetos: <span className="text-foreground/85">{examples.join(", ")}</span>
+                            Projetos: <span className="text-foreground">{examples.join(", ")}</span>
                           </p>
                         )}
                         <span className="mt-auto flex items-center justify-between pt-7 text-[17px] font-semibold text-tc">
