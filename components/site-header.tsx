@@ -1,6 +1,7 @@
 "use client";
 
-import { MessageCircle } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
+import { Menu, MessageCircle, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -9,13 +10,16 @@ import { cn } from "@/lib/utils";
 import { whatsappLink } from "@/lib/site";
 
 const LINKS = [
-  { href: "/servicos/sites", label: "Sites" },
-  { href: "/servicos/sistemas", label: "Sistemas" },
-  { href: "/servicos/automacoes", label: "Automações" },
+  { href: "/servicos/sites", label: "Sites", hint: "Sua empresa no Google e no WhatsApp", color: "#9b72ff" },
+  { href: "/servicos/sistemas", label: "Sistemas", hint: "Vendas, clientes e caixa num painel só", color: "#ff8a3d" },
+  { href: "/servicos/automacoes", label: "Automações", hint: "Uma IA que atende no seu WhatsApp", color: "#3ddc84" },
 ];
 
 export function SiteHeader() {
-  const home = usePathname() === "/";
+  const path = usePathname();
+  const home = path === "/";
+  // menu do celular: no computador os links já aparecem no topo
+  const [open, setOpen] = useState(false);
   // solid: logo pequeno visível; scrolled: fundo escuro desfocado atrás do menu
   const [solid, setSolid] = useState(!home);
   const [scrolled, setScrolled] = useState(false);
@@ -30,11 +34,19 @@ export function SiteHeader() {
     return () => window.removeEventListener("scroll", onScroll);
   }, [home]);
 
+  // fecha o menu ao apertar Esc (ao tocar num link, o onClick fecha)
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
+
   return (
     <header
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-colors duration-300",
-        scrolled ? "bg-[#070b10]/80 backdrop-blur-md" : "bg-transparent",
+        scrolled || open ? "bg-[#070b10]/90 backdrop-blur-md" : "bg-transparent",
       )}
     >
       <div className="mx-auto flex h-16 max-w-[1400px] items-center justify-between px-4 sm:px-8">
@@ -69,8 +81,58 @@ export function SiteHeader() {
             <MessageCircle className="h-4 w-4" aria-hidden="true" />
             Contato
           </a>
+          <button
+            type="button"
+            onClick={() => setOpen((o) => !o)}
+            aria-expanded={open}
+            aria-controls="menu-celular"
+            aria-label={open ? "Fechar menu" : "Abrir menu"}
+            className="ml-1 inline-flex h-10 w-10 items-center justify-center rounded-md border border-white/15 text-foreground transition-colors hover:bg-white/5 md:hidden"
+          >
+            {open ? <X className="h-5 w-5" aria-hidden="true" /> : <Menu className="h-5 w-5" aria-hidden="true" />}
+          </button>
         </nav>
       </div>
+
+      <AnimatePresence>
+        {open && (
+          <motion.nav
+            id="menu-celular"
+            aria-label="Serviços"
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.2 }}
+            className="border-t border-white/10 bg-[#070b10]/95 px-4 pb-5 pt-3 backdrop-blur-md md:hidden"
+          >
+            <Link
+              href="/"
+              onClick={() => setOpen(false)}
+              className="block rounded-lg px-3 py-3 text-[17px] text-foreground/80 hover:bg-white/5"
+            >
+              Início
+            </Link>
+            {LINKS.map((l) => (
+              <Link
+                key={l.href}
+                href={l.href}
+                onClick={() => setOpen(false)}
+                aria-current={path.startsWith(l.href) ? "page" : undefined}
+                className={cn(
+                  "flex items-center gap-3 rounded-lg px-3 py-3 hover:bg-white/5",
+                  path.startsWith(l.href) && "bg-white/[0.06]",
+                )}
+              >
+                <span className="h-2.5 w-2.5 shrink-0 rounded-full" style={{ background: l.color }} aria-hidden="true" />
+                <span>
+                  <span className="block text-[18px] font-semibold text-foreground">{l.label}</span>
+                  <span className="block text-[15px] text-muted-foreground">{l.hint}</span>
+                </span>
+              </Link>
+            ))}
+          </motion.nav>
+        )}
+      </AnimatePresence>
     </header>
   );
 }

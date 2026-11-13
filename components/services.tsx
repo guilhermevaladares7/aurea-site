@@ -17,7 +17,7 @@ export function Services() {
             </h2>
           </Rise>
           <Rise delay={0.08} as="p" className="max-w-[44ch] text-[19px] text-foreground lg:pb-3">
-            Três frentes, um só time: da primeira página da sua empresa na internet à IA que responde
+            Três serviços, um só contato: da primeira página da sua empresa na internet à IA que responde
             seus clientes de madrugada. Clique em cada uma para ver como funciona e exemplos reais.
           </Rise>
         </div>

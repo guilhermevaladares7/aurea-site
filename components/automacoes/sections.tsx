@@ -324,11 +324,12 @@ export function TryChat() {
           </Rise>
         </div>
 
+        <div className="relative mx-auto w-[min(100%,380px)]">
         <Phone
           name="Doceria da Lu"
           status={typing ? "digitando…" : "online"}
           outfit="chef"
-          className="h-[600px] w-[min(100%,380px)]"
+          className="h-[600px] w-full"
           footer={
             <div className="flex min-h-[64px] flex-wrap items-center justify-center gap-2 bg-[#202c33] px-3 py-3">
               {options.map((o) => (
@@ -355,6 +356,28 @@ export function TryChat() {
             {typing && <Typing />}
           </div>
         </Phone>
+          {/* no celular a lista "por trás" fica abaixo do telefone, fora da tela:
+              aqui o último passo aparece em cima da conversa, na hora */}
+          <div className="pointer-events-none absolute inset-x-3 top-[76px] z-10 lg:hidden" aria-hidden="true">
+            <AnimatePresence mode="wait">
+              {log.length > 0 && (
+                <motion.div
+                  key={log.length}
+                  initial={{ opacity: 0, y: -8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  className="flex items-center gap-2 rounded-xl bg-[#070b10]/90 px-3 py-2 text-[13px] text-foreground shadow-lg ring-1 ring-tc/40 backdrop-blur"
+                >
+                  <span className="grid h-4 w-4 shrink-0 place-items-center rounded-full bg-tc text-tc-ink">
+                    <Check className="h-2.5 w-2.5" />
+                  </span>
+                  <span className="pixel text-tc">Por trás:</span>
+                  <span className="truncate">{log[log.length - 1]}</span>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </div>
 
         <div>
           <div className="flex items-end gap-4">

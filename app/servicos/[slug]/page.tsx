@@ -29,7 +29,23 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps<"/servicos/[slug]">): Promise<Metadata> {
   const { slug } = await params;
   const s = getService(slug);
-  return s ? { title: s.title, description: s.short } : {};
+  if (!s) return {};
+  const url = `/servicos/${s.slug}/`;
+  return {
+    title: s.title,
+    description: s.short,
+    alternates: { canonical: url },
+    openGraph: {
+      type: "website",
+      locale: "pt_BR",
+      siteName: "Aurea",
+      url,
+      title: `${s.title} · Aurea`,
+      description: s.short,
+      // ao definir openGraph aqui, a imagem do layout não é herdada: repete a mesma
+      images: [{ url: "/opengraph-image.png", width: 1200, height: 630, alt: "Aurea: sites, sistemas e automações com IA" }],
+    },
+  };
 }
 
 export default async function ServicePage({ params }: PageProps<"/servicos/[slug]">) {

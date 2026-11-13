@@ -94,7 +94,8 @@ export function ServiceHero({ service, demo, bit }: { service: Service; demo: Re
         initial={{ opacity: 0, y: 40, rotateX: 18 }}
         animate={{ opacity: 1, y: 0, rotateX: 0 }}
         transition={{ duration: 0.9, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-        className="relative [perspective:1400px]"
+        // no celular o Auri fica em cima da demonstração: o espaço extra evita que o balão cubra os botões
+        className="relative mt-12 [perspective:1400px] lg:mt-0"
       >
         <div className="absolute -top-[84px] right-8 z-10 w-[96px] sm:-top-[100px] sm:w-[116px]">
           <BitIntro outfit={s.outfit} bit={bit} />
@@ -125,7 +126,7 @@ function BitIntro({ outfit, bit }: { outfit: Service["outfit"]; bit: string }) {
 /** Os quatro passos, cada um com o Auri numa roupa e expressão diferente. */
 export function Tags({ tags }: { tags: string[] }) {
   return (
-    <ul className="mt-4 flex flex-wrap gap-2" aria-label="Tecnologias">
+    <ul className="mt-4 flex flex-wrap gap-2" aria-label="Destaques">
       {tags.map((t) => (
         <li key={t} className="rounded-full bg-surface-2 px-3 py-1 text-[14px] text-foreground">
           {t}

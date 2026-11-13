@@ -1,4 +1,5 @@
 // Dados de contato da Aurea.
+export const SITE_URL = "https://auereastack.com.br";
 export const WHATSAPP_NUMBER = "5533999657071"; // (33) 99965-7071
 export const PHONE_LABEL = "(33) 99965-7071";
 export const EMAIL = "glhrmvaladares@gmail.com";
