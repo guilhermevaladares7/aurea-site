@@ -89,7 +89,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: reduce ? 0 : 1.2 }}
-            className="submark mt-8 text-[clamp(24px,2.6vw,36px)] text-primary"
+            className="mt-6 text-[13px] font-medium uppercase tracking-[0.22em] text-foreground/55 sm:text-[14px]"
           >
             Guilherme Valadares
           </motion.p>

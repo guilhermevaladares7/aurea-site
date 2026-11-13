@@ -374,6 +374,7 @@ export function SystemProjects({ projects, intro }: { projects: Project[]; intro
         </article>
       </Rise>
 
+      {rest.length > 0 && (
       <ul className="mt-6 grid gap-6 lg:grid-cols-3">
         {rest.map((p, i) => (
           <Rise as="li" key={p.name} delay={i * 0.08} className="flex flex-col rounded-3xl bg-surface p-3">
@@ -411,6 +412,7 @@ export function SystemProjects({ projects, intro }: { projects: Project[]; intro
           </Rise>
         ))}
       </ul>
+      )}
     </section>
   );
 }

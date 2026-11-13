@@ -188,7 +188,7 @@ export const SERVICES: Service[] = [
       "Integração com WhatsApp e com o seu site",
       "Funciona no computador e no celular, sem instalar nada",
     ],
-    projectsIntro: "Sistemas que eu já desenvolvi:",
+    projectsIntro: "Um sistema que já roda no dia a dia de uma loja de verdade:",
     projects: [
       {
         name: "Calenda",
@@ -198,32 +198,6 @@ export const SERVICES: Service[] = [
         image: "/projetos/calenda-44.jpg",
         imageAlt: "Tela de fechamento do Calenda com vendas por forma de pagamento",
         note: "Código privado: o sistema usa dados reais da loja.",
-      },
-      {
-        name: "Biofarma API",
-        what: "O sistema por trás do site da Biofarma.",
-        did: "Recebe os pedidos de orçamento de receitas, controla o status de cada orçamento e avisa pelo WhatsApp.",
-        tags: ["Java", "Spring Boot", "API REST", "WhatsApp"],
-        modules: ["Orçamentos", "Status do orçamento", "Aviso no WhatsApp", "Dados da farmácia"],
-        repo: `${GH}/biofarma-api`,
-      },
-      {
-        name: "Sistema de Informação Hospitalar",
-        what: "Gestão de um hospital, do cadastro à alta.",
-        did: "Pacientes, profissionais, consultas, emergências, cirurgias, internações, quartos e o histórico médico de cada paciente.",
-        tags: ["Java 21", "Spring Boot", "MySQL", "Testes"],
-        modules: ["Pacientes", "Consultas", "Emergência", "Cirurgias", "Internações", "Quartos", "Histórico médico"],
-        repo: `${GH}/sistema-hospitalar`,
-        note: "Trabalho da faculdade (PUC Minas), feito em dupla.",
-      },
-      {
-        name: "Catálogo de produtos",
-        what: "Uma tela rápida para achar produtos.",
-        did: "Lista os produtos de uma API, busca por nome e abre os detalhes sem recarregar a página.",
-        tags: ["React", "Vite", "API REST"],
-        modules: ["Lista de produtos", "Busca por nome", "Detalhe do produto"],
-        repo: `${GH}/catalogo-produto`,
-        note: "Trabalho da faculdade (PUC Minas).",
       },
     ],
     faq: [

@@ -78,7 +78,7 @@ export function SiteFooter() {
         </div>
 
         <div className="mt-6 flex flex-col justify-between gap-2 text-[14px] text-muted-foreground sm:flex-row">
-          <span>© 2026 Aurea. Sites, sistemas e automações com IA.</span>
+          <span>© 2026 Aurea. Todos os direitos reservados.</span>
           <span>
             Fotos das demonstrações:{" "}
             <a className="underline underline-offset-4 hover:text-foreground" href="https://unsplash.com" target="_blank" rel="noopener noreferrer">
