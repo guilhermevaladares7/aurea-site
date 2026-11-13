@@ -1,26 +1,190 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
+
+/*
+  Aurea — tokens
+  Espaço escuro azulado, tinta gelo e ciano como cor da marca.
+  Cada serviço tem o seu tema: sites azul, sistemas laranja, automações verde.
+  --tc é a "cor do tema" da página/seção atual (classes .theme-*).
+*/
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-archivo);
+  --font-serif: var(--font-newsreader);
+  --font-heading: var(--font-archivo);
+  --font-pixel: var(--font-pixel);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: oklch(1 0 0);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+
+  /* cores próprias da Aurea */
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-sites: var(--sites);
+  --color-sistemas: var(--sistemas);
+  --color-ia: var(--ia);
+  --color-tc: var(--tc);
+  --color-tc-ink: var(--tc-ink);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+:root,
+.dark {
+  --background: #070b10;
+  --foreground: #e8f2f4;
+  --surface: #0e151c;
+  --surface-2: #16212b;
+  --card: #0e151c;
+  --card-foreground: #e8f2f4;
+  --popover: #16212b;
+  --popover-foreground: #e8f2f4;
+  --primary: #4fd8e6;
+  --primary-foreground: #03161a;
+  --secondary: #16212b;
+  --secondary-foreground: #e8f2f4;
+  --muted: #16212b;
+  --muted-foreground: #92a6ae;
+  --accent: #1c2a35;
+  --accent-foreground: #e8f2f4;
+  --destructive: oklch(0.704 0.191 22.216);
+  --destructive-foreground: oklch(1 0 0);
+  --border: rgb(255 255 255 / 0.09);
+  --input: rgb(255 255 255 / 0.14);
+  --ring: #4fd8e6;
+  --radius: 0.75rem;
+
+  --sites: #5b8cff;
+  --sistemas: #ff8a3d;
+  --ia: #3ddc84;
+
+  --tc: var(--primary);
+  --tc-ink: #03161a;
+}
+
+.theme-sites {
+  --tc: var(--sites);
+  --tc-ink: #050d22;
+}
+.theme-sistemas {
+  --tc: var(--sistemas);
+  --tc-ink: #1f0c00;
+}
+.theme-automacoes {
+  --tc: var(--ia);
+  --tc-ink: #021a0c;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    @apply font-sans;
+    scroll-behavior: smooth;
+    color-scheme: dark;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-size: 17px;
+    line-height: 1.55;
+  }
+  ::selection {
+    background: var(--tc);
+    color: var(--tc-ink);
+  }
+  :focus-visible {
+    outline: 2px solid var(--tc);
+    outline-offset: 3px;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Logotipo em texto (quando não for o SVG) */
+.wordmark {
+  font-family: var(--font-archivo);
+  font-stretch: 125%;
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 0.9;
+}
+
+/* Sub-marca em itálico serifado: "AUREA sites", "AUREA sistemas"... */
+.submark {
+  font-family: var(--font-newsreader);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+/* Fonte pixelada: balões do mascote, terminal e detalhes em pixel art */
+.pixel {
+  font-family: var(--font-pixel);
+}
+
+/* Caixa com cantos "em degrau", como pixel art */
+.pixel-box {
+  --p: 4px;
+  clip-path: polygon(
+    var(--p) 0, calc(100% - var(--p)) 0, calc(100% - var(--p)) var(--p), 100% var(--p),
+    100% calc(100% - var(--p)), calc(100% - var(--p)) calc(100% - var(--p)), calc(100% - var(--p)) 100%,
+    var(--p) 100%, var(--p) calc(100% - var(--p)), 0 calc(100% - var(--p)), 0 var(--p), var(--p) var(--p)
+  );
+}
+
+.pixelated {
+  shape-rendering: crispEdges;
+  image-rendering: pixelated;
+}
+
+/* Cursor de terminal piscando */
+@keyframes blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+.cursor-blink {
+  animation: blink 1.05s steps(1) infinite;
+}
+
+/* Faixa que corre na horizontal */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
 }
