@@ -1,10 +1,10 @@
 import type { NextConfig } from "next";
 
-// No GitHub Pages o site fica em guilhermevaladares7.github.io/aurea-site,
-// e o Pages só serve arquivos prontos. O workflow de deploy liga GITHUB_PAGES=true;
+// O site é publicado no GitHub Pages com o domínio auereastack.com.br (na raiz,
+// sem /aurea-site), e o Pages só serve arquivos prontos. O workflow de deploy liga GITHUB_PAGES=true;
 // no seu computador (npm run dev / build) nada muda.
 const pages = process.env.GITHUB_PAGES === "true";
-const basePath = pages ? "/aurea-site" : "";
+const basePath = "";
 
 const nextConfig: NextConfig = {
   // O site é todo estático: sem Cache Components (o export estático do Pages não aceita)
