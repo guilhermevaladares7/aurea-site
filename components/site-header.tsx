@@ -9,22 +9,22 @@ import { cn } from "@/lib/utils";
 import { whatsappLink } from "@/lib/site";
 
 const LINKS = [
-  { href: "/#servicos", label: "Serviços" },
-  { href: "/#como-funciona", label: "Como funciona" },
-  { href: "/#planos", label: "Planos" },
+  { href: "/servicos/sites", label: "Sites" },
+  { href: "/servicos/sistemas", label: "Sistemas" },
+  { href: "/servicos/automacoes", label: "Automações" },
 ];
 
 export function SiteHeader() {
   const home = usePathname() === "/";
+  // solid: logo pequeno visível; scrolled: fundo escuro desfocado atrás do menu
   const [solid, setSolid] = useState(!home);
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    if (!home) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setSolid(true);
-      return;
-    }
-    const onScroll = () => setSolid(window.scrollY > window.innerHeight * 0.6);
+    const onScroll = () => {
+      setScrolled(window.scrollY > 8);
+      setSolid(!home || window.scrollY > window.innerHeight * 0.3);
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -34,7 +34,7 @@ export function SiteHeader() {
     <header
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-colors duration-300",
-        solid ? "bg-background/95" : "bg-transparent",
+        scrolled ? "bg-[#070b10]/80 backdrop-blur-md" : "bg-transparent",
       )}
     >
       <div className="mx-auto flex h-16 max-w-[1400px] items-center justify-between px-4 sm:px-8">

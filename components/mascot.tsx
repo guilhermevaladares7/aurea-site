@@ -278,7 +278,6 @@ const DEFAULT_LINES = [
   "Oi! Eu sou o Auri, o ajudante da Aurea.",
   "Site lento? Aqui não entra.",
   "Ctrl+S é o meu cardio.",
-  "Psiu: no plano anual sai 20% mais barato.",
   "Me chama no WhatsApp. Eu não mordo, só compilo.",
   "Eu automatizo. Você toma café.",
 ];

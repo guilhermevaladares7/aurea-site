@@ -33,7 +33,7 @@ export function ScrollTilt({ children, className }: { children: ReactNode; class
 export function ServiceHero({ service, demo, bit }: { service: Service; demo: ReactNode; bit: string }) {
   const s = service;
   return (
-    <section className="grid items-center gap-14 pt-28 lg:grid-cols-[1fr_1.1fr] lg:gap-16 lg:pt-36">
+    <section className="grid items-center gap-14 pt-36 lg:grid-cols-[1fr_1.1fr] lg:gap-16 lg:pt-48">
       <div>
         <Link
           href="/#servicos"
@@ -245,13 +245,16 @@ export function IncludesFaq({ service }: { service: Service }) {
             </Rise>
           ))}
         </ul>
-        <Link
-          href="/#planos"
-          className="mt-8 inline-flex items-center gap-2 rounded-md bg-white/8 px-5 py-3 text-[16px] font-semibold transition-colors hover:bg-white/14"
+        {/* preço é combinado pelo WhatsApp, caso a caso */}
+        <a
+          href={whatsappLink(`Olá! Quero um orçamento de ${s.title.toLowerCase()} com a Aurea.`)}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-8 inline-flex items-center gap-2 rounded-md bg-tc px-5 py-3 text-[16px] font-semibold text-tc-ink transition-transform hover:-translate-y-0.5"
         >
-          Ver planos e preços
+          Pedir orçamento no WhatsApp
           <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
-        </Link>
+        </a>
       </div>
 
       <div aria-labelledby="duvidas">

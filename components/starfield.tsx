@@ -32,7 +32,9 @@ export function Starfield({ count = 220 }: { count?: number }) {
       canvas.style.width = `${w}px`;
       canvas.style.height = `${h}px`;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      stars = Array.from({ length: count }, () => ({
+      // no celular (toque), metade das estrelas
+      const n = window.matchMedia("(pointer: coarse)").matches ? Math.round(count / 2) : count;
+      stars = Array.from({ length: n }, () => ({
         x: Math.random() * w,
         y: Math.random() * h * 2,
         r: Math.random() * 1.2 + 0.25,
@@ -80,6 +82,10 @@ export function Starfield({ count = 220 }: { count?: number }) {
     };
 
     const loop = (t: number) => {
+      if (document.hidden) {
+        raf = requestAnimationFrame(loop);
+        return;
+      }
       draw(t);
       raf = requestAnimationFrame(loop);
     };

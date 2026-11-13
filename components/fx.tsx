@@ -101,6 +101,11 @@ export function CursorFx({ variant = "stars" }: { variant?: FxVariant }) {
     };
 
     const draw = (now: number) => {
+      // aba escondida: não desenha nada (economiza bateria)
+      if (document.hidden) {
+        raf = requestAnimationFrame(draw);
+        return;
+      }
       const dt = Math.min(48, now - prev);
       prev = now;
       ctx.clearRect(0, 0, size.w, size.h);
@@ -408,10 +413,79 @@ export function Backdrop({ variant }: { variant: BackdropVariant }) {
         ctx.fillStyle = `rgba(${rgb},0.9)`;
         ctx.fillRect(a.x + (b.x - a.x) * p.k - 2, a.y + (b.y - a.y) * p.k - 2, 4, 4);
       }
-      void t;
+      drawChatIcons(t);
+      drawSeaweed(t);
     };
 
+    /* ---- balão de conversa em pixel art, piscando (automações) ---- */
+    const CHAT = [
+      ".....######.....",
+      "...##......##...",
+      "..#..........#..",
+      ".#............#.",
+      ".#...##.......#.",
+      "#...###........#",
+      "#...##.........#",
+      "#....##........#",
+      "#.....##..##...#",
+      "#......#####...#",
+      ".#.......##...#.",
+      ".#............#.",
+      "..#..........#..",
+      ".##.##......##..",
+      ".#.#..######....",
+      "##..............",
+    ];
+    const chatSpots = [
+      { fx: 0.84, fy: 0.2, cell: 9, ph: 0 },
+      { fx: 0.1, fy: 0.42, cell: 6, ph: 2.1 },
+      { fx: 0.7, fy: 0.68, cell: 5, ph: 4.2 },
+    ];
+    function drawChatIcons(t: number) {
+      for (const s of chatSpots) {
+        const ox = s.fx * size.w;
+        const oy = s.fy * size.h;
+        const w = 16 * s.cell;
+        const d = Math.hypot(ox + w / 2 - mouse.x, oy + w / 2 - mouse.y);
+        const near = d < 260 ? 1 - d / 260 : 0;
+        // pisca em degraus, como pixel art, e acende quando o mouse chega perto
+        const blink = Math.floor(t * 2 + s.ph) % 3 === 0 ? 0.45 : 0.18;
+        ctx.fillStyle = `rgba(${rgb},${Math.min(0.9, (reduce ? 0.2 : blink) + near * 0.5)})`;
+        for (let r = 0; r < 16; r++)
+          for (let c = 0; c < 16; c++) if (CHAT[r][c] === "#") ctx.fillRect(ox + c * s.cell, oy + r * s.cell, s.cell - 1, s.cell - 1);
+      }
+    }
+
+    /* ---- algas em pixel no rodapé da tela, balançando e fugindo do mouse ---- */
+    const weeds = Array.from({ length: 14 }, (_, i) => ({ fx: (i + 0.5) / 14 + (Math.sin(i * 7.3) * 0.02), h: 9 + ((i * 5) % 9), ph: i * 1.7 }));
+    function drawSeaweed(t: number) {
+      const cell = 9;
+      for (const w of weeds) {
+        const baseX = w.fx * size.w;
+        for (let j = 0; j < w.h; j++) {
+          const k = j / w.h;
+          let x = baseX + (reduce ? 0 : Math.sin(t * 1.4 + w.ph + j * 0.35) * j * 1.1);
+          const y = size.h - (j + 1) * cell;
+          const dx = x - mouse.x;
+          const dy = y - mouse.y;
+          const dist = Math.hypot(dx, dy);
+          if (dist < 180) x += (dx / (dist || 1)) * (1 - dist / 180) * 60 * k;
+          const tip = j >= w.h - 2;
+          const glow = tip && Math.floor(t * 3 + w.ph) % 4 === 0;
+          ctx.fillStyle = `rgba(${rgb},${glow ? 0.85 : 0.14 + k * 0.22})`;
+          ctx.fillRect(Math.round(x / 3) * 3, y, cell - 1, cell - 1);
+          // folhinhas alternadas
+          if (j % 3 === 1) ctx.fillRect(Math.round(x / 3) * 3 + (j % 2 ? cell : -cell), y, cell - 1, cell - 1);
+        }
+      }
+    }
+
     const draw = (now: number) => {
+      // aba escondida: não desenha nada (economiza bateria)
+      if (document.hidden) {
+        raf = requestAnimationFrame(draw);
+        return;
+      }
       const t = (now - t0) / 1000;
       ctx.clearRect(0, 0, size.w, size.h);
       if (variant === "code") drawCode(t);

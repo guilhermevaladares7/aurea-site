@@ -8,7 +8,7 @@ import { SERVICES } from "@/lib/services";
 
 export function Services() {
   return (
-    <section id="servicos" className="scroll-mt-20 px-4 pt-24 sm:px-8 lg:pt-32">
+    <section id="servicos" className="scroll-mt-20 px-4 pt-6 sm:px-8 lg:pt-10">
       <div className="mx-auto max-w-[1400px]">
         <div className="grid items-end gap-6 lg:grid-cols-[1.3fr_1fr]">
           <Rise>
@@ -64,7 +64,7 @@ export function Services() {
                         </ul>
                         {examples.length > 0 && (
                           <p className="mt-5 text-[15px] text-muted-foreground">
-                            Exemplos: <span className="text-foreground/85">{examples.join(", ")}</span>
+                            Projetos: <span className="text-foreground/85">{examples.join(", ")}</span>
                           </p>
                         )}
                         <span className="mt-auto flex items-center justify-between pt-7 text-[17px] font-semibold text-tc">

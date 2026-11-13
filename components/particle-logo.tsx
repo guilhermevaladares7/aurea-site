@@ -66,6 +66,12 @@ export function ParticleLogo({
     let parts: Particle[] = [];
     let start = performance.now();
     let formed = false;
+    let formedAt = 0;
+    // logo "liso" (vetor) que aparece por cima quando os pixels terminam de montar
+    const paths = LETTERS.map((l) => ({ p: new Path2D(l.d), dx: l.dx || 0 }));
+    let lox = 0;
+    let loy = 0;
+    let lsc = 1;
     let raf = 0;
     const mouse = { x: -9999, y: -9999 };
 
@@ -89,6 +95,9 @@ export function ParticleLogo({
       const sh = sr.height;
       cx = ox + sw / 2;
       cy = oy + sh / 2;
+      lox = ox;
+      loy = oy;
+      lsc = sw / 1260;
 
       // desenha o logo num canvas escondido e lê onde tem tinta
       const off = document.createElement("canvas");
@@ -151,6 +160,27 @@ export function ParticleLogo({
       ctx.clearRect(0, 0, W, H);
       if (fade <= 0.01) return;
 
+      // quanto do logo liso aparece: entra depois de montar e some assim que começa a rolar
+      const solid = (reduce ? 1 : formed ? Math.min(1, (now - formedAt) / 450) : 0) * (1 - Math.min(1, p / 0.05));
+      if (solid > 0) {
+        ctx.save();
+        ctx.globalAlpha = solid * fade;
+        ctx.fillStyle = `rgb(${ICE})`;
+        ctx.translate(cx, cy);
+        ctx.scale(shrink, shrink);
+        ctx.translate(lox - cx, loy - cy);
+        ctx.scale(lsc, lsc);
+        ctx.translate(-370, -430);
+        for (const l of paths) {
+          ctx.save();
+          if (l.dx) ctx.translate(l.dx, 0);
+          ctx.fill(l.p, "evenodd");
+          ctx.restore();
+        }
+        ctx.restore();
+      }
+      if (solid >= 0.999) return;
+
       let allIn = true;
       const size = Math.max(2, gap - 1);
       const R = 110;
@@ -184,18 +214,23 @@ export function ParticleLogo({
         }
         const flash = k > 0.75 && k < 1 ? 1 : 0;
         const tw = 0.82 + 0.18 * Math.sin(t * 2.2 + q.phase);
-        const a = (k < 1 ? ek : tw) * fade;
+        const a = (k < 1 ? ek : tw) * fade * (1 - solid);
         ctx.fillStyle = `rgba(${q.cyan || flash ? CYAN : ICE},${a})`;
         const s = size * (1 - 0.5 * e) * (flash ? 1.4 : 1);
         ctx.fillRect(q.x, q.y, s, s);
       }
       if (allIn && !formed) {
         formed = true;
+        formedAt = now;
         formedRef.current?.();
       }
     };
 
     const loop = (now: number) => {
+      if (document.hidden) {
+        raf = requestAnimationFrame(loop);
+        return;
+      }
       const r = stage.getBoundingClientRect();
       if (r.bottom > 0 && r.top < window.innerHeight) draw(now);
       raf = requestAnimationFrame(loop);

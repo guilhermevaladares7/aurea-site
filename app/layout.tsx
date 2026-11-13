@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Archivo, Newsreader, Pixelify_Sans } from "next/font/google";
+import { PageLoader } from "@/components/page-loader";
 import "./globals.css";
 
 const archivo = Archivo({
@@ -35,7 +36,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="pt-BR"
       className={`dark ${archivo.variable} ${newsreader.variable} ${pixelify.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        {/* sem JavaScript, a tela de carregando não teria como sumir */}
+        <noscript>
+          <style>{".page-loader{display:none!important}"}</style>
+        </noscript>
+        <PageLoader />
+        {children}
+      </body>
     </html>
   );
 }

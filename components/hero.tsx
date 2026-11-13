@@ -6,7 +6,6 @@ import { useEffect, useRef, useState } from "react";
 import { AureaLogo } from "@/components/aurea-logo";
 import { Mascot } from "@/components/mascot";
 import { ParticleLogo } from "@/components/particle-logo";
-import { whatsappLink } from "@/lib/site";
 
 /**
  * Abertura: o nome AUREA se monta com pixels, o Auri pula em cima do último A
@@ -35,7 +34,7 @@ export function Hero() {
   }, [run]);
 
   return (
-    <section id="topo" ref={sectionRef} className="relative h-[175vh]">
+    <section id="topo" ref={sectionRef} className="relative h-[130vh]">
       <div className="sticky top-0 flex h-[100svh] flex-col items-center justify-center overflow-hidden px-4 text-center sm:px-8">
         <ParticleLogo
           slotRef={slotRef}
@@ -86,36 +85,23 @@ export function Hero() {
 
         <motion.div style={{ opacity: textOpacity, y: textY }} className="relative flex flex-col items-center">
           <motion.p
+            key={`n-${run}`}
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: reduce ? 0 : 1.2 }}
+            className="submark mt-8 text-[clamp(24px,2.6vw,36px)] text-primary"
+          >
+            Guilherme Valadares
+          </motion.p>
+          <motion.p
             key={`t-${run}`}
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: reduce ? 0 : 2.1 }}
-            className="mt-10 max-w-[40ch] text-[clamp(19px,1.7vw,24px)] leading-snug text-foreground"
+            transition={{ duration: 0.7, delay: reduce ? 0 : 1.4 }}
+            className="mt-4 max-w-[40ch] text-[clamp(19px,1.7vw,24px)] leading-snug text-foreground"
           >
             Sites, sistemas e automações com IA, feitos sob medida para pequenas e médias empresas.
           </motion.p>
-          <motion.div
-            key={`b-${run}`}
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: reduce ? 0 : 2.3 }}
-            className="mt-8 flex flex-wrap items-center justify-center gap-3"
-          >
-            <a
-              href={whatsappLink("Olá! Quero um orçamento com a Aurea.")}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-md bg-primary px-6 py-3.5 text-[16px] font-semibold text-primary-foreground transition-transform hover:-translate-y-0.5 active:translate-y-0"
-            >
-              Pedir orçamento
-            </a>
-            <a
-              href="#servicos"
-              className="rounded-md bg-white/8 px-6 py-3.5 text-[16px] font-semibold text-foreground transition-colors hover:bg-white/14"
-            >
-              Ver serviços
-            </a>
-          </motion.div>
         </motion.div>
 
         <motion.a

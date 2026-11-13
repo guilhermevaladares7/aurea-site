@@ -8,7 +8,7 @@ import { EMAIL, GITHUB_URL, INSTAGRAM_HANDLE, INSTAGRAM_URL, PHONE_LABEL, whatsa
 
 export function SiteFooter() {
   return (
-    <footer id="contato" className="mt-28 px-4 pb-8 sm:px-8 lg:mt-44">
+    <footer id="contato" className="mt-28 px-4 pb-24 sm:px-8 sm:pb-8 lg:mt-44">
       <div className="mx-auto max-w-[1400px]">
         <div className="grid items-center gap-10 rounded-[40px] bg-surface px-6 py-12 sm:px-12 lg:grid-cols-[1fr_auto] lg:py-16">
           <div>
@@ -54,7 +54,6 @@ export function SiteFooter() {
             <Link href="/servicos/sites" className="hover:text-foreground">Sites</Link>
             <Link href="/servicos/sistemas" className="hover:text-foreground">Sistemas</Link>
             <Link href="/servicos/automacoes" className="hover:text-foreground">Automações com IA</Link>
-            <Link href="/#planos" className="hover:text-foreground">Planos</Link>
           </nav>
           <div className="flex items-center gap-2">
             <a

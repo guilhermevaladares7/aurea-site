@@ -47,14 +47,21 @@ export function EndToast({ service = "home" }: { service?: "home" | "sites" | "s
   const [closed, setClosed] = useState(false);
   const c = COPY[service];
 
+  // só aparece quando a pessoa chega ao fim e para ali por ~1,5 s
   useEffect(() => {
+    let idle: ReturnType<typeof setTimeout>;
     const onScroll = () => {
+      clearTimeout(idle);
       const end = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 160;
-      setShow(end);
+      if (!end) setShow(false);
+      else idle = setTimeout(() => setShow(true), 1500);
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    return () => {
+      clearTimeout(idle);
+      window.removeEventListener("scroll", onScroll);
+    };
   }, []);
 
   return (
@@ -67,24 +74,24 @@ export function EndToast({ service = "home" }: { service?: "home" | "sites" | "s
           animate={{ opacity: 1, y: 0, x: "-50%" }}
           exit={{ opacity: 0, y: 60, x: "-50%" }}
           transition={{ type: "spring", stiffness: 320, damping: 26 }}
-          className="fixed bottom-4 left-1/2 z-[60] w-[min(560px,calc(100vw-24px))] sm:bottom-6"
+          className="fixed bottom-3 left-1/2 z-[60] w-[min(560px,calc(100vw-24px))] sm:bottom-6"
         >
-          <div className="relative flex items-center gap-4 rounded-3xl bg-surface-2 p-4 pr-5 ring-1 ring-tc/40 sm:p-5">
+          <div className="relative flex items-center gap-3 rounded-2xl bg-surface-2/95 p-2.5 pr-12 ring-1 ring-tc/40 backdrop-blur-md sm:gap-4 sm:rounded-3xl sm:p-5 sm:pr-5">
             <motion.div
-              className="w-16 shrink-0 sm:w-20"
+              className="w-10 shrink-0 sm:w-20"
               animate={{ y: [0, -6, 0] }}
               transition={{ duration: 0.9, repeat: Infinity, repeatDelay: 1.4, ease: "easeOut" }}
             >
               <AuriIcon outfit={c.outfit} mood={c.mood} className="w-full" />
             </motion.div>
-            <div className="min-w-0 flex-1">
-              <p className="pixel text-[17px] leading-tight text-tc">{c.title}</p>
-              <p className="mt-1 text-[15px] leading-snug text-foreground/90">{c.text}</p>
+            <div className="flex min-w-0 flex-1 items-center gap-3 sm:block">
+              <p className="min-w-0 flex-1 text-[15px] font-bold leading-tight text-foreground sm:text-[20px]">{c.title}</p>
+              <p className="mt-1 hidden text-[15px] leading-snug text-foreground/90 sm:block">{c.text}</p>
               <a
                 href={whatsappLink(c.msg)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-3 inline-flex items-center gap-2 rounded-md bg-tc px-4 py-2 text-[15px] font-semibold text-tc-ink transition-transform hover:-translate-y-0.5"
+                className="inline-flex shrink-0 items-center gap-2 rounded-md bg-tc px-3 py-2 text-[14px] font-semibold text-tc-ink transition-transform hover:-translate-y-0.5 sm:mt-3 sm:px-4 sm:text-[15px]"
               >
                 <MessageCircle className="h-4 w-4" aria-hidden="true" />
                 {c.cta}
@@ -94,7 +101,7 @@ export function EndToast({ service = "home" }: { service?: "home" | "sites" | "s
               type="button"
               onClick={() => setClosed(true)}
               aria-label="Fechar aviso"
-              className="absolute right-3 top-3 grid h-8 w-8 place-items-center rounded-full text-muted-foreground transition-colors hover:bg-white/10 hover:text-foreground"
+              className="absolute right-2 top-1/2 grid h-8 w-8 -translate-y-1/2 place-items-center rounded-full sm:right-3 sm:top-3 sm:translate-y-0 text-muted-foreground transition-colors hover:bg-white/10 hover:text-foreground"
             >
               <X className="h-4 w-4" aria-hidden="true" />
             </button>

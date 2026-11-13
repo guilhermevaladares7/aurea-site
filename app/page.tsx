@@ -2,8 +2,6 @@ import { EndToast } from "@/components/end-toast";
 import { CursorFx } from "@/components/fx";
 import { Hero } from "@/components/hero";
 import { MarqueeBand } from "@/components/marquee-band";
-import { Plans } from "@/components/plans";
-import { Process } from "@/components/process";
 import { Services } from "@/components/services";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
@@ -19,8 +17,6 @@ export default function Home() {
         <Hero />
         <Services />
         <MarqueeBand />
-        <Process />
-        <Plans />
       </main>
       <SiteFooter />
       <EndToast service="home" />
