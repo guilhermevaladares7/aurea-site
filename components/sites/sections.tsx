@@ -7,6 +7,7 @@ import { Mascot, type BitMood, type Outfit } from "@/components/mascot";
 import { Rise } from "@/components/motion";
 import { H2, ProjectLinks, Tags } from "@/components/service-sections";
 import type { Project } from "@/lib/services";
+import { asset } from "@/lib/asset";
 import { cn } from "@/lib/utils";
 
 /* ------------------------------------------------------------------ */
@@ -226,7 +227,7 @@ function Shot({ p }: { p: Project }) {
       {p.image && (
         <div className="overflow-hidden">
           <Image
-            src={p.image}
+            src={asset(p.image)}
             alt={p.imageAlt ?? p.name}
             width={1440}
             height={900}

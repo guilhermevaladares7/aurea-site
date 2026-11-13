@@ -16,9 +16,8 @@ import { CalendaShowcase, ModulesMarquee, PanelTour, SystemProjects } from "@/co
 import { Starfield } from "@/components/starfield";
 import { SERVICES, getService } from "@/lib/services";
 
-// As três páginas são geradas no build (generateStaticParams); não precisamos
-// da validação de navegação instantânea do Next 16 aqui.
-export const instant = false;
+// Só existem as três páginas geradas no build; qualquer outro endereço dá 404.
+export const dynamicParams = false;
 
 export function generateStaticParams() {
   return SERVICES.map((s) => ({ slug: s.slug }));

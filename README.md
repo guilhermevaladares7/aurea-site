@@ -31,6 +31,20 @@ npm run build
 npm start
 ```
 
+## Publicação (GitHub Pages)
+
+O site fica em **https://guilhermevaladares7.github.io/aurea-site/**.
+
+A cada push na `main`, o workflow `.github/workflows/deploy.yml` gera a versão estática (com `GITHUB_PAGES=true`) e publica no GitHub Pages. O andamento aparece na aba **Actions** do repositório.
+
+Para testar a versão do Pages no computador:
+
+```bash
+GITHUB_PAGES=true npm run build
+```
+
+O resultado fica na pasta `out/`. Imagens e vídeos da pasta `public/` devem usar `asset("/caminho")` (de `lib/asset.ts`) para funcionar debaixo de `/aurea-site`.
+
 ## Onde mudar as coisas
 
 | O quê | Arquivo |

@@ -25,6 +25,7 @@ import { Mascot, type BitMood, type Outfit } from "@/components/mascot";
 import { Rise } from "@/components/motion";
 import { H2, ProjectLinks, ScrollTilt, Tags } from "@/components/service-sections";
 import type { Project } from "@/lib/services";
+import { asset } from "@/lib/asset";
 import { cn } from "@/lib/utils";
 import { AdminShell, SCREENS, Screen, type ScreenId } from "./admin-screens";
 
@@ -115,8 +116,8 @@ export function CalendaShowcase() {
               <video
                 ref={videoRef}
                 className="block aspect-[1440/652] w-full bg-white"
-                src="/projetos/calenda.mp4"
-                poster="/projetos/calenda-3.jpg"
+                src={asset("/projetos/calenda.mp4")}
+                poster={asset("/projetos/calenda-3.jpg")}
                 muted
                 loop
                 playsInline
@@ -138,7 +139,7 @@ export function CalendaShowcase() {
             <figure className="group overflow-hidden rounded-2xl bg-surface">
               <div className="overflow-hidden">
                 <Image
-                  src={s.src}
+                  src={asset(s.src)}
                   alt={s.alt}
                   width={1440}
                   height={652}
@@ -353,7 +354,7 @@ export function SystemProjects({ projects, intro }: { projects: Project[]; intro
         <article className="grid gap-6 rounded-3xl bg-surface p-3 lg:grid-cols-[1.3fr_1fr]">
           <div className="overflow-hidden rounded-2xl">
             {first.image && (
-              <Image src={first.image} alt={first.imageAlt ?? first.name} width={1440} height={652} sizes="(min-width: 1024px) 55vw, 100vw" className="block h-auto w-full" />
+              <Image src={asset(first.image)} alt={first.imageAlt ?? first.name} width={1440} height={652} sizes="(min-width: 1024px) 55vw, 100vw" className="block h-auto w-full" />
             )}
           </div>
           <div className="flex flex-col px-3 pb-3 lg:py-4">
