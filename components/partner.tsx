@@ -36,10 +36,10 @@ const AFIO_BLUE = { ["--tc" as string]: "#6ea8ff", ["--tc-ink" as string]: "#061
 /** Parceria com a AFIO: o AFIO conect, central de números de WhatsApp. */
 export function Partner() {
   return (
-    <section id="parceria" style={AFIO_BLUE} className="scroll-mt-24 px-4 pt-20 sm:px-8 lg:pt-24" aria-labelledby="parceria-h">
-      <div className="mx-auto max-w-[980px]">
+    <section id="parceria" style={AFIO_BLUE} className="scroll-mt-24 px-4 pt-24 sm:px-8 lg:pt-28" aria-labelledby="parceria-h">
+      <div className="mx-auto max-w-[1120px]">
         <Rise>
-          <h2 id="parceria-h" className="mb-4 text-[20px] text-foreground/80">
+          <h2 id="parceria-h" className="mb-5 text-[clamp(24px,2.4vw,32px)] text-foreground">
             <Submark word="parcerias" wordClass="text-tc" />
           </h2>
         </Rise>
@@ -48,17 +48,10 @@ export function Partner() {
             href={AFIO_CONECT_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="group flex flex-col gap-5 rounded-2xl bg-surface/70 p-4 ring-1 ring-white/8 transition-[background-color,box-shadow] hover:bg-surface hover:ring-tc/40 sm:flex-row sm:items-center sm:gap-7 sm:p-5"
+            className="group grid gap-7 rounded-3xl bg-surface p-5 ring-1 ring-tc/15 transition-[background-color,box-shadow] hover:bg-surface-2 hover:ring-tc/50 sm:p-7 lg:grid-cols-[1fr_1.25fr] lg:items-center lg:gap-10 lg:p-9"
           >
-            {/* a tela do atendente do AFIO conect, em miniatura e animada */}
-            <div className="h-[152px] w-[240px] shrink-0 overflow-hidden rounded-xl">
-              <div className="w-[600px] origin-top-left scale-[0.4]">
-                <AfioScreen />
-              </div>
-            </div>
-
-            <div className="min-w-0 flex-1">
-              <h3 className="flex flex-wrap items-center gap-x-2.5 gap-y-1 text-[22px] font-extrabold leading-none tracking-[-0.03em] sm:text-[24px]">
+            <div>
+              <h3 className="flex flex-wrap items-center gap-x-3 gap-y-2 text-[clamp(26px,2.7vw,38px)] font-extrabold leading-none tracking-[-0.035em]">
                 <span className="inline-block w-[3.4em] text-foreground">
                   <AureaLogo title="Aurea" />
                 </span>
@@ -69,18 +62,20 @@ export function Partner() {
                   <span className="submark text-tc">conect</span>
                 </span>
               </h3>
-              <p className="mt-2.5 max-w-[44ch] text-[16px] leading-snug text-muted-foreground">
-                Vários números de WhatsApp num painel só, sem QR code.
+              <p className="mt-5 max-w-[36ch] text-[18px] leading-snug text-foreground">
+                Vários números de WhatsApp num painel só, sem QR code. Cada atendente entra com o próprio login.
               </p>
+              <span className="mt-6 flex items-center gap-4 text-[17px] font-semibold text-tc">
+                Conhecer o AFIO conect
+                <span className="grid h-10 w-10 place-items-center rounded-full bg-tc text-tc-ink transition-transform duration-300 group-hover:rotate-45">
+                  <ArrowUpRight className="h-5 w-5" aria-hidden="true" />
+                </span>
+                <span className="sr-only">(abre o site da AFIO em outra aba)</span>
+              </span>
             </div>
 
-            <span className="flex shrink-0 items-center gap-3 text-[15px] font-semibold text-tc">
-              Conhecer
-              <span className="grid h-9 w-9 place-items-center rounded-full bg-tc/15 text-tc ring-1 ring-tc/40 transition-transform duration-300 group-hover:rotate-45">
-                <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
-              </span>
-              <span className="sr-only">o AFIO conect (abre o site da AFIO em outra aba)</span>
-            </span>
+            {/* a tela do atendente do AFIO conect, em miniatura e animada */}
+            <AfioScreen />
           </a>
         </Rise>
       </div>

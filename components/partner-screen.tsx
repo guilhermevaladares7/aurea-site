@@ -95,7 +95,7 @@ export function AfioScreen() {
       aria-hidden="true"
       className="overflow-hidden rounded-2xl bg-[#0b141a] text-[#e9edef] shadow-[0_30px_80px_-30px_color-mix(in_srgb,var(--tc)_55%,transparent)] ring-1 ring-tc/25"
     >
-      <div className="flex h-[380px]">
+      <div className="flex h-[300px] sm:h-[330px]">
         {/* 1. os números */}
         <ul className="flex w-[58px] shrink-0 flex-col items-center gap-2.5 border-r border-white/8 bg-[#0a1014] py-3">
           {RAIL.map((code) => {
