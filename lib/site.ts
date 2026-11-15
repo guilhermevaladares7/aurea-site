@@ -7,6 +7,10 @@ export const GITHUB_URL = "https://github.com/guilhermevaladares7";
 export const INSTAGRAM_URL = "https://www.instagram.com/guilherme_valladares/";
 export const INSTAGRAM_HANDLE = "@guilherme_valladares";
 
+// Contagem de visitas (Cloudflare Web Analytics). É o código público do site no painel da Cloudflare;
+// enquanto estiver vazio, o site não carrega nada de contagem.
+export const CF_ANALYTICS_TOKEN = "793efac542a64e9abb54fada531b7af8";
+
 export function whatsappLink(message: string) {
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 }

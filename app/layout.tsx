@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Archivo, Newsreader, Pixelify_Sans } from "next/font/google";
 import { PageLoader } from "@/components/page-loader";
-import { SITE_URL } from "@/lib/site";
+import Script from "next/script";
+import { CF_ANALYTICS_TOKEN, SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 const archivo = Archivo({
@@ -50,6 +51,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         </noscript>
         <PageLoader />
         {children}
+        {/* contagem de visitas, sem cookies; conta também a troca de página dentro do site */}
+        {CF_ANALYTICS_TOKEN && (
+          <Script
+            type="module"
+            src="https://static.cloudflareinsights.com/beacon.min.js"
+            data-cf-beacon={JSON.stringify({ token: CF_ANALYTICS_TOKEN })}
+          />
+        )}
       </body>
     </html>
   );
