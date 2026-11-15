@@ -93,6 +93,8 @@ export function ParticleLogo({
       const oy = sr.top - pr.top;
       const sw = sr.width;
       const sh = sr.height;
+      // a aba escondida ou a tela girando podem dar largura zero por um instante: espera a próxima medida
+      if (sw < 1 || sh < 1) return;
       cx = ox + sw / 2;
       cy = oy + sh / 2;
       lox = ox;

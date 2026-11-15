@@ -1,20 +1,18 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Agents, ScrollChat, TryChat } from "@/components/automacoes/sections";
-import { AgentTerminal } from "@/components/demos/agent-terminal";
+import { TryChat } from "@/components/automacoes/sections";
 import { AiDemo } from "@/components/demos/ai-demo";
 import { SiteDemo } from "@/components/demos/site-demo";
 import { EndToast } from "@/components/end-toast";
 import { Backdrop, CursorFx } from "@/components/fx";
-import { Rise } from "@/components/motion";
 import { HowItWorks } from "@/components/how/how-it-works";
-import { H2, IncludesFaq, OtherServices, ServiceHero } from "@/components/service-sections";
+import { IncludesFaq, OtherServices, ServiceHero } from "@/components/service-sections";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { SiteProjects } from "@/components/sites/sections";
-import { WhyAurea, WhySite } from "@/components/sites/why";
+import { WhyAurea } from "@/components/sites/why";
 import { AdminShell, DashboardScreen } from "@/components/sistemas/admin-screens";
-import { CalendaShowcase, PanelTour } from "@/components/sistemas/sections";
+import { CalendaShowcase } from "@/components/sistemas/sections";
 import { Starfield } from "@/components/starfield";
 import { HOW } from "@/lib/how";
 import { SERVICES, getService } from "@/lib/services";
@@ -76,7 +74,6 @@ export default async function ServicePage({ params }: PageProps<"/servicos/[slug
                   </div>
                 }
               />
-              <WhySite />
               <WhyAurea />
               <HowItWorks intro={how.intro} steps={how.steps} />
               <SiteProjects projects={s.projects} intro={s.projectsIntro} />
@@ -97,7 +94,6 @@ export default async function ServicePage({ params }: PageProps<"/servicos/[slug
                 }
               />
               <HowItWorks intro={how.intro} steps={how.steps} />
-              <PanelTour />
               <CalendaShowcase />
             </>
           )}
@@ -114,28 +110,7 @@ export default async function ServicePage({ params }: PageProps<"/servicos/[slug
                 }
               />
               <HowItWorks intro={how.intro} steps={how.steps} />
-              <ScrollChat />
-              <Agents />
               <TryChat />
-              <section className="grid items-center gap-10 pt-32 lg:grid-cols-[1fr_1.15fr] lg:gap-16 lg:pt-44" aria-labelledby="bastidor">
-                <div>
-                  <Rise>
-                    <h2 id="bastidor" className={H2}>
-                      Por trás da conversa
-                    </h2>
-                  </Rise>
-                  <Rise as="p" delay={0.08} className="mt-6 max-w-[48ch] text-[19px] text-foreground">
-                    Enquanto o cliente vê só a resposta no WhatsApp, o agente da Aurea está trabalhando: lê o cardápio,
-                    confere a planilha, consulta a agenda, cria o pedido no painel e só então responde.
-                  </Rise>
-                  <Rise as="p" delay={0.12} className="mt-4 max-w-[48ch] text-[17px] text-muted-foreground">
-                    Cada passo fica registrado, então você sempre sabe o que a IA fez e por quê.
-                  </Rise>
-                </div>
-                <Rise delay={0.1}>
-                  <AgentTerminal />
-                </Rise>
-              </section>
             </>
           )}
 

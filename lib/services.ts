@@ -22,6 +22,8 @@ export type Service = {
   slug: ServiceSlug;
   sub: string;
   title: string;
+  /** o que o dono da empresa quer, nas palavras dele (título do card na home) */
+  want: string;
   short: string;
   lead: string;
   tags: string[];
@@ -41,6 +43,7 @@ export const SERVICES: Service[] = [
     slug: "sites",
     sub: "sites",
     title: "Sites institucionais",
+    want: "Quero ser encontrado no Google",
     short: "Sua empresa apresentada num site rápido, bonito no celular e fácil de achar no Google.",
     lead:
       "Um site feito para a sua empresa, não um modelo pronto com o seu nome. Ele abre rápido no celular, explica o que você faz em poucos segundos e leva o cliente direto para o WhatsApp.",
@@ -54,7 +57,6 @@ export const SERVICES: Service[] = [
       "Botão de WhatsApp e formulário de contato",
       "Domínio e hospedagem configurados",
       "Configurado para aparecer no Google: título, descrição e cadastro da empresa",
-      "Troca de textos e fotos todo mês no plano",
     ],
     projectsIntro: "Alguns sites que eu fiz e que estão no ar agora:",
     projects: [
@@ -91,13 +93,13 @@ export const SERVICES: Service[] = [
       { q: "Quanto tempo leva?", a: "Um site de até 5 páginas costuma ficar pronto em uma a duas semanas, dependendo de quando chegam os textos e as fotos." },
       { q: "Preciso ter domínio e hospedagem?", a: "Não. Eu registro e configuro para você, e eles ficam no seu nome." },
       { q: "Consigo mudar o site depois?", a: "Sim. No plano mensal você me manda as mudanças pelo WhatsApp e eu atualizo." },
-      { q: "O site aparece no Google?", a: "Sim. Eu configuro título, descrição e o cadastro no Google para a sua empresa ser encontrada pelo nome e pela cidade." },
     ],
   },
   {
     slug: "sistemas",
     sub: "sistemas",
     title: "Sistemas e painéis administrativos",
+    want: "Quero organizar a empresa",
     short: "Vendas, clientes, agenda, entregas e caixa num painel só seu, com login e relatórios que se atualizam sozinhos.",
     lead:
       "Quando a planilha e o caderno não dão mais conta, um sistema feito sob medida organiza o dia a dia: cada pessoa entra com o seu login, vê o que precisa, as regras da loja são aplicadas sozinhas e o fechamento sai pronto.",
@@ -109,10 +111,8 @@ export const SERVICES: Service[] = [
       "Painel com os números do dia, da semana e do mês",
       "Login com níveis de acesso (dono, gerente, atendente…)",
       "Cadastros sob medida: clientes, pedidos, agenda, estoque",
-      "Regras do negócio aplicadas sozinhas (desconto, parcelas, frete)",
       "Relatórios e exportação para Excel",
       "Backup diário e hospedagem configurada",
-      "Integração com WhatsApp e com o seu site",
       "Funciona no computador e no celular, sem instalar nada",
     ],
     projectsIntro: "Um sistema que já roda no dia a dia de uma loja de verdade:",
@@ -130,10 +130,7 @@ export const SERVICES: Service[] = [
     faq: [
       { q: "Como é feito o orçamento?", a: "O valor depende do que o sistema precisa fazer, por isso ele sai depois que eu entendo a rotina da sua empresa. Você recebe uma proposta por escrito com o que vai ser feito, o prazo, o valor e se existe algum custo mensal. Sem compromisso." },
       { q: "Quanto tempo leva?", a: "Depende do tamanho do sistema, e o prazo de cada parte vem na proposta. Como ele é entregue por partes, a equipe começa a usar antes de ficar tudo pronto." },
-      { q: "Funciona no celular?", a: "Sim. O painel abre no navegador do computador e do celular, sem instalar nada." },
       { q: "E as minhas planilhas de hoje?", a: "Eu importo os dados delas para o sistema na implantação, para ninguém precisar digitar tudo de novo." },
-      { q: "Quem pode ver o quê?", a: "Cada pessoa tem o seu login, e você define o que cada uma pode ver e mexer." },
-      { q: "E se eu precisar de uma tela nova depois?", a: "O sistema cresce com a empresa. Novas telas e relatórios entram como evolução do plano." },
       { q: "Meus dados ficam seguros?", a: "Ficam num banco de dados com acesso por login, conexão segura e backup todos os dias." },
     ],
   },
@@ -141,6 +138,7 @@ export const SERVICES: Service[] = [
     slug: "automacoes",
     sub: "automações",
     title: "Automações com IA",
+    want: "Quero responder mais rápido",
     short: "Uma IA que atende no WhatsApp, entende áudio, anota pedidos e avisa a equipe, a qualquer hora.",
     lead:
       "A IA responde seus clientes no WhatsApp com as informações da sua empresa, entende texto e áudio, anota pedidos, marca horários e chama alguém da equipe quando precisa. Tudo o que ela faz fica registrado no seu painel.",
@@ -160,11 +158,9 @@ export const SERVICES: Service[] = [
     projects: [],
     faq: [
       { q: "Como é feito o orçamento?", a: "O valor depende do que a IA vai fazer e com o que ela vai se conectar, por isso ele sai depois de uma conversa sobre o seu atendimento. Você recebe uma proposta por escrito com o que vai ser feito, o prazo, o valor e se existe algum custo mensal. Sem compromisso." },
-      { q: "Quanto tempo leva para começar?", a: "O prazo vem na proposta. Antes de atender clientes de verdade, a IA passa pelos testes e só entra no ar com a sua aprovação." },
       { q: "A IA pode inventar coisa?", a: "Ela responde só com as informações que você aprovou. Quando não sabe, ela avisa o cliente e chama a equipe." },
       { q: "Preciso trocar de número?", a: "Não. A IA funciona no WhatsApp Business que a empresa já usa." },
       { q: "E se eu quiser responder eu mesmo?", a: "Você pode entrar em qualquer conversa a qualquer momento, e a IA para de responder naquela conversa." },
-      { q: "Ela entende áudio mesmo?", a: "Sim. Ela transcreve o áudio, repete o pedido para o cliente confirmar e só então anota." },
     ],
   },
 ];

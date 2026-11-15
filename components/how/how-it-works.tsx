@@ -1,8 +1,8 @@
 "use client";
 
-import { motion, useReducedMotion, useScroll } from "framer-motion";
+import { AnimatePresence, motion, useInView, useReducedMotion } from "framer-motion";
 import { PackageCheck } from "lucide-react";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { StepArt } from "@/components/how/art";
 import { AuriIcon } from "@/components/mascot";
 import { Rise } from "@/components/motion";
@@ -10,11 +10,31 @@ import { H2 } from "@/components/service-sections";
 import type { HowStep } from "@/lib/how";
 import { cn } from "@/lib/utils";
 
-/** "Como funciona" em linha do tempo: cada etapa com um texto curto e uma ilustração animada. */
+const STEP_MS = 6000;
+
+/**
+ * "Como funciona" compacto: as etapas numa lista ao lado de uma única ilustração animada.
+ * As etapas passam sozinhas enquanto a seção está na tela; ao clicar numa, ela fica parada ali.
+ */
 export function HowItWorks({ intro, steps }: { intro: string; steps: HowStep[] }) {
-  const ref = useRef<HTMLOListElement>(null);
   const reduce = useReducedMotion();
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 75%", "end 55%"] });
+  const boxRef = useRef<HTMLDivElement>(null);
+  const inView = useInView(boxRef, { amount: 0.45 });
+  const [active, setActive] = useState(0);
+  const [auto, setAuto] = useState(true);
+  const playing = auto && inView && !reduce;
+  const st = steps[active];
+
+  useEffect(() => {
+    if (!playing) return;
+    const id = setTimeout(() => setActive((a) => (a + 1) % steps.length), STEP_MS);
+    return () => clearTimeout(id);
+  }, [playing, active, steps.length]);
+
+  const pick = (i: number) => {
+    setAuto(false);
+    setActive(i);
+  };
 
   return (
     <section id="como" className="scroll-mt-24 pt-28 lg:pt-36" aria-labelledby="como-h">
@@ -29,108 +49,127 @@ export function HowItWorks({ intro, steps }: { intro: string; steps: HowStep[] }
         </Rise>
       </div>
 
-      {/* resumo das etapas */}
-      <Rise delay={0.1} className="mt-10">
-        <ul className="flex flex-wrap gap-2" aria-label="Etapas">
-          {steps.map((st, i) => (
-            <li key={st.title}>
-              <a
-                href={`#etapa-${i + 1}`}
-                className="inline-flex items-center gap-2 rounded-full bg-surface px-3.5 py-2 text-[15px] text-foreground ring-1 ring-white/8 transition-colors hover:bg-surface-2 hover:ring-tc/50"
-              >
-                <span className="grid h-6 w-6 place-items-center rounded-full bg-tc/15 text-[13px] font-bold text-tc">{i + 1}</span>
-                {st.title}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </Rise>
-
-      <ol ref={ref} className="relative mt-14 flex flex-col gap-20 lg:mt-20 lg:gap-24">
-        {/* linha do tempo que vai enchendo com a rolagem */}
-        <span aria-hidden="true" className="absolute bottom-0 left-[19px] top-0 w-[3px] rounded-full bg-white/8 lg:left-[27px]" />
-        <motion.span
-          aria-hidden="true"
-          className="absolute bottom-0 left-[19px] top-0 w-[3px] origin-top rounded-full bg-tc lg:left-[27px]"
-          style={reduce ? undefined : { scaleY: scrollYProgress }}
-        />
-
-        {steps.map((st, i) => (
-          <li key={st.title} id={`etapa-${i + 1}`} className="relative scroll-mt-28 pl-14 lg:pl-24">
-            <motion.span
+      <Rise delay={0.08} className="mt-12">
+        <div ref={boxRef} className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-center lg:gap-14">
+          {/* a ilustração da etapa escolhida, com o Auri comentando */}
+          <div className="relative mb-6 lg:order-2 lg:mb-0">
+            <div
+              data-ui
               aria-hidden="true"
-              className="absolute left-0 top-0 grid h-10 w-10 place-items-center rounded-full bg-background text-[17px] font-extrabold ring-[3px] lg:h-14 lg:w-14 lg:text-[22px]"
-              initial={{ color: "var(--muted-foreground)", boxShadow: "0 0 0 0 transparent" }}
-              whileInView={{ color: "var(--tc)", boxShadow: "0 0 24px 2px color-mix(in srgb, var(--tc) 45%, transparent)" }}
-              viewport={{ amount: 0.5, margin: "-20% 0px -30% 0px" }}
-              style={{ ["--tw-ring-color" as string]: "var(--tc)" }}
+              className="relative aspect-[4/3.6] overflow-hidden rounded-3xl bg-surface p-4 ring-1 ring-tc/20 sm:aspect-[4/3] sm:p-5"
+              style={{
+                backgroundImage:
+                  "linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px)",
+                backgroundSize: "18px 18px",
+              }}
             >
-              {i + 1}
-            </motion.span>
-
-            <div className={cn("grid items-center gap-8 lg:gap-14", i % 2 ? "lg:grid-cols-[0.85fr_1fr]" : "lg:grid-cols-[1fr_0.85fr]")}>
-              <div className={cn(i % 2 === 1 && "lg:order-2")}>
-                <Rise>
-                  <span className="text-[15px] font-semibold uppercase tracking-[0.16em] text-tc">
-                    {i + 1}. {st.title}
-                  </span>
-                  <h3 className="mt-3 max-w-[16ch] text-[clamp(30px,3.2vw,46px)] font-extrabold leading-[1] tracking-[-0.035em] [font-stretch:110%]">
-                    {st.head}
-                  </h3>
-                </Rise>
-                <Rise as="p" delay={0.06} className="mt-4 max-w-[44ch] text-[18px] leading-snug text-foreground">
-                  {st.text}
-                </Rise>
-                <Rise delay={0.12} className="mt-5">
-                  <p className="inline-flex items-center gap-3 rounded-2xl bg-tc/12 px-3.5 py-2.5 ring-1 ring-tc/40">
-                    <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-tc text-tc-ink">
-                      <PackageCheck className="h-5 w-5" aria-hidden="true" />
-                    </span>
-                    <span>
-                      <span className="block text-[13px] font-semibold uppercase tracking-[0.12em] text-tc">Você recebe</span>
-                      <span className="block text-[17px] font-bold leading-snug text-foreground">{st.get}</span>
-                    </span>
-                  </p>
-                </Rise>
-              </div>
-
-              <Rise delay={0.08} className={cn("relative", i % 2 === 1 && "lg:order-1")}>
-                <div
-                  data-ui
-                  aria-hidden="true"
-                  className="relative aspect-[4/3.6] overflow-hidden rounded-3xl bg-surface p-4 ring-1 ring-tc/20 sm:aspect-[4/3] sm:p-5"
-                  style={{
-                    backgroundImage:
-                      "linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px)",
-                    backgroundSize: "18px 18px",
-                  }}
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.div
+                  key={active}
+                  className="h-full"
+                  initial={reduce ? { opacity: 0 } : { opacity: 0, y: 14, scale: 0.98 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.3 }}
                 >
                   <StepArt art={st.art} />
-                </div>
-                {/* o Auri, vestido para a etapa, comenta a cena */}
-                <div aria-hidden="true" className="absolute -bottom-9 right-3 flex items-end gap-2 sm:-right-4">
-                  <motion.span
-                    initial={{ opacity: 0, y: 8, scale: 0.9 }}
-                    whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                    viewport={{ amount: 0.8 }}
-                    transition={{ delay: 0.5, type: "spring", stiffness: 300, damping: 22 }}
-                    className="mb-12 hidden rounded-xl rounded-br-sm bg-foreground px-3 py-2 text-[13px] font-semibold text-background sm:block"
-                  >
-                    {st.bit}
-                  </motion.span>
-                  <motion.span
-                    className="block w-[64px] sm:w-[84px]"
-                    animate={reduce ? undefined : { y: [0, -5, 0] }}
-                    transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut", delay: i * 0.2 }}
-                  >
-                    <AuriIcon outfit={st.outfit} mood={st.mood} className="w-full" />
-                  </motion.span>
-                </div>
-              </Rise>
+                </motion.div>
+              </AnimatePresence>
             </div>
-          </li>
-        ))}
-      </ol>
+            <div aria-hidden="true" className="absolute -bottom-9 right-3 flex items-end gap-2 sm:-right-4">
+              <AnimatePresence mode="wait">
+                <motion.span
+                  key={`bit-${active}`}
+                  initial={{ opacity: 0, y: 8, scale: 0.9 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ delay: 0.35, type: "spring", stiffness: 300, damping: 22 }}
+                  className="mb-12 hidden rounded-xl rounded-br-sm bg-foreground px-3 py-2 text-[13px] font-semibold text-background sm:block"
+                >
+                  {st.bit}
+                </motion.span>
+              </AnimatePresence>
+              <motion.span
+                className="block w-[64px] sm:w-[84px]"
+                animate={reduce ? undefined : { y: [0, -5, 0] }}
+                transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+              >
+                <AuriIcon outfit={st.outfit} mood={st.mood} className="w-full" />
+              </motion.span>
+            </div>
+          </div>
+
+          {/* as etapas */}
+          <ol className="flex flex-col gap-2 lg:order-1" aria-label="Etapas">
+            {steps.map((s, i) => {
+              const on = i === active;
+              return (
+                <li key={s.title}>
+                  <button
+                    type="button"
+                    onClick={() => pick(i)}
+                    aria-current={on ? "step" : undefined}
+                    className={cn(
+                      "relative w-full overflow-hidden rounded-2xl px-4 py-4 text-left transition-colors sm:px-5",
+                      on ? "bg-surface-2 ring-1 ring-tc/40" : "hover:bg-surface",
+                    )}
+                  >
+                    <span className="flex items-center gap-4">
+                      <span
+                        className={cn(
+                          "grid h-10 w-10 shrink-0 place-items-center rounded-full text-[17px] font-extrabold ring-[3px] transition-colors",
+                          on ? "bg-tc text-tc-ink ring-tc" : "text-muted-foreground ring-white/12",
+                        )}
+                      >
+                        {i + 1}
+                      </span>
+                      <span className="min-w-0">
+                        <span className={cn("block text-[13px] font-semibold uppercase tracking-[0.14em]", on ? "text-tc" : "text-muted-foreground")}>
+                          {s.title}
+                        </span>
+                        <span className="block text-[clamp(19px,1.7vw,23px)] font-bold leading-tight text-foreground">{s.head}</span>
+                      </span>
+                    </span>
+
+                    <AnimatePresence initial={false}>
+                      {on && (
+                        <motion.span
+                          className="block overflow-hidden pl-0 sm:pl-14"
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                        >
+                          <span className="mt-2 block max-w-[46ch] text-[17px] leading-snug text-foreground/85">{s.text}</span>
+                          <span className="mt-3 inline-flex items-center gap-2 rounded-2xl bg-tc/12 py-1.5 pl-1.5 pr-3.5 text-[15px] font-semibold leading-snug text-foreground ring-1 ring-tc/35">
+                            <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-tc text-tc-ink">
+                              <PackageCheck className="h-3.5 w-3.5" aria-hidden="true" />
+                            </span>
+                            <span className="sr-only">Você recebe: </span>
+                            {s.get}
+                          </span>
+                        </motion.span>
+                      )}
+                    </AnimatePresence>
+
+                    {/* barrinha do tempo até a próxima etapa */}
+                    {on && playing && (
+                      <motion.span
+                        key={`bar-${active}`}
+                        aria-hidden="true"
+                        className="absolute bottom-0 left-0 h-[3px] w-full origin-left bg-tc/70"
+                        initial={{ scaleX: 0 }}
+                        animate={{ scaleX: 1 }}
+                        transition={{ duration: STEP_MS / 1000, ease: "linear" }}
+                      />
+                    )}
+                  </button>
+                </li>
+              );
+            })}
+          </ol>
+        </div>
+      </Rise>
     </section>
   );
 }

@@ -17,14 +17,13 @@ export function Services() {
             </h2>
           </Rise>
           <Rise delay={0.08} as="p" className="max-w-[44ch] text-[19px] text-foreground lg:pb-3">
-            Três serviços, um só contato: da primeira página da sua empresa na internet à IA que responde
-            seus clientes de madrugada. Clique em cada uma para ver como funciona e exemplos reais.
+            Do que a sua empresa precisa? Escolha o que mais pesa hoje. Se ficar na dúvida, me chama que
+            eu te ajudo a decidir.
           </Rise>
         </div>
 
         <ul className="mt-24 grid gap-x-5 gap-y-24 md:grid-cols-2 lg:mt-32 lg:grid-cols-3">
           {SERVICES.map((s, i) => {
-            const examples = s.projects.map((p) => p.name);
             return (
               <li key={s.slug} className={`${s.theme} ${i === 2 ? "md:col-span-2 lg:col-span-1" : ""}`}>
                 <PowerOn delay={i * 0.12} className="h-full origin-center">
@@ -53,22 +52,13 @@ export function Services() {
                         <p className="text-[26px]" aria-hidden="true">
                           <Submark word={s.sub} wordClass="text-tc" />
                         </p>
-                        <h3 className="mt-4 text-[26px] font-bold leading-tight text-foreground">{s.title}</h3>
-                        <p className="mt-3 text-[18px] leading-snug text-foreground">{s.short}</p>
-                        <ul className="mt-5 flex flex-wrap gap-2" aria-label="Inclui">
-                          {s.tags.map((t) => (
-                            <li key={t} className="rounded-full bg-surface-2 px-3 py-1 text-[14px] text-foreground">
-                              {t}
-                            </li>
-                          ))}
-                        </ul>
-                        {examples.length > 0 && (
-                          <p className="mt-5 text-[15px] text-muted-foreground">
-                            Projetos: <span className="text-foreground">{examples.join(", ")}</span>
-                          </p>
-                        )}
+                        <h3 className="mt-4 text-[clamp(25px,2.2vw,30px)] font-bold leading-[1.1] tracking-[-0.02em] text-foreground">
+                          {s.want}
+                          <span className="sr-only">: {s.title}</span>
+                        </h3>
+                        <p className="mt-3 text-[18px] leading-snug text-foreground/85">{s.short}</p>
                         <span className="mt-auto flex items-center justify-between pt-7 text-[17px] font-semibold text-tc">
-                          Ver como funciona e exemplos
+                          Ver como funciona
                           <span className="grid h-11 w-11 place-items-center rounded-full bg-tc text-tc-ink transition-transform duration-300 group-hover:rotate-45">
                             <ArrowUpRight className="h-5 w-5" aria-hidden="true" />
                           </span>
