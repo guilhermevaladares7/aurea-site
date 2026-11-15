@@ -56,8 +56,8 @@ export default async function ServicePage({ params }: PageProps<"/servicos/[slug
   const backdrop = s.slug === "sites" ? "design" : s.slug === "sistemas" ? "pixels" : "flow";
 
   return (
-    <div className={`${s.theme} flex min-h-full flex-1 flex-col`}>
-      <Starfield count={160} />
+    <div data-page={s.slug} className={`${s.theme} flex min-h-full flex-1 flex-col`}>
+      <Starfield count={160} warm={s.slug === "sites" ? "#8fd0ff" : undefined} />
       <Backdrop variant={backdrop} />
       <CursorFx variant={fx} />
       <SiteHeader />

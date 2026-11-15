@@ -246,7 +246,7 @@ export function WhyAurea() {
           href={whatsappLink("Olá! Vi a página de sites da Aurea e quero um site para a minha empresa.")}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 rounded-md bg-tc px-6 py-3.5 text-[17px] font-semibold text-tc-ink transition-transform hover:-translate-y-0.5"
+          className="inline-flex items-center gap-2 rounded-md bg-tc2 px-6 py-3.5 text-[17px] font-semibold text-tc2-ink transition-transform hover:-translate-y-0.5"
         >
           <MessageCircle className="h-5 w-5" aria-hidden="true" />
           Quero meu site

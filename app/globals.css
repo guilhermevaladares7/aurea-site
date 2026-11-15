@@ -7,8 +7,9 @@
 /*
   Aurea — tokens
   Espaço escuro azulado, tinta gelo e ciano como cor da marca.
-  Cada serviço tem o seu tema: sites violeta, sistemas laranja, automações verde.
+  Cada serviço tem o seu tema: sites rosa (com azul claro de apoio), sistemas laranja, automações verde.
   --tc é a "cor do tema" da página/seção atual (classes .theme-*).
+  --tc2 é a cor de apoio do tema, para botões e destaques; onde o tema não define, é igual à --tc.
 */
 
 @theme inline {
@@ -44,6 +45,8 @@
   --color-ia: var(--ia);
   --color-tc: var(--tc);
   --color-tc-ink: var(--tc-ink);
+  --color-tc2: var(--tc2);
+  --color-tc2-ink: var(--tc2-ink);
 
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
@@ -79,25 +82,55 @@
   --ring: #36e2b4;
   --radius: 0.75rem;
 
-  --sites: #9b72ff;
+  --sites: #ff3d7f;
+  --sites-2: #8fd0ff;
   --sistemas: #ff8a3d;
   --ia: #3ddc84;
 
   --tc: var(--primary);
   --tc-ink: #021a14;
+  --tc2: var(--tc);
+  --tc2-ink: var(--tc-ink);
+  /* cor do halo atrás dos textos: a mesma do fundo */
+  --halo: 7 11 16;
 }
 
 .theme-sites {
   --tc: var(--sites);
-  --tc-ink: #13072e;
+  --tc-ink: #2a0312;
+  --tc2: var(--sites-2);
+  --tc2-ink: #04203a;
 }
 .theme-sistemas {
   --tc: var(--sistemas);
   --tc-ink: #1f0c00;
+  --tc2: var(--tc);
+  --tc2-ink: var(--tc-ink);
 }
 .theme-automacoes {
   --tc: var(--ia);
   --tc-ink: #021a0c;
+  --tc2: var(--tc);
+  --tc2-ink: var(--tc-ink);
+}
+
+/* A página de sites troca também o fundo: um vinho quase preto, como o céu em volta do planeta */
+[data-page="sites"],
+body:has([data-page="sites"]) {
+  --background: #0c060a;
+  --surface: #170b12;
+  --surface-2: #23111b;
+  --card: #170b12;
+  --popover: #23111b;
+  --secondary: #23111b;
+  --muted: #23111b;
+  --muted-foreground: #c4aab4;
+  --accent: #2b1521;
+  --halo: 12 6 10;
+  /* o botão de contato e o foco do teclado acompanham o azul de apoio */
+  --primary: var(--sites-2);
+  --primary-foreground: #04203a;
+  --ring: var(--sites-2);
 }
 
 @layer base {
@@ -121,9 +154,17 @@
   /* um halo da cor do fundo atrás dos textos, para eles se destacarem das animações */
   :is(main, footer) :is(h1, h2, h3, h4, p, li, dt, dd, blockquote, figcaption):not([data-ui] *) {
     text-shadow:
-      0 0 2px rgb(7 11 16 / 0.9),
-      0 0 10px rgb(7 11 16 / 0.85),
-      0 0 26px rgb(7 11 16 / 0.7);
+      0 0 2px rgb(var(--halo) / 0.9),
+      0 0 10px rgb(var(--halo) / 0.85),
+      0 0 26px rgb(var(--halo) / 0.7);
+  }
+  /* dentro de cartões com fundo próprio o halo não faz falta e só suja a letra */
+  :is(main, footer) [class*="bg-surface"] :is(h1, h2, h3, h4, p, li, dt, dd, blockquote, figcaption) {
+    text-shadow: none;
+  }
+  /* botões e etiquetas com fundo próprio não herdam o halo: ele borrava a letra escura em cima da cor */
+  :is(a[class*="bg-"], button, summary, [role="button"], [data-ui], .bg-tc, .bg-tc2, .bg-primary, .bg-foreground) {
+    text-shadow: none;
   }
   :focus-visible {
     outline: 2px solid var(--tc);

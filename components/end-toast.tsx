@@ -91,7 +91,7 @@ export function EndToast({ service = "home" }: { service?: "home" | "sites" | "s
                 href={whatsappLink(c.msg)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex shrink-0 items-center gap-2 rounded-md bg-tc px-3 py-2 text-[14px] font-semibold text-tc-ink transition-transform hover:-translate-y-0.5 sm:mt-3 sm:px-4 sm:text-[15px]"
+                className="inline-flex shrink-0 items-center gap-2 rounded-md bg-tc2 px-3 py-2 text-[14px] font-semibold text-tc2-ink transition-transform hover:-translate-y-0.5 sm:mt-3 sm:px-4 sm:text-[15px]"
               >
                 <MessageCircle className="h-4 w-4" aria-hidden="true" />
                 {c.cta}

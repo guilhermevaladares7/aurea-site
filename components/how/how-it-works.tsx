@@ -141,8 +141,8 @@ export function HowItWorks({ intro, steps }: { intro: string; steps: HowStep[] }
                           transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                         >
                           <span className="mt-2 block max-w-[46ch] text-[17px] leading-snug text-foreground/85">{s.text}</span>
-                          <span className="mt-3 inline-flex items-center gap-2 rounded-2xl bg-tc/12 py-1.5 pl-1.5 pr-3.5 text-[15px] font-semibold leading-snug text-foreground ring-1 ring-tc/35">
-                            <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-tc text-tc-ink">
+                          <span className="mt-3 inline-flex items-center gap-2 rounded-2xl bg-tc2/12 py-1.5 pl-1.5 pr-3.5 text-[15px] font-semibold leading-snug text-foreground ring-1 ring-tc2/35">
+                            <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-tc2 text-tc2-ink">
                               <PackageCheck className="h-3.5 w-3.5" aria-hidden="true" />
                             </span>
                             <span className="sr-only">Você recebe: </span>

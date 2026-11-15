@@ -77,7 +77,7 @@ export function ServiceHero({ service, demo, bit }: { service: Service; demo: Re
             href={whatsappLink(`Olá! Vim pelo site da Aurea e quero saber mais sobre ${s.title.toLowerCase()}.`)}
             target="_blank"
             rel="noopener noreferrer"
-            className="rounded-md bg-tc px-6 py-3.5 text-[16px] font-semibold text-tc-ink transition-transform hover:-translate-y-0.5"
+            className="rounded-md bg-tc2 px-6 py-3.5 text-[16px] font-semibold text-tc2-ink transition-transform hover:-translate-y-0.5"
           >
             {s.cta}
           </a>
@@ -144,7 +144,7 @@ export function ProjectLinks({ p }: { p: Project }) {
           href={p.live}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 rounded-md bg-tc px-4 py-2.5 text-[15px] font-semibold text-tc-ink transition-transform hover:-translate-y-0.5"
+          className="inline-flex items-center gap-2 rounded-md bg-tc2 px-4 py-2.5 text-[15px] font-semibold text-tc2-ink transition-transform hover:-translate-y-0.5"
         >
           Ver site no ar
           <ExternalLink className="h-4 w-4" aria-hidden="true" />
@@ -179,7 +179,7 @@ export function IncludesFaq({ service }: { service: Service }) {
         <ul className="mt-8 space-y-3">
           {s.includes.map((it, i) => (
             <Rise as="li" key={it} delay={i * 0.04} className="flex gap-3 text-[17px]">
-              <Check className="mt-1 h-5 w-5 shrink-0 text-tc" aria-hidden="true" />
+              <Check className="mt-1 h-5 w-5 shrink-0 text-tc2" aria-hidden="true" />
               {it}
             </Rise>
           ))}
@@ -189,7 +189,7 @@ export function IncludesFaq({ service }: { service: Service }) {
           href={whatsappLink(`Olá! Quero um orçamento de ${s.title.toLowerCase()} com a Aurea.`)}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-8 inline-flex items-center gap-2 rounded-md bg-tc px-5 py-3 text-[16px] font-semibold text-tc-ink transition-transform hover:-translate-y-0.5"
+          className="mt-8 inline-flex items-center gap-2 rounded-md bg-tc2 px-5 py-3 text-[16px] font-semibold text-tc2-ink transition-transform hover:-translate-y-0.5"
         >
           Pedir orçamento no WhatsApp
           <ArrowUpRight className="h-4 w-4" aria-hidden="true" />

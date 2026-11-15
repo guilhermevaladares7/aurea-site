@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 import { whatsappLink } from "@/lib/site";
 
 const LINKS = [
-  { href: "/servicos/sites", label: "Sites", hint: "Sua empresa no Google e no WhatsApp", color: "#9b72ff" },
+  { href: "/servicos/sites", label: "Sites", hint: "Sua empresa no Google e no WhatsApp", color: "#ff3d7f" },
   { href: "/servicos/sistemas", label: "Sistemas", hint: "Vendas, clientes e caixa num painel só", color: "#ff8a3d" },
   { href: "/servicos/automacoes", label: "Automações", hint: "Uma IA que atende no seu WhatsApp", color: "#3ddc84" },
   { href: "/#parceria", label: "Parcerias", hint: "AFIO conect: vários números de WhatsApp num painel", color: "#6ea8ff" },
@@ -47,7 +47,7 @@ export function SiteHeader() {
     <header
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-colors duration-300",
-        scrolled || open ? "bg-[#070b10]/90 backdrop-blur-md" : "bg-transparent",
+        scrolled || open ? "bg-background/90 backdrop-blur-md" : "bg-transparent",
       )}
     >
       <div className="mx-auto flex h-16 max-w-[1400px] items-center justify-between px-4 sm:px-8">
@@ -104,7 +104,7 @@ export function SiteHeader() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.2 }}
-            className="border-t border-white/10 bg-[#070b10]/95 px-4 pb-5 pt-3 backdrop-blur-md md:hidden"
+            className="border-t border-white/10 bg-background/95 px-4 pb-5 pt-3 backdrop-blur-md md:hidden"
           >
             <Link
               href="/"

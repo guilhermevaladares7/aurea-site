@@ -6,7 +6,7 @@ import { useEffect, useRef } from "react";
  * Céu estrelado fixo atrás da página inteira (canvas).
  * As estrelas piscam devagar e se deslocam um pouco com o scroll (paralaxe).
  */
-export function Starfield({ count = 220 }: { count?: number }) {
+export function Starfield({ count = 220, warm = "#36e2b4" }: { count?: number; warm?: string }) {
   const ref = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -73,7 +73,7 @@ export function Starfield({ count = 220 }: { count?: number }) {
         }
         const a = reduce ? 0.6 : 0.35 + 0.65 * (0.5 + 0.5 * Math.sin(t / 1000 * s.speed + s.phase));
         ctx.globalAlpha = Math.min(1, a + near * 0.6);
-        ctx.fillStyle = s.warm || near > 0.4 ? "#36e2b4" : "#e8f2f4";
+        ctx.fillStyle = s.warm || near > 0.4 ? warm : "#e8f2f4";
         ctx.beginPath();
         ctx.arc(x, y, s.r * (1 + near), 0, Math.PI * 2);
         ctx.fill();
@@ -104,7 +104,7 @@ export function Starfield({ count = 220 }: { count?: number }) {
       window.removeEventListener("resize", resize);
       window.removeEventListener("pointermove", onMove);
     };
-  }, [count]);
+  }, [count, warm]);
 
   return (
     <canvas
