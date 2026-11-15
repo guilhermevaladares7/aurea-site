@@ -444,6 +444,7 @@ export function Backdrop({ variant }: { variant: BackdropVariant }) {
     ];
     function drawCursors(t: number) {
       const pts = cursorTargets();
+      if (!pts.length) return; // nenhum alvo na tela ainda (página carregando ou redimensionando)
       for (const c of cursors) {
         const ph = reduce ? 0 : t / c.hop + c.off;
         const seg = Math.floor(ph);

@@ -10,7 +10,7 @@ import { H2 } from "@/components/service-sections";
 import type { HowStep } from "@/lib/how";
 import { cn } from "@/lib/utils";
 
-/** "Como funciona" em linha do tempo: cada etapa com texto detalhado e uma ilustração animada. */
+/** "Como funciona" em linha do tempo: cada etapa com um texto curto e uma ilustração animada. */
 export function HowItWorks({ intro, steps }: { intro: string; steps: HowStep[] }) {
   const ref = useRef<HTMLOListElement>(null);
   const reduce = useReducedMotion();
@@ -46,7 +46,7 @@ export function HowItWorks({ intro, steps }: { intro: string; steps: HowStep[] }
         </ul>
       </Rise>
 
-      <ol ref={ref} className="relative mt-16 flex flex-col gap-24 lg:mt-24 lg:gap-36">
+      <ol ref={ref} className="relative mt-14 flex flex-col gap-20 lg:mt-20 lg:gap-24">
         {/* linha do tempo que vai enchendo com a rolagem */}
         <span aria-hidden="true" className="absolute bottom-0 left-[19px] top-0 w-[3px] rounded-full bg-white/8 lg:left-[27px]" />
         <motion.span
@@ -68,27 +68,27 @@ export function HowItWorks({ intro, steps }: { intro: string; steps: HowStep[] }
               {i + 1}
             </motion.span>
 
-            <div className={cn("grid items-center gap-10 lg:gap-16", i % 2 ? "lg:grid-cols-[1.1fr_1fr]" : "lg:grid-cols-[1fr_1.1fr]")}>
+            <div className={cn("grid items-center gap-8 lg:gap-14", i % 2 ? "lg:grid-cols-[0.85fr_1fr]" : "lg:grid-cols-[1fr_0.85fr]")}>
               <div className={cn(i % 2 === 1 && "lg:order-2")}>
                 <Rise>
                   <span className="text-[15px] font-semibold uppercase tracking-[0.16em] text-tc">
                     {i + 1}. {st.title}
                   </span>
-                  <h3 className="mt-3 max-w-[16ch] text-[clamp(34px,4vw,58px)] font-extrabold leading-[1] tracking-[-0.035em] [font-stretch:110%]">
+                  <h3 className="mt-3 max-w-[16ch] text-[clamp(30px,3.2vw,46px)] font-extrabold leading-[1] tracking-[-0.035em] [font-stretch:110%]">
                     {st.head}
                   </h3>
                 </Rise>
-                <Rise as="p" delay={0.06} className="mt-6 max-w-[46ch] text-[20px] leading-relaxed text-foreground">
+                <Rise as="p" delay={0.06} className="mt-4 max-w-[44ch] text-[18px] leading-snug text-foreground">
                   {st.text}
                 </Rise>
-                <Rise delay={0.12} className="mt-7">
-                  <p className="inline-flex items-center gap-3 rounded-2xl bg-tc/12 px-4 py-3 ring-1 ring-tc/40">
+                <Rise delay={0.12} className="mt-5">
+                  <p className="inline-flex items-center gap-3 rounded-2xl bg-tc/12 px-3.5 py-2.5 ring-1 ring-tc/40">
                     <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-tc text-tc-ink">
                       <PackageCheck className="h-5 w-5" aria-hidden="true" />
                     </span>
                     <span>
                       <span className="block text-[13px] font-semibold uppercase tracking-[0.12em] text-tc">Você recebe</span>
-                      <span className="block text-[19px] font-bold leading-snug text-foreground">{st.get}</span>
+                      <span className="block text-[17px] font-bold leading-snug text-foreground">{st.get}</span>
                     </span>
                   </p>
                 </Rise>

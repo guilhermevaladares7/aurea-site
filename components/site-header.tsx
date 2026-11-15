@@ -13,6 +13,7 @@ const LINKS = [
   { href: "/servicos/sites", label: "Sites", hint: "Sua empresa no Google e no WhatsApp", color: "#9b72ff" },
   { href: "/servicos/sistemas", label: "Sistemas", hint: "Vendas, clientes e caixa num painel só", color: "#ff8a3d" },
   { href: "/servicos/automacoes", label: "Automações", hint: "Uma IA que atende no seu WhatsApp", color: "#3ddc84" },
+  { href: "/#parceria", label: "Parcerias", hint: "AFIO conect: vários números de WhatsApp num painel", color: "#6ea8ff" },
 ];
 
 export function SiteHeader() {

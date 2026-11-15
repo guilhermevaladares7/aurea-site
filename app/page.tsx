@@ -1,6 +1,7 @@
 import { EndToast } from "@/components/end-toast";
 import { CursorFx } from "@/components/fx";
 import { Hero } from "@/components/hero";
+import { Partner } from "@/components/partner";
 import { Services } from "@/components/services";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
@@ -15,6 +16,7 @@ export default function Home() {
       <main className="flex-1 overflow-x-clip">
         <Hero />
         <Services />
+        <Partner />
       </main>
       <SiteFooter />
       <EndToast service="home" />

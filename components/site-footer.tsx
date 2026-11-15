@@ -74,6 +74,7 @@ export function SiteFooter() {
             <Link href="/servicos/sites" className="hover:text-foreground">Sites</Link>
             <Link href="/servicos/sistemas" className="hover:text-foreground">Sistemas</Link>
             <Link href="/servicos/automacoes" className="hover:text-foreground">Automações com IA</Link>
+            <Link href="/#parceria" className="hover:text-foreground">Parcerias</Link>
           </nav>
           <div className="flex items-center gap-2">
             <a

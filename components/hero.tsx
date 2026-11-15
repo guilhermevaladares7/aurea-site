@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { AureaLogo } from "@/components/aurea-logo";
 import { Mascot } from "@/components/mascot";
 import { ParticleLogo } from "@/components/particle-logo";
+import { INSTAGRAM_HANDLE, INSTAGRAM_URL } from "@/lib/site";
 
 /**
  * Abertura: o nome AUREA se monta com pixels, o Auri pula em cima do último A
@@ -89,9 +90,17 @@ export function Hero() {
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: reduce ? 0 : 0.9 }}
-            className="mt-6 text-[13px] font-medium uppercase tracking-[0.22em] text-foreground/55 sm:text-[14px]"
+            className="mt-6 text-[15px] font-medium tracking-[0.06em] sm:text-[16px]"
           >
-            Guilherme Valadares
+            <a
+              href={INSTAGRAM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-md px-2 py-1 text-foreground/65 transition-colors hover:text-primary"
+            >
+              {INSTAGRAM_HANDLE}
+              <span className="sr-only"> no Instagram (abre em outra aba)</span>
+            </a>
           </motion.p>
           <motion.p
             key={`t-${run}`}
