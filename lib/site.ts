@@ -11,6 +11,10 @@ export const INSTAGRAM_HANDLE = "@guilherme_valladares";
 // enquanto estiver vazio, o site não carrega nada de contagem.
 export const CF_ANALYTICS_TOKEN = "793efac542a64e9abb54fada531b7af8";
 
+// Endereços de entrada por canal (bio do Instagram etc.): mostram a página inicial e contam à parte.
+// Cada um precisa da sua pasta em app/, como app/ig.
+export const ENTRY_PATHS = ["/ig"];
+
 export function whatsappLink(message: string) {
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 }

@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { AureaLogo } from "@/components/aurea-logo";
 import { cn } from "@/lib/utils";
-import { whatsappLink } from "@/lib/site";
+import { ENTRY_PATHS, whatsappLink } from "@/lib/site";
 
 const LINKS = [
   { href: "/servicos/sites", label: "Sites", hint: "Sua empresa no Google e no WhatsApp", color: "#ff3d7f" },
@@ -18,7 +18,8 @@ const LINKS = [
 
 export function SiteHeader() {
   const path = usePathname();
-  const home = path === "/";
+  // os endereços de entrada (/ig) mostram a página inicial, então o topo se comporta igual
+  const home = path === "/" || ENTRY_PATHS.includes(path.replace(/\/$/, ""));
   // menu do celular: no computador os links já aparecem no topo
   const [open, setOpen] = useState(false);
   // solid: logo pequeno visível; scrolled: fundo escuro desfocado atrás do menu
