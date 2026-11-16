@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Archivo, Newsreader, Pixelify_Sans } from "next/font/google";
+import { Metrics } from "@/components/metrics";
 import { PageLoader } from "@/components/page-loader";
 import Script from "next/script";
 import { CF_ANALYTICS_TOKEN, SITE_URL } from "@/lib/site";
@@ -51,6 +52,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         </noscript>
         <PageLoader />
         {children}
+        {/* visitas e cliques para o painel da AFIO */}
+        <Metrics />
         {/* contagem de visitas, sem cookies; conta também a troca de página dentro do site */}
         {CF_ANALYTICS_TOKEN && (
           <Script

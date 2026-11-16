@@ -93,6 +93,7 @@ export function Hero() {
             className="mt-6 text-[15px] font-medium tracking-[0.06em] sm:text-[16px]"
           >
             <a
+              data-metrica="instagram"
               href={INSTAGRAM_URL}
               target="_blank"
               rel="noopener noreferrer"

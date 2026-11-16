@@ -29,6 +29,7 @@ export function SiteFooter() {
             </Rise>
             <Rise delay={0.16} className="mt-8 flex flex-wrap gap-3">
               <a
+                data-metrica="whatsapp"
                 href={whatsappLink("Olá! Quero tirar uma ideia do papel com a Aurea.")}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -38,6 +39,7 @@ export function SiteFooter() {
                 WhatsApp {PHONE_LABEL}
               </a>
               <a
+                data-metrica="email"
                 href={`mailto:${EMAIL}?subject=${encodeURIComponent("Projeto com a Aurea")}`}
                 className="inline-flex items-center gap-2 rounded-md bg-white/8 px-6 py-3.5 text-[16px] font-semibold transition-colors hover:bg-white/14"
               >
@@ -78,6 +80,7 @@ export function SiteFooter() {
           </nav>
           <div className="flex items-center gap-2">
             <a
+              data-metrica="github"
               href={GITHUB_URL}
               target="_blank"
               rel="noopener noreferrer"
@@ -87,6 +90,7 @@ export function SiteFooter() {
               GitHub
             </a>
             <a
+              data-metrica="instagram"
               href={INSTAGRAM_URL}
               target="_blank"
               rel="noopener noreferrer"

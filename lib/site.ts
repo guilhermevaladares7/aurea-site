@@ -15,6 +15,10 @@ export const CF_ANALYTICS_TOKEN = "793efac542a64e9abb54fada531b7af8";
 // Cada um precisa da sua pasta em app/, como app/ig.
 export const ENTRY_PATHS = ["/ig"];
 
+// Coleta de visitas e cliques para o painel da AFIO (função "metricas-afio" no Supabase).
+// O site só envia (POST); ler os números exige o token da AFIO. Vazio desliga a coleta.
+export const METRICAS_URL = "https://fdytdthvdkdilhkgpeov.supabase.co/functions/v1/metricas-afio";
+
 export function whatsappLink(message: string) {
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 }

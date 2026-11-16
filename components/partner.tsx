@@ -45,6 +45,7 @@ export function Partner() {
         </Rise>
         <Rise>
           <a
+            data-metrica="afio"
             href={AFIO_CONECT_URL}
             target="_blank"
             rel="noopener noreferrer"

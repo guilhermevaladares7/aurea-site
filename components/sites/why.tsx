@@ -243,6 +243,7 @@ export function WhyAurea() {
 
       <Rise delay={0.1} className="mt-8 flex flex-wrap items-center gap-4">
         <a
+          data-metrica="whatsapp"
           href={whatsappLink("Olá! Vi a página de sites da Aurea e quero um site para a minha empresa.")}
           target="_blank"
           rel="noopener noreferrer"

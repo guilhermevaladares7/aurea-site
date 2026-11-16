@@ -74,6 +74,7 @@ export function ServiceHero({ service, demo, bit }: { service: Service; demo: Re
           className="mt-8 flex flex-wrap gap-3"
         >
           <a
+            data-metrica="whatsapp"
             href={whatsappLink(`Olá! Vim pelo site da Aurea e quero saber mais sobre ${s.title.toLowerCase()}.`)}
             target="_blank"
             rel="noopener noreferrer"
@@ -186,6 +187,7 @@ export function IncludesFaq({ service }: { service: Service }) {
         </ul>
         {/* preço é combinado pelo WhatsApp, caso a caso */}
         <a
+          data-metrica="whatsapp"
           href={whatsappLink(`Olá! Quero um orçamento de ${s.title.toLowerCase()} com a Aurea.`)}
           target="_blank"
           rel="noopener noreferrer"

@@ -75,6 +75,7 @@ export function SiteHeader() {
             </Link>
           ))}
           <a
+            data-metrica="whatsapp"
             href={whatsappLink("Olá! Vim pelo site da Aurea e quero conversar sobre um projeto.")}
             target="_blank"
             rel="noopener noreferrer"

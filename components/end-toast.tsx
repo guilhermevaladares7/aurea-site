@@ -88,6 +88,7 @@ export function EndToast({ service = "home" }: { service?: "home" | "sites" | "s
               <p className="min-w-0 flex-1 text-[15px] font-bold leading-tight text-foreground sm:text-[20px]">{c.title}</p>
               <p className="mt-1 hidden text-[15px] leading-snug text-foreground sm:block">{c.text}</p>
               <a
+                data-metrica="whatsapp"
                 href={whatsappLink(c.msg)}
                 target="_blank"
                 rel="noopener noreferrer"

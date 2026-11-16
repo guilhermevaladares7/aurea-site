@@ -1,0 +1,6 @@
+# A função faz a própria checagem (a coleta é pública; a API confere o token da AFIO),
+# então o Supabase não deve exigir a chave dele no cabeçalho Authorization.
+project_id = "fdytdthvdkdilhkgpeov"
+
+[functions.metricas-afio]
+verify_jwt = false
