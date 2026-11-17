@@ -1,18 +1,19 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { TryChat } from "@/components/automacoes/sections";
-import { AiDemo } from "@/components/demos/ai-demo";
-import { SiteDemo } from "@/components/demos/site-demo";
+import { ScrollChat, TryChat } from "@/components/automacoes/sections";
+import { AiDeskDemo } from "@/components/demos/ai-desk";
+import { SiteBuildDemo } from "@/components/demos/site-build";
 import { EndToast } from "@/components/end-toast";
 import { Backdrop } from "@/components/fx";
 import { HowItWorks } from "@/components/how/how-it-works";
 import { Faq, Includes, OtherServices, ServiceHero } from "@/components/service-sections";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { CodeToSite } from "@/components/sites/code-to-site";
 import { SiteProjects } from "@/components/sites/sections";
 import { WhyAurea } from "@/components/sites/why";
 import { AdminShell, DashboardScreen } from "@/components/sistemas/admin-screens";
-import { CalendaShowcase } from "@/components/sistemas/sections";
+import { CalendaShowcase, PanelTour } from "@/components/sistemas/sections";
 import { Starfield } from "@/components/starfield";
 import { HOW } from "@/lib/how";
 import { SERVICES, getService } from "@/lib/services";
@@ -67,13 +68,14 @@ export default async function ServicePage({ params }: PageProps<"/servicos/[slug
                 service={s}
                 bit="Bora construir o seu site?"
                 demo={
-                  <div className="aspect-[4/3]">
-                    <SiteDemo />
+                  <div className="aspect-[4/3.6] sm:aspect-[4/3]">
+                    <SiteBuildDemo />
                   </div>
                 }
               />
               <Includes service={s} />
               <HowItWorks intro={how.intro} steps={how.steps} />
+              <CodeToSite />
               <SiteProjects projects={s.projects} intro={s.projectsIntro} />
               <WhyAurea />
             </>
@@ -94,6 +96,7 @@ export default async function ServicePage({ params }: PageProps<"/servicos/[slug
               />
               <Includes service={s} />
               <HowItWorks intro={how.intro} steps={how.steps} />
+              <PanelTour />
               <CalendaShowcase />
             </>
           )}
@@ -104,13 +107,14 @@ export default async function ServicePage({ params }: PageProps<"/servicos/[slug
                 service={s}
                 bit="Alô! Sou o agente de atendimento."
                 demo={
-                  <div className="aspect-[4/4.4] sm:aspect-[4/3.6]">
-                    <AiDemo large />
+                  <div className="h-[520px] sm:h-[500px]">
+                    <AiDeskDemo />
                   </div>
                 }
               />
               <Includes service={s} />
               <HowItWorks intro={how.intro} steps={how.steps} />
+              <ScrollChat />
               <TryChat />
             </>
           )}

@@ -89,12 +89,12 @@ export function ScrollChat() {
   const didCount = Math.round((pos.count / c.msgs.length) * c.did.length);
 
   return (
-    <section ref={ref} className="relative mt-32 lg:mt-44" style={{ height: `${CHAPTERS.length * 120 + 40}vh` }} aria-labelledby="conversas-h">
+    <section ref={ref} className="relative border-t border-white/10" style={{ height: `${CHAPTERS.length * 120 + 40}vh` }} aria-labelledby="conversas-h">
       <div className="sticky top-0 flex h-[100svh] flex-col justify-center py-20">
         <div className="grid items-center gap-6 lg:grid-cols-[1fr_400px_1fr] lg:gap-10">
           {/* texto do capítulo */}
           <div className="order-2 lg:order-1">
-            <h2 id="conversas-h" className="hidden text-[clamp(30px,3.4vw,52px)] font-extrabold leading-[0.95] tracking-[-0.035em] [font-stretch:112%] lg:block">
+            <h2 id="conversas-h" className={cn(H2, "hidden lg:block")}>
               Role e veja a IA atendendo
             </h2>
             <ol className="mt-4 flex gap-2 lg:mt-8 lg:flex-col">
@@ -146,7 +146,7 @@ export function ScrollChat() {
                     <Mascot size="100%" outfit={c.outfit} mood={c.mood} lines={[c.title]} />
                   </div>
                   <div>
-                    <p className="pixel text-[15px] text-tc">{c.kind}</p>
+                    <p className="text-[14px] font-semibold text-tc">{c.kind}</p>
                     <h3 className="text-[20px] font-bold leading-tight lg:text-[24px]">{c.title}</h3>
                   </div>
                 </div>

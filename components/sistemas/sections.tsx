@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion, useInView } from "framer-motion";
+import { AnimatePresence, motion, useInView, useMotionValueEvent, useScroll } from "framer-motion";
 import {
   Calculator,
   FileSpreadsheet,
@@ -132,108 +132,105 @@ const GUIDE: Record<ScreenId, { outfit: Outfit; mood: BitMood; line: string; tex
   permissoes: { outfit: "detective", mood: "wink", line: "Cada um vê só o que deve.", text: "Logins com o que cada pessoa pode ver e mexer." },
 };
 
-const TOUR_MS = 6500;
-
+/**
+ * As telas do painel passam conforme a pessoa rola a página: a seção fica presa na tela
+ * e cada trecho de rolagem abre a próxima tela, com o Auri explicando.
+ */
 export function PanelTour() {
+  const ref = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
   const [idx, setIdx] = useState(0);
-  const [paused, setPaused] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { amount: 0.35 });
+
+  useMotionValueEvent(scrollYProgress, "change", (p) => {
+    const i = Math.min(SCREENS.length - 1, Math.max(0, Math.floor(p * SCREENS.length)));
+    setIdx((prev) => (prev === i ? prev : i));
+  });
+
+  // clicar numa tela rola até o trecho dela
+  const goTo = (i: number) => {
+    const el = ref.current;
+    if (!el) return;
+    const top = el.getBoundingClientRect().top + window.scrollY;
+    const span = el.offsetHeight - window.innerHeight;
+    window.scrollTo({ top: top + span * ((i + 0.5) / SCREENS.length), behavior: "smooth" });
+  };
+
   const id = SCREENS[idx].id;
   const g = GUIDE[id];
 
-  useEffect(() => {
-    if (!inView || paused) return;
-    const t = setTimeout(() => setIdx((i) => (i + 1) % SCREENS.length), TOUR_MS);
-    return () => clearTimeout(t);
-  }, [idx, inView, paused]);
-
   return (
-    <section className="pt-32 lg:pt-44" aria-labelledby="tour-h">
-      <div className="grid items-end gap-4 lg:grid-cols-2">
-        <Rise>
-          <h2 id="tour-h" className={H2}>
-            Um passeio pelas telas
-          </h2>
-        </Rise>
-        <Rise as="p" delay={0.06} className="max-w-[48ch] text-[18px] text-foreground lg:justify-self-end">
-          Um painel de exemplo com as telas que mais aparecem nos sistemas que eu faço. O Auri troca de roupa em cada uma.
-          Clique nas abas para ver.
-        </Rise>
-      </div>
-
-      <div
-        ref={ref}
-        onMouseEnter={() => setPaused(true)}
-        onMouseLeave={() => setPaused(false)}
-        onFocus={() => setPaused(true)}
-        onBlur={() => setPaused(false)}
-        className="mt-12 grid gap-6 lg:grid-cols-[270px_1fr]"
-      >
-        <div className="flex flex-col gap-4">
-          <div role="tablist" aria-label="Telas do painel" className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 lg:mx-0 lg:flex-col lg:overflow-visible lg:px-0">
-            {SCREENS.map((s, i) => (
-              <button
-                key={s.id}
-                role="tab"
-                aria-selected={i === idx}
-                onClick={() => setIdx(i)}
-                className={cn(
-                  "relative flex shrink-0 items-center gap-3 overflow-hidden rounded-xl px-4 py-3 text-left text-[16px] font-semibold transition-colors",
-                  i === idx ? "bg-surface-2 text-foreground" : "bg-surface text-foreground/70 hover:text-foreground",
-                )}
-              >
-                <s.icon className={cn("h-5 w-5", i === idx ? "text-tc" : "text-foreground/50")} aria-hidden="true" />
-                {s.label}
-                {i === idx && (
-                  <motion.span
-                    key={`bar-${idx}-${paused}`}
-                    className="absolute bottom-0 left-0 h-[3px] bg-tc"
-                    initial={{ width: "0%" }}
-                    animate={{ width: paused || !inView ? "0%" : "100%" }}
-                    transition={{ duration: TOUR_MS / 1000, ease: "linear" }}
-                  />
-                )}
-              </button>
-            ))}
+    <section ref={ref} className="relative border-t border-white/10" style={{ height: `${SCREENS.length * 70 + 40}vh` }} aria-labelledby="tour-h">
+      <div className="sticky top-0 flex h-[100svh] flex-col justify-center py-20">
+        <div className="grid gap-6 lg:grid-cols-[300px_1fr] lg:gap-12">
+          <div className="flex flex-col gap-4">
+            <div>
+              <h2 id="tour-h" className={H2}>
+                Um passeio pelas telas
+              </h2>
+              <p className="mt-3 hidden text-[17px] leading-relaxed text-foreground/75 lg:block">
+                Role a página e veja as telas que mais aparecem nos sistemas que eu faço.
+              </p>
+            </div>
+            <div role="tablist" aria-label="Telas do painel" className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 lg:mx-0 lg:flex-col lg:overflow-visible lg:px-0">
+              {SCREENS.map((sc, i) => (
+                <button
+                  key={sc.id}
+                  role="tab"
+                  aria-selected={i === idx}
+                  onClick={() => goTo(i)}
+                  className={cn(
+                    "relative flex shrink-0 items-center gap-3 overflow-hidden rounded-xl px-4 py-2.5 text-left text-[16px] font-semibold transition-colors",
+                    i === idx ? "bg-surface-2 text-foreground" : "text-foreground/55 hover:text-foreground",
+                  )}
+                >
+                  <sc.icon className={cn("h-5 w-5", i === idx ? "text-tc" : "text-foreground/40")} aria-hidden="true" />
+                  {sc.label}
+                  {i < idx && <span className="ml-auto hidden h-1.5 w-1.5 rounded-full bg-tc/60 lg:block" aria-hidden="true" />}
+                </button>
+              ))}
+            </div>
           </div>
 
-          <div className="hidden items-end gap-3 rounded-2xl bg-surface p-4 lg:flex">
-            <div className="w-[84px] shrink-0">
+          <div className="relative">
+            <div className="absolute -top-[64px] right-6 z-10 w-[72px] lg:-top-[78px] lg:w-[88px]">
               <Mascot size="100%" outfit={g.outfit} mood={g.mood} lines={[g.line]} />
             </div>
+            <BrowserFrame url={`painel.suaempresa.com.br/${id}`}>
+              <div className="h-[min(52svh,500px)] p-2" role="tabpanel" aria-label={SCREENS[idx].label}>
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={id}
+                    className="h-full"
+                    initial={{ opacity: 0, y: 24 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -24 }}
+                    transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                  >
+                    <AdminShell active={id}>
+                      <Screen id={id} />
+                    </AdminShell>
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+            </BrowserFrame>
             <AnimatePresence mode="wait">
-              <motion.div key={id} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.25 }}>
-                <p className="pixel text-[16px] leading-tight text-tc">{g.line}</p>
-                <p className="mt-1 text-[14px] text-foreground/80">{g.text}</p>
-              </motion.div>
+              <motion.p
+                key={id}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="mt-4 text-[16px] text-foreground/80"
+              >
+                <b className="text-tc">{g.line}</b> {g.text}
+              </motion.p>
             </AnimatePresence>
-          </div>
-        </div>
-
-        <div className="relative">
-          <div className="absolute -top-[60px] right-6 z-10 w-[70px] lg:hidden">
-            <Mascot size="100%" outfit={g.outfit} mood={g.mood} lines={[g.line]} />
-          </div>
-          <BrowserFrame url={`painel.suaempresa.com.br/${id}`}>
-            <div className="h-[460px] p-2 sm:h-[500px]" role="tabpanel" aria-label={SCREENS[idx].label}>
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={id}
-                  className="h-full"
-                  initial={{ opacity: 0, x: 30, filter: "blur(4px)" }}
-                  animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
-                  exit={{ opacity: 0, x: -30, filter: "blur(4px)" }}
-                  transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                >
-                  <AdminShell active={id}>
-                    <Screen id={id} />
-                  </AdminShell>
-                </motion.div>
-              </AnimatePresence>
+            {/* quanto falta do passeio */}
+            <div className="mt-3 flex gap-1.5" aria-hidden="true">
+              {SCREENS.map((sc, i) => (
+                <span key={sc.id} className={cn("h-1 flex-1 rounded-full transition-colors", i <= idx ? "bg-tc" : "bg-white/10")} />
+              ))}
             </div>
-          </BrowserFrame>
-          <p className="mt-3 text-[14px] text-muted-foreground lg:hidden">{g.text}</p>
+          </div>
         </div>
       </div>
     </section>
