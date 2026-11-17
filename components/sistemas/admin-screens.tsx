@@ -150,7 +150,7 @@ export function DashboardScreen() {
             <motion.path
               d={line}
               fill="none"
-              stroke="#ff8a3d"
+              stroke="#ff6a1a"
               strokeWidth="1"
               vectorEffect="non-scaling-stroke"
               initial={{ pathLength: 0 }}

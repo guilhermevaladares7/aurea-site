@@ -56,7 +56,7 @@ export function CalendaShowcase() {
   }, [inView]);
 
   return (
-    <section id="calenda" className="scroll-mt-24 pt-32 lg:pt-44" aria-labelledby="calenda-h">
+    <section id="calenda" className="scroll-mt-20 border-t border-white/10 py-16 lg:py-24" aria-labelledby="calenda-h">
       <div className="grid items-center gap-12 lg:grid-cols-[0.9fr_1.3fr] lg:gap-16">
         <div>
           <Rise>

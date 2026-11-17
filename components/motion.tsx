@@ -36,29 +36,22 @@ export function PowerOn({
   );
 }
 
-/** Sobe e aparece, uma vez, quando entra na tela. */
+/**
+ * Antes este componente fazia cada bloco de texto subir e aparecer ao entrar na tela.
+ * Isso repetido em toda seção cansava e tirava a seriedade da página, então agora ele só
+ * mostra o conteúdo. As animações que ficaram são as que têm motivo: a abertura, o Auri e as demonstrações.
+ */
 export function Rise({
   children,
-  delay = 0,
   className,
   as = "div",
 }: {
   children: ReactNode;
+  /** mantido só para não quebrar quem ainda passa o atraso */
   delay?: number;
   className?: string;
   as?: "div" | "p" | "li" | "span";
 }) {
-  const reduce = useReducedMotion();
-  const M = motion[as];
-  return (
-    <M
-      className={className}
-      initial={reduce ? { opacity: 0 } : { opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.4 }}
-      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay }}
-    >
-      {children}
-    </M>
-  );
+  const Tag = as;
+  return <Tag className={className}>{children}</Tag>;
 }

@@ -5,14 +5,14 @@ import { SiteDemo } from "@/components/demos/site-demo";
 import type { ServiceSlug } from "@/lib/services";
 import { cn } from "@/lib/utils";
 
-/** Sub-marca no estilo "AUREA sites": logo + palavra em itálico serifado. */
+/** Sub-marca no estilo "AUREA sites": o logo e, ao lado, a palavra em letra larga e leve. */
 export function Submark({ word, className, wordClass }: { word: string; className?: string; wordClass?: string }) {
   return (
     <span className={cn("inline-flex items-baseline gap-[0.22em] leading-none", className)}>
       <span className="inline-block w-[3.5em] translate-y-[0.05em] text-foreground">
         <AureaLogo title="Aurea" />
       </span>
-      <span className={cn("submark text-[1.12em]", wordClass)}>{word}</span>
+      <span className={cn("submark text-[0.9em]", wordClass)}>{word}</span>
     </span>
   );
 }

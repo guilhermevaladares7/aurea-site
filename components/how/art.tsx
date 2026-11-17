@@ -200,7 +200,7 @@ function StyleArt() {
             </div>
             <Pop on={k >= 2} className="flex-1 rounded-xl bg-[#0b1016] p-3 ring-1 ring-white/10">
               <span className="text-[11px] text-muted-foreground">Letra</span>
-              <span className="mt-1 block font-serif text-[30px] italic leading-none text-tc sm:text-[40px]">Aa</span>
+              <span className="mt-1 block text-[30px] font-light leading-none [font-stretch:125%] text-tc sm:text-[40px]">Aa</span>
             </Pop>
           </div>
           <Win title="padariaboavista.com.br" className="h-full">

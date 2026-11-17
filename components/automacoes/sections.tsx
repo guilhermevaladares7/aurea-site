@@ -310,7 +310,7 @@ export function TryChat() {
   }, []);
 
   return (
-    <section className="pt-32 lg:pt-44" aria-labelledby="teste-h">
+    <section className="border-t border-white/10 py-16 lg:py-24" aria-labelledby="teste-h">
       <div className="grid items-center gap-12 lg:grid-cols-[1fr_400px_1fr] lg:gap-10">
         <div>
           <Rise>

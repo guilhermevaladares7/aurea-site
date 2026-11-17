@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Archivo, Newsreader, Pixelify_Sans } from "next/font/google";
+import { Archivo, Pixelify_Sans } from "next/font/google";
 import { Metrics } from "@/components/metrics";
 import { PageLoader } from "@/components/page-loader";
 import Script from "next/script";
@@ -10,12 +10,6 @@ const archivo = Archivo({
   variable: "--font-archivo",
   subsets: ["latin"],
   axes: ["wdth"],
-});
-
-const newsreader = Newsreader({
-  variable: "--font-newsreader",
-  subsets: ["latin"],
-  style: ["italic"],
 });
 
 // só para o mascote em pixel art e o terminal do agente
@@ -43,7 +37,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="pt-BR"
-      className={`dark ${archivo.variable} ${newsreader.variable} ${pixelify.variable} h-full antialiased`}
+      className={`dark ${archivo.variable} ${pixelify.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         {/* sem JavaScript, a tela de carregando não teria como sumir */}

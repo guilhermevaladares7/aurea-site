@@ -9,7 +9,7 @@ import { SERVICES } from "@/lib/services";
 export function Services() {
   return (
     <section id="servicos" className="scroll-mt-20 px-4 pt-6 sm:px-8 lg:pt-10">
-      <div className="mx-auto max-w-[1400px]">
+      <div className="mx-auto max-w-[1240px]">
         <div className="grid items-end gap-6 lg:grid-cols-[1.3fr_1fr]">
           <Rise>
             <h2 className="text-[clamp(48px,7.4vw,116px)] text-foreground">

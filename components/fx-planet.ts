@@ -17,6 +17,8 @@ export type FxEnv = {
   /** cor do tema e cor de apoio, no formato "r,g,b" */
   rgb: string;
   rgb2: string;
+  /** 1 no topo e no fim da página, 0 no meio: o fundo recua enquanto a pessoa lê */
+  presence?: number;
 };
 
 /* ---- ruído 3D simples, para desenhar a superfície sem costura ---- */
@@ -59,12 +61,12 @@ function fbm(x: number, y: number, z: number, oct: number) {
 
 // do mais fundo ao mais alto: vinho, carmim, rosa e os picos claros
 const LAND: [number, number, number][] = [
-  [74, 14, 42],
-  [116, 20, 58],
-  [168, 28, 78],
-  [214, 38, 98],
-  [240, 68, 124],
-  [255, 128, 166],
+  [52, 10, 32],
+  [84, 15, 45],
+  [122, 21, 59],
+  [160, 28, 76],
+  [194, 46, 98],
+  [222, 92, 136],
 ];
 const NIGHT: [number, number, number] = [16, 8, 24];
 const RIM: [number, number, number] = [143, 208, 255];
@@ -215,10 +217,14 @@ export function createPlanet() {
     const { w, h, t, reduce, rgb, rgb2 } = env;
     const { R, cell, cx, top, cy, cap } = geometry(w, h);
 
+    // no meio da página o planeta afunda no horizonte, para não disputar com o texto
+    ctx.save();
+    ctx.translate(0, Math.round((1 - (env.presence ?? 1)) * cap * 0.55));
+
     // brilho da atmosfera atrás do planeta
     const glow = ctx.createRadialGradient(cx, cy, R - 6, cx, cy, R + cap * 1.1);
-    glow.addColorStop(0, `rgba(${rgb},0.32)`);
-    glow.addColorStop(0.3, `rgba(${rgb},0.11)`);
+    glow.addColorStop(0, `rgba(${rgb},0.2)`);
+    glow.addColorStop(0.3, `rgba(${rgb},0.07)`);
     glow.addColorStop(1, `rgba(${rgb},0)`);
     ctx.fillStyle = glow;
     ctx.fillRect(0, top - cap * 1.2, w, h - top + cap * 1.2);
@@ -320,6 +326,7 @@ export function createPlanet() {
         ctx.fillRect(Math.round(p.x), Math.round(p.y + age * 14), s, s);
       }
     }
+    ctx.restore();
   }
 
   return { draw };

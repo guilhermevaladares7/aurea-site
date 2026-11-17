@@ -4,9 +4,9 @@ import { TryChat } from "@/components/automacoes/sections";
 import { AiDemo } from "@/components/demos/ai-demo";
 import { SiteDemo } from "@/components/demos/site-demo";
 import { EndToast } from "@/components/end-toast";
-import { Backdrop, CursorFx } from "@/components/fx";
+import { Backdrop } from "@/components/fx";
 import { HowItWorks } from "@/components/how/how-it-works";
-import { IncludesFaq, OtherServices, ServiceHero } from "@/components/service-sections";
+import { Faq, Includes, OtherServices, ServiceHero } from "@/components/service-sections";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { SiteProjects } from "@/components/sites/sections";
@@ -52,17 +52,15 @@ export default async function ServicePage({ params }: PageProps<"/servicos/[slug
   if (!s) notFound();
 
   const how = HOW[s.slug];
-  const fx = s.slug === "sites" ? "code" : s.slug === "sistemas" ? "pixels" : "bubbles";
   const backdrop = s.slug === "sites" ? "design" : s.slug === "sistemas" ? "pixels" : "flow";
 
   return (
     <div data-page={s.slug} className={`${s.theme} flex min-h-full flex-1 flex-col`}>
       <Starfield count={160} warm={s.slug === "sites" ? "#8fd0ff" : undefined} />
       <Backdrop variant={backdrop} />
-      <CursorFx variant={fx} />
       <SiteHeader />
       <main className="flex-1 overflow-x-clip px-4 sm:px-8">
-        <div className="mx-auto max-w-[1400px]">
+        <div className="mx-auto max-w-[1240px]">
           {s.slug === "sites" && (
             <>
               <ServiceHero
@@ -74,9 +72,10 @@ export default async function ServicePage({ params }: PageProps<"/servicos/[slug
                   </div>
                 }
               />
-              <WhyAurea />
+              <Includes service={s} />
               <HowItWorks intro={how.intro} steps={how.steps} />
               <SiteProjects projects={s.projects} intro={s.projectsIntro} />
+              <WhyAurea />
             </>
           )}
 
@@ -93,6 +92,7 @@ export default async function ServicePage({ params }: PageProps<"/servicos/[slug
                   </div>
                 }
               />
+              <Includes service={s} />
               <HowItWorks intro={how.intro} steps={how.steps} />
               <CalendaShowcase />
             </>
@@ -109,12 +109,13 @@ export default async function ServicePage({ params }: PageProps<"/servicos/[slug
                   </div>
                 }
               />
+              <Includes service={s} />
               <HowItWorks intro={how.intro} steps={how.steps} />
               <TryChat />
             </>
           )}
 
-          <IncludesFaq service={s} />
+          <Faq service={s} />
           <OtherServices current={s.slug} />
         </div>
       </main>

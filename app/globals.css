@@ -7,7 +7,7 @@
 /*
   Aurea — tokens
   Espaço escuro azulado, tinta gelo e ciano como cor da marca.
-  Cada serviço tem o seu tema: sites rosa (com azul claro de apoio), sistemas laranja, automações verde.
+  Cada serviço tem o seu tema: sites rosa (com azul claro de apoio), sistemas laranja vivo (com âmbar de apoio), automações verde.
   --tc é a "cor do tema" da página/seção atual (classes .theme-*).
   --tc2 é a cor de apoio do tema, para botões e destaques; onde o tema não define, é igual à --tc.
 */
@@ -16,7 +16,6 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-archivo);
-  --font-serif: var(--font-newsreader);
   --font-heading: var(--font-archivo);
   --font-pixel: var(--font-pixel);
   --color-ring: var(--ring);
@@ -84,7 +83,8 @@
 
   --sites: #ff3d7f;
   --sites-2: #8fd0ff;
-  --sistemas: #ff8a3d;
+  --sistemas: #ff6a1a;
+  --sistemas-2: #ffc94d;
   --ia: #3ddc84;
 
   --tc: var(--primary);
@@ -104,8 +104,8 @@
 .theme-sistemas {
   --tc: var(--sistemas);
   --tc-ink: #1f0c00;
-  --tc2: var(--tc);
-  --tc2-ink: var(--tc-ink);
+  --tc2: var(--sistemas-2);
+  --tc2-ink: #2b1a00;
 }
 .theme-automacoes {
   --tc: var(--ia);
@@ -131,6 +131,24 @@ body:has([data-page="sites"]) {
   --primary: var(--sites-2);
   --primary-foreground: #04203a;
   --ring: var(--sites-2);
+}
+
+/* A página de sistemas tem um fundo quente, quase preto, que deixa o laranja mais vivo */
+[data-page="sistemas"],
+body:has([data-page="sistemas"]) {
+  --background: #0b0806;
+  --surface: #16100b;
+  --surface-2: #211811;
+  --card: #16100b;
+  --popover: #211811;
+  --secondary: #211811;
+  --muted: #211811;
+  --muted-foreground: #c8b6a6;
+  --accent: #2a1f16;
+  --halo: 11 8 6;
+  --primary: var(--sistemas-2);
+  --primary-foreground: #2b1a00;
+  --ring: var(--sistemas-2);
 }
 
 @layer base {
@@ -181,12 +199,13 @@ body:has([data-page="sites"]) {
   line-height: 0.9;
 }
 
-/* Sub-marca em itálico serifado: "AUREA sites", "AUREA sistemas"... */
+/* Sub-marca: "AUREA sites", "AUREA sistemas"... A palavra vai na mesma família do site,
+   larga e leve, para conversar com o desenho do logo. */
 .submark {
-  font-family: var(--font-newsreader);
-  font-style: italic;
-  font-weight: 400;
-  letter-spacing: -0.01em;
+  font-family: var(--font-archivo);
+  font-stretch: 125%;
+  font-weight: 300;
+  letter-spacing: -0.03em;
 }
 
 /* Fonte pixelada: balões do mascote, terminal e detalhes em pixel art */

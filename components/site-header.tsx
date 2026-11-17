@@ -11,7 +11,7 @@ import { ENTRY_PATHS, whatsappLink } from "@/lib/site";
 
 const LINKS = [
   { href: "/servicos/sites", label: "Sites", hint: "Sua empresa no Google e no WhatsApp", color: "#ff3d7f" },
-  { href: "/servicos/sistemas", label: "Sistemas", hint: "Vendas, clientes e caixa num painel só", color: "#ff8a3d" },
+  { href: "/servicos/sistemas", label: "Sistemas", hint: "Vendas, clientes e caixa num painel só", color: "#ff6a1a" },
   { href: "/servicos/automacoes", label: "Automações", hint: "Uma IA que atende no seu WhatsApp", color: "#3ddc84" },
   { href: "/#parceria", label: "Parcerias", hint: "AFIO conect: vários números de WhatsApp num painel", color: "#6ea8ff" },
 ];
@@ -51,7 +51,7 @@ export function SiteHeader() {
         scrolled || open ? "bg-background/90 backdrop-blur-md" : "bg-transparent",
       )}
     >
-      <div className="mx-auto flex h-16 max-w-[1400px] items-center justify-between px-4 sm:px-8">
+      <div className="mx-auto flex h-16 max-w-[1240px] items-center justify-between px-4 sm:px-8">
         <Link
           href="/"
           aria-label="Aurea, voltar ao início"

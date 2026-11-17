@@ -5,7 +5,7 @@ import { BadgeCheck, Check, Clock, Globe, MapPin, MessageCircle, Search, Star, X
 import { useEffect, useState } from "react";
 import { AuriIcon } from "@/components/mascot";
 import { Rise } from "@/components/motion";
-import { H2 } from "@/components/service-sections";
+import { H2, Section } from "@/components/service-sections";
 import { whatsappLink } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
@@ -191,57 +191,35 @@ const COMPARE: [string, string][] = [
 
 export function WhyAurea() {
   return (
-    <section className="pt-28 lg:pt-36" aria-labelledby="aurea-h">
-      <div className="grid items-end gap-6 lg:grid-cols-2">
-        <Rise>
-          <h2 id="aurea-h" className={H2}>
-            Por que fazer com a Aurea
-          </h2>
-        </Rise>
-        <Rise as="p" delay={0.06} className="max-w-[46ch] text-[20px] leading-relaxed text-foreground lg:justify-self-end">
-          Um site de modelo pronto até fica no ar. Mas ele não foi feito para vender o que a sua empresa vende.
-        </Rise>
-      </div>
-
-      <div className="mt-12 overflow-hidden rounded-3xl ring-1 ring-white/10">
-        <div className="grid grid-cols-2 text-[14px] font-semibold uppercase tracking-[0.12em] sm:text-[15px]">
-          <span className="bg-surface px-4 py-4 text-muted-foreground sm:px-6">Site de modelo pronto</span>
-          <span className="flex items-center gap-2 bg-tc/15 px-4 py-4 text-tc sm:px-6">
+    <Section
+      headId="aurea-h"
+      title="Por que fazer com a Aurea"
+      intro="Um site de modelo pronto até fica no ar. Mas ele não foi feito para vender o que a sua empresa vende."
+    >
+      <div className="overflow-hidden rounded-xl ring-1 ring-white/10">
+        <div className="grid grid-cols-2 text-[16px] font-bold sm:text-[17px]">
+          <span className="px-4 py-4 text-muted-foreground sm:px-6">Site de modelo pronto</span>
+          <span className="flex items-center gap-2 bg-surface px-4 py-4 text-tc sm:px-6">
             <AuriIcon outfit="hardhat" mood="happy" className="w-7" /> Site da Aurea
           </span>
         </div>
         <ul>
-          {COMPARE.map(([bad, good], i) => (
-            <motion.li
-              key={good}
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.6 }}
-              transition={{ delay: i * 0.08 }}
-              className="grid grid-cols-2 border-t border-white/8"
-            >
-              <span className="flex items-start gap-3 bg-surface/70 px-4 py-4 text-[16px] text-muted-foreground sm:px-6 sm:py-5 sm:text-[17px]">
+          {COMPARE.map(([bad, good]) => (
+            <li key={good} className="grid grid-cols-2 border-t border-white/10">
+              <span className="flex items-start gap-3 px-4 py-4 text-[16px] text-muted-foreground sm:px-6">
                 <X className="mt-0.5 h-5 w-5 shrink-0 text-[#ff8a8a]/80" aria-hidden="true" />
                 {bad}
               </span>
-              <span className="flex items-start gap-3 bg-tc/[0.07] px-4 py-4 text-[16px] font-semibold text-foreground sm:px-6 sm:py-5 sm:text-[18px]">
-                <motion.span
-                  initial={{ scale: 0 }}
-                  whileInView={{ scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.3 + i * 0.08, type: "spring", stiffness: 400, damping: 18 }}
-                  className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-tc text-tc-ink"
-                >
-                  <Check className="h-3.5 w-3.5" strokeWidth={3} aria-hidden="true" />
-                </motion.span>
+              <span className="flex items-start gap-3 bg-surface px-4 py-4 text-[16px] font-semibold text-foreground sm:px-6 sm:text-[17px]">
+                <Check className="mt-0.5 h-5 w-5 shrink-0 text-tc" strokeWidth={2.5} aria-hidden="true" />
                 {good}
               </span>
-            </motion.li>
+            </li>
           ))}
         </ul>
       </div>
 
-      <Rise delay={0.1} className="mt-8 flex flex-wrap items-center gap-4">
+      <div className="mt-8 flex flex-wrap items-center gap-4">
         <a
           data-metrica="whatsapp"
           href={whatsappLink("Olá! Vi a página de sites da Aurea e quero um site para a minha empresa.")}
@@ -253,7 +231,7 @@ export function WhyAurea() {
           Quero meu site
         </a>
         <span className="text-[16px] text-muted-foreground">Conversa sem compromisso, direto comigo.</span>
-      </Rise>
-    </section>
+      </div>
+    </Section>
   );
 }

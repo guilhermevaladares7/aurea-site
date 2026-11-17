@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { SISTEMAS_DOODLES, SITES_DOODLES, drawField, makeField } from "@/components/fx-doodles";
 import { createPlanet, type FxEnv } from "@/components/fx-planet";
 
 /*
@@ -229,19 +228,22 @@ export function Backdrop({ variant }: { variant: BackdropVariant }) {
     const onResize = () => {
       resize();
       if (variant === "flow") makeNodes();
-      else field = makeField(variant === "design" ? SITES_DOODLES : SISTEMAS_DOODLES, size.w, size.h, variant === "design" ? 11 : 29);
     };
 
     /* ---- sites: desenhos de código e rede flutuando, com o planeta em pixel no rodapé ---- */
-    const font = getComputedStyle(canvas).getPropertyValue("--font-pixel").trim() || "ui-monospace, monospace";
     const planet = variant === "design" ? createPlanet() : null;
-    let field = makeField(variant === "design" ? SITES_DOODLES : SISTEMAS_DOODLES, size.w, size.h, variant === "design" ? 11 : 29);
-    const env = (t: number): FxEnv => ({ w: size.w, h: size.h, t, scroll: window.scrollY, mouse, reduce, rgb, rgb2 });
+    // 1 no topo e no fim da página, 0 no meio: enquanto a pessoa lê, o fundo recua
+    const presence = () => {
+      const y = window.scrollY;
+      const max = Math.max(1, document.documentElement.scrollHeight - size.h);
+      const k = Math.max(1 - y / (size.h * 0.7), 1 - (max - y) / (size.h * 0.9), 0);
+      const c = Math.min(1, k);
+      return c * c * (3 - 2 * c);
+    };
+    const env = (t: number): FxEnv => ({ w: size.w, h: size.h, t, scroll: window.scrollY, mouse, reduce, rgb, rgb2, presence: presence() });
 
     const drawDesign = (t: number) => {
       const e = env(t);
-      // perto do planeta os desenhos somem, para ele aparecer limpo
-      drawField(ctx, field, e, { font, alpha: 0.3, fadeFrom: 0.66, links: true });
       planet?.draw(ctx, e);
     };
 
@@ -260,7 +262,8 @@ export function Backdrop({ variant }: { variant: BackdropVariant }) {
           0.06 * Math.sin(i * 0.9 + Math.floor(t * 1.5));
         const lit = Math.floor(v * rows * 0.55);
         // linha de tendência por cima
-        const ly = Math.floor(rows * (0.28 + 0.1 * Math.sin(i * 0.12 + t * 0.5) + 0.05 * Math.sin(i * 0.4 - t)));
+        // a linha de tendência saiu: ela passava por cima do título da página
+        const ly = -1;
         for (let r = 0; r < rows; r++) {
           const x = i * cell;
           const y = r * cell;
@@ -278,7 +281,7 @@ export function Backdrop({ variant }: { variant: BackdropVariant }) {
             }
             continue;
           }
-          const base = isLine ? 0.4 : isBar ? 0.07 + (fromBottom === lit ? 0.12 : 0) : 0.02;
+          const base = isLine ? 0.2 : isBar ? 0.07 + (fromBottom === lit ? 0.12 : 0) : 0.02;
           const a = Math.min(0.9, base + f * f * 0.55);
           const s = (cell - 4) * (1 + f * 0.6);
           ctx.fillStyle = `rgba(${rgb},${a})`;
@@ -423,12 +426,17 @@ export function Backdrop({ variant }: { variant: BackdropVariant }) {
         return;
       }
       const t = (now - t0) / 1000;
+      // a animação de fundo aparece no topo e no fim da página; no meio, onde se lê, ela some
+      const op = presence().toFixed(2);
+      if (canvas.style.opacity !== op) canvas.style.opacity = op;
+      if (op === "0.00") {
+        raf = requestAnimationFrame(draw);
+        return;
+      }
       ctx.clearRect(0, 0, size.w, size.h);
       if (variant === "design") drawDesign(t);
       else if (variant === "pixels") {
         drawPixels(t);
-        // os gráficos ficam na parte de cima; embaixo quem manda são as ondas de barras
-        drawField(ctx, field, env(t), { font, alpha: 0.3, fadeFrom: 0.6 });
       }
       else drawFlow(t);
       raf = requestAnimationFrame(draw);

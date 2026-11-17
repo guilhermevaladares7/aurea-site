@@ -30,7 +30,8 @@ export type Service = {
   cta: string;
   theme: string; // classe .theme-*
   outfit: Outfit; // roupa do Auri neste serviço
-  includes: string[];
+  /** o que vem incluso: itens curtos, para ler de relance (ninguém para para ler parágrafo) */
+  includes: { title: string; items: string[] };
   projects: Project[];
   projectsIntro: string;
   faq: { q: string; a: string }[];
@@ -47,18 +48,22 @@ export const SERVICES: Service[] = [
     short: "Sua empresa apresentada num site rápido, bonito no celular e fácil de achar no Google.",
     lead:
       "Um site feito para a sua empresa, não um modelo pronto com o seu nome. Ele abre rápido no celular, explica o que você faz em poucos segundos e leva o cliente direto para o WhatsApp.",
-    tags: ["Até 5 páginas", "Bonito no celular", "Aparece no Google", "Botão de WhatsApp"],
+    tags: ["Páginas sob medida", "Bonito no celular", "Aparece no Google", "Botão de WhatsApp"],
     cta: "Quero um site",
     theme: "theme-sites",
     outfit: "hardhat",
-    includes: [
-      "Até 5 páginas (início, sobre, serviços ou produtos, contato…)",
-      "Bonito e fácil de usar no celular, no tablet e no computador",
-      "Botão de WhatsApp e formulário de contato",
-      "Domínio e hospedagem configurados",
-      "Configurado para aparecer no Google: título, descrição e cadastro da empresa",
-    ],
-    projectsIntro: "Alguns sites que eu fiz e que estão no ar agora:",
+    includes: {
+      title: "O que vem no seu site",
+      items: [
+        "Quantas páginas precisar",
+        "Eu escrevo os textos",
+        "Feito para o celular",
+        "Botão de WhatsApp",
+        "Domínio e hospedagem",
+        "Aparece no Google",
+      ],
+    },
+    projectsIntro: "Alguns sites que eu fiz e que estão no ar agora.",
     projects: [
       {
         name: "Áurea Outdoor",
@@ -90,7 +95,7 @@ export const SERVICES: Service[] = [
     ],
     faq: [
       { q: "Como é feito o orçamento?", a: "Cada site é diferente, então o valor sai depois de uma conversa rápida sobre a sua empresa. Você recebe uma proposta por escrito com o que vai ser feito, o prazo, o valor e se existe algum custo mensal. Sem compromisso." },
-      { q: "Quanto tempo leva?", a: "Um site de até 5 páginas costuma ficar pronto em uma a duas semanas, dependendo de quando chegam os textos e as fotos." },
+      { q: "Quanto tempo leva?", a: "Um site de até 5 páginas costuma ficar pronto em uma a duas semanas, dependendo de quando chegam as informações e as fotos. Sites maiores levam mais, e o prazo vem na proposta." },
       { q: "Preciso ter domínio e hospedagem?", a: "Não. Eu registro e configuro para você, e eles ficam no seu nome." },
       { q: "Consigo mudar o site depois?", a: "Sim. No plano mensal você me manda as mudanças pelo WhatsApp e eu atualizo." },
     ],
@@ -107,14 +112,17 @@ export const SERVICES: Service[] = [
     cta: "Quero um sistema",
     theme: "theme-sistemas",
     outfit: "tie",
-    includes: [
-      "Painel com os números do dia, da semana e do mês",
-      "Login com níveis de acesso (dono, gerente, atendente…)",
-      "Cadastros sob medida: clientes, pedidos, agenda, estoque",
-      "Relatórios e exportação para Excel",
-      "Backup diário e hospedagem configurada",
-      "Funciona no computador e no celular, sem instalar nada",
-    ],
+    includes: {
+      title: "O que vem no seu sistema",
+      items: [
+        "Feito para a sua rotina",
+        "Painel com os números",
+        "Login para cada pessoa",
+        "Relatórios e Excel",
+        "Suas planilhas importadas",
+        "Backup todo dia",
+      ],
+    },
     projectsIntro: "Um sistema que já roda no dia a dia de uma loja de verdade:",
     projects: [
       {
@@ -146,14 +154,17 @@ export const SERVICES: Service[] = [
     cta: "Quero automatizar",
     theme: "theme-automacoes",
     outfit: "headset",
-    includes: [
-      "Atendente de IA no WhatsApp, 24 horas",
-      "Entende mensagens de texto e de áudio",
-      "Anota pedidos e marca horários sozinha",
-      "Chama uma pessoa da equipe quando o cliente pede",
-      "Integração com planilha, agenda, CRM ou sistema próprio",
-      "Relatório mensal das conversas",
-    ],
+    includes: {
+      title: "O que a IA faz por você",
+      items: [
+        "Atende 24 horas no WhatsApp",
+        "Entende texto e áudio",
+        "Anota pedidos",
+        "Marca horários",
+        "Chama a equipe quando precisa",
+        "Você entra quando quiser",
+      ],
+    },
     projectsIntro: "Os primeiros projetos de automação estão sendo montados agora. Enquanto isso, veja na prática o que a IA faz em cada situação:",
     projects: [],
     faq: [

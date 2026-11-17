@@ -5,8 +5,7 @@ import { PackageCheck } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { StepArt } from "@/components/how/art";
 import { AuriIcon } from "@/components/mascot";
-import { Rise } from "@/components/motion";
-import { H2 } from "@/components/service-sections";
+import { Section } from "@/components/service-sections";
 import type { HowStep } from "@/lib/how";
 import { cn } from "@/lib/utils";
 
@@ -37,26 +36,15 @@ export function HowItWorks({ intro, steps }: { intro: string; steps: HowStep[] }
   };
 
   return (
-    <section id="como" className="scroll-mt-24 pt-28 lg:pt-36" aria-labelledby="como-h">
-      <div className="grid items-end gap-6 lg:grid-cols-2">
-        <Rise>
-          <h2 id="como-h" className={H2}>
-            Como funciona
-          </h2>
-        </Rise>
-        <Rise as="p" delay={0.06} className="max-w-[50ch] text-[19px] leading-snug text-foreground lg:justify-self-end">
-          {intro}
-        </Rise>
-      </div>
-
-      <Rise delay={0.08} className="mt-12">
+    <Section id="como" headId="como-h" title="Como funciona" intro={intro} wide>
+      <div>
         <div ref={boxRef} className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-center lg:gap-14">
           {/* a ilustração da etapa escolhida, com o Auri comentando */}
           <div className="relative mb-6 lg:order-2 lg:mb-0">
             <div
               data-ui
               aria-hidden="true"
-              className="relative aspect-[4/3.6] overflow-hidden rounded-3xl bg-surface p-4 ring-1 ring-tc/20 sm:aspect-[4/3] sm:p-5"
+              className="relative aspect-[4/3.6] overflow-hidden rounded-2xl bg-surface p-4 ring-1 ring-white/10 sm:aspect-[4/3] sm:p-5"
               style={{
                 backgroundImage:
                   "linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px)",
@@ -110,8 +98,8 @@ export function HowItWorks({ intro, steps }: { intro: string; steps: HowStep[] }
                     onClick={() => pick(i)}
                     aria-current={on ? "step" : undefined}
                     className={cn(
-                      "relative w-full overflow-hidden rounded-2xl px-4 py-4 text-left transition-colors sm:px-5",
-                      on ? "bg-surface-2 ring-1 ring-tc/40" : "hover:bg-surface",
+                      "relative w-full overflow-hidden rounded-xl px-4 py-4 text-left transition-colors sm:px-5",
+                      on ? "bg-surface-2 ring-1 ring-white/12" : "hover:bg-surface",
                     )}
                   >
                     <span className="flex items-center gap-4">
@@ -124,7 +112,7 @@ export function HowItWorks({ intro, steps }: { intro: string; steps: HowStep[] }
                         {i + 1}
                       </span>
                       <span className="min-w-0">
-                        <span className={cn("block text-[13px] font-semibold uppercase tracking-[0.14em]", on ? "text-tc" : "text-muted-foreground")}>
+                        <span className={cn("block text-[14px] font-medium", on ? "text-tc" : "text-muted-foreground")}>
                           {s.title}
                         </span>
                         <span className="block text-[clamp(19px,1.7vw,23px)] font-bold leading-tight text-foreground">{s.head}</span>
@@ -169,7 +157,7 @@ export function HowItWorks({ intro, steps }: { intro: string; steps: HowStep[] }
             })}
           </ol>
         </div>
-      </Rise>
-    </section>
+      </div>
+    </Section>
   );
 }
